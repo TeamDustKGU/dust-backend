@@ -7,7 +7,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("User 도메인 테스트")
 public class UserTest{
-
     @Test
     @DisplayName("User를 생성한다.")
     public void createUser() {

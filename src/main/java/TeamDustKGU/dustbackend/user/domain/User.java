@@ -54,7 +54,6 @@ public class User extends BaseTimeEntity {
         this.status=status;
     }
 
-
     public static User createUser(Role role, Email email, int auth,
                            String password, Nickname nickname, int status){
         return new User(role, email, auth, password, nickname, status);

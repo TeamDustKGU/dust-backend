@@ -12,12 +12,9 @@ import java.util.regex.Pattern;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class Email {
-    private static final String EMAIL_PATTERN = "^[_a-zA-Z0-9-\\\\.]+@[\\\\.a-zA-Z0-9-]+\\\\.[a-zA-Z]+$";
-    private static final Pattern EMAIL_MATCHER = Pattern.compile(EMAIL_PATTERN);
 
     @Column(name = "email", nullable = false, unique = true, updatable = false)
     private String value;
-
 
     Email(String value){
         this.value=value;

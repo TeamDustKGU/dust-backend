@@ -17,7 +17,6 @@ public class Nickname extends BaseTimeEntity {
         this.value=value;
     }
 
-
     public Nickname changeNickname(String nickname){
         this.value = nickname;
         return new Nickname(value);
