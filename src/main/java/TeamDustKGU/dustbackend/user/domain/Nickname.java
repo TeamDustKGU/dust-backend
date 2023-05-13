@@ -21,4 +21,5 @@ public class Nickname extends BaseTimeEntity {
         this.value = nickname;
         return new Nickname(value);
     }
+
 }

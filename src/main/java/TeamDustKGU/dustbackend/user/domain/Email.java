@@ -23,4 +23,5 @@ public class Email {
     public boolean isSameEmail(Email email){
         return this.value.equals(email.getValue());
     }
+
 }

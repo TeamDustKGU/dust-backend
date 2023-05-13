@@ -19,6 +19,5 @@ public class NicknameTest {
 
         //then
         assertThat(nickname.getValue()).isEqualTo(change);
-
     }
 }

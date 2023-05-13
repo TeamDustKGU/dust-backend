@@ -22,5 +22,6 @@ public class EmailTest {
         //then
         assertThat(result1).isTrue();
         assertThat(result2).isFalse();
+
     }
 }

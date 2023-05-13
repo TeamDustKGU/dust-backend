@@ -76,5 +76,4 @@ public class User extends BaseTimeEntity {
         return nickname.getValue();
     }
 
-
 }

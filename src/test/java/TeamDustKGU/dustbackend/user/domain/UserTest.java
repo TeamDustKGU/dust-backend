@@ -71,5 +71,6 @@ public class UserTest{
         //then
         assertThat(result1).isTrue();
         assertThat(result2).isFalse();
+
     }
 }
