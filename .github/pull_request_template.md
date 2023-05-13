@@ -1,15 +1,15 @@
-### Summary
+### SUMMARY
 
-### Describe your changes
+### DESCRIBE YOUR CHANGES
 
-### check list
+### CHECK LIST
 - [ ] pull request message form
 - [ ] test pass
 - [ ] program works normally
 - [ ] add labels 
 - [ ] remove any redundant codes
 
-### opinions
+### OPTIONS
 
-### Issue numbers and link
+### ISSEU NUMBERS AND LINK
 Closes #{이슈 번호}
