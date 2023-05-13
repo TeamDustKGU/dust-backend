@@ -6,15 +6,15 @@ import TeamDustKGU.dustbackend.auth.service.dto.response.TokenResponse;
 import TeamDustKGU.dustbackend.auth.utils.JwtTokenProvider;
 import TeamDustKGU.dustbackend.common.ServiceTest;
 import TeamDustKGU.dustbackend.global.exception.DustException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("Auth [Service Layer] -> TokenReissueService 테스트")
 class TokenReissueServiceTest extends ServiceTest {
