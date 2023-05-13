@@ -7,6 +7,12 @@ assignees: ''
 
 ---
 
-### what to work on
+### WHAT TO WORK ON
+- [ ] what to do
+- [ ] what to do
+- [ ] what to do
 
-### details
+### DETAILS
+- [ ] detail
+- [ ] detail
+- [ ] detail
