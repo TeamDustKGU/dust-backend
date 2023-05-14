@@ -13,10 +13,10 @@ public class Nickname extends BaseTimeEntity {
     private String value;
 
     Nickname (String value){
-        this.value=value;
+        this.value = value;
     }
 
-    public Nickname changeNickname(String nickname){
+    public Nickname updateNickname(String nickname){
         this.value = nickname;
         return new Nickname(value);
     }

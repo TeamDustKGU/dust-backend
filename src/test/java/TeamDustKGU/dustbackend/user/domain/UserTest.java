@@ -12,18 +12,16 @@ public class UserTest{
     public void createUser() {
         Role role = Role.USER;
         Email email = new Email("qwer@gmail.com");
-        int auth = 1;
         String password = "qwer1234";
         Nickname nickname = new Nickname("dust");
-        int status = 0;
-        User user1 = User.createUser(role, email, auth,password, nickname, status);
+        User user = User.createUser(role, email, password, nickname);
 
-        assertThat(user1.getRole()).isEqualTo(role);
-        assertThat(user1.getEmailValue()).isEqualTo(email.getValue());
-        assertThat(user1.getAuth()).isEqualTo(auth);
-        assertThat(user1.getPassword()).isEqualTo(password);
-        assertThat(user1.getNicknameValue()).isEqualTo(nickname.getValue());
-        assertThat(user1.getStatus()).isEqualTo(status);
+        assertThat(user.getRole()).isEqualTo(role);
+        assertThat(user.getEmailValue()).isEqualTo(email.getValue());
+        assertThat(user.getAuth()).isEqualTo(1);
+        assertThat(user.getPassword()).isEqualTo(password);
+        assertThat(user.getNicknameValue()).isEqualTo(nickname.getValue());
+        assertThat(user.getStatus()).isEqualTo(0);
     }
 
     @Test
@@ -32,18 +30,16 @@ public class UserTest{
         //given
         Role role = Role.USER;
         Email email = new Email("qwer@gmail.com");
-        int auth = 1;
         String password = "qwer1234";
         Nickname nickname = new Nickname("dust");
-        int status = 0;
-        User user1 = User.createUser(role, email, auth,password, nickname, status);
+        User user = User.createUser(role, email,password, nickname);
 
         //when
         String change = "user1234";
-        user1.updateNickname(change);
+        user.updateNickname(change);
 
         //then
-        assertThat(user1.getNicknameValue()).isEqualTo(change);
+        assertThat(user.getNicknameValue()).isEqualTo(change);
     }
 
     @Test
@@ -52,14 +48,11 @@ public class UserTest{
         //given
         Role role = Role.USER;
         Email email = new Email("qwer@gmail.com");
-        int auth = 1;
         String password = "qwer1234";
         Nickname nickname = new Nickname("dust");
-        int status = 0;
-        final User user = User.createUser(role, email, auth,password, nickname, status);
-        User user1 = User.createUser(role, email, auth,password, nickname, status);
-        User user2 = User.createUser(role, new Email("dust@gmail.com"),
-                auth,password, nickname, status);
+        final User user = User.createUser(role, email,password, nickname);
+        User user1 = User.createUser(role, email,password, nickname);
+        User user2 = User.createUser(role, new Email("dust@gmail.com"), password, nickname);
 
         //when
         boolean result1 = user.isSameUser(user1);

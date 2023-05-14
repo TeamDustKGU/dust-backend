@@ -1,4 +1,6 @@
 package TeamDustKGU.dustbackend.user.domain;
+
+import TeamDustKGU.dustbackend.global.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,42 +25,37 @@ public class User extends BaseTimeEntity {
 
     @Column(name = "auth", nullable = false)
     //인증 0, 미인증 1
-    @ColumnDefault("1")
-    private int auth;
+    private int auth = 1;
 
     @Column(name = "password", nullable = false)
     private String password;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "createdDate", column = @Column(name = "name_createdDate")),
-            @AttributeOverride(name = "modifiedDate", column = @Column(name = "name_modifiedDate"))
+            @AttributeOverride(name = "createdDate", column = @Column(name = "nickname_createdDate")),
+            @AttributeOverride(name = "modifiedDate", column = @Column(name = "nickname_modifiedDate"))
     })
     private Nickname nickname;
 
     //활성화 0, 비활성화 1
     @Column(name = "status", nullable = false)
-    @ColumnDefault("0")
-    private int status;
+    private int status = 0;
 
     @Builder
-    public User(Role role, Email email, int auth,
-                String password, Nickname nickname, int status){
+    public User(Role role, Email email, String password, Nickname nickname){
         this.role=role;
         this.email=email;
-        this.auth=auth;
         this.password=password;
         this.nickname=nickname;
-        this.status=status;
     }
 
-    public static User createUser(Role role, Email email, int auth,
-                           String password, Nickname nickname, int status){
-        return new User(role, email, auth, password, nickname, status);
+    public static User createUser(Role role, Email email,
+                                  String password, Nickname nickname){
+        return new User(role, email, password, nickname);
     }
 
     public void updateNickname(String updateNickname){
-        this.nickname = this.nickname.changeNickname(updateNickname);
+        this.nickname = this.nickname.updateNickname(updateNickname);
     }
 
     public boolean isSameUser(User user){

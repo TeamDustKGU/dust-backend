@@ -15,7 +15,7 @@ public class NicknameTest {
 
         //when
         String change = "dustChange";
-        nickname.changeNickname(change);
+        nickname.updateNickname(change);
 
         //then
         assertThat(nickname.getValue()).isEqualTo(change);

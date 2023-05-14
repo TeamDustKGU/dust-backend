@@ -14,7 +14,7 @@ public class Email {
     private String value;
 
     Email(String value){
-        this.value=value;
+        this.value = value;
     }
 
     public boolean isSameEmail(Email email){
