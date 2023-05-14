@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("User 도메인 테스트")
 public class UserTest{
@@ -16,12 +17,14 @@ public class UserTest{
         Nickname nickname = new Nickname("dust");
         User user = User.createUser(role, email, password, nickname);
 
-        assertThat(user.getRole()).isEqualTo(role);
-        assertThat(user.getEmailValue()).isEqualTo(email.getValue());
-        assertThat(user.getAuth()).isEqualTo(1);
-        assertThat(user.getPassword()).isEqualTo(password);
-        assertThat(user.getNicknameValue()).isEqualTo(nickname.getValue());
-        assertThat(user.getStatus()).isEqualTo(0);
+        assertAll(
+                () -> assertThat(user.getRole()).isEqualTo(role),
+                () -> assertThat(user.getEmailValue()).isEqualTo(email.getValue()),
+                () -> assertThat(user.getAuth()).isEqualTo(1),
+                () -> assertThat(user.getPassword()).isEqualTo(password),
+                () -> assertThat(user.getNicknameValue()).isEqualTo(nickname.getValue()),
+                () -> assertThat(user.getStatus()).isEqualTo(0)
+        );
     }
 
     @Test
@@ -59,7 +62,9 @@ public class UserTest{
         boolean result2 = user.isSameUser(user2);
 
         //then
-        assertThat(result1).isTrue();
-        assertThat(result2).isFalse();
+        assertAll(
+                () -> assertThat(result1).isTrue(),
+                () -> assertThat(result2).isFalse()
+        );
     }
 }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("Email VO 테스트")
 public class EmailTest {
@@ -20,7 +21,9 @@ public class EmailTest {
         boolean result2 = email.isSameEmail(email2);
 
         //then
-        assertThat(result1).isTrue();
-        assertThat(result2).isFalse();
+        assertAll(
+                () -> assertThat(result1).isTrue(),
+                () -> assertThat(result2).isFalse()
+        );
     }
 }
