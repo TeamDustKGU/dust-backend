@@ -1,5 +1,6 @@
 package TeamDustKGU.dustbackend.user.domain;
 
+import TeamDustKGU.dustbackend.global.BaseTimeEntity;
 import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
