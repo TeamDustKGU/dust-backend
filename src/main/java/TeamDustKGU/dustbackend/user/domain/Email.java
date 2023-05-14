@@ -13,8 +13,12 @@ public class Email {
     @Column(name = "email", nullable = false, unique = true, updatable = false)
     private String value;
 
-    Email(String value){
+    private Email(String value){
         this.value = value;
+    }
+
+    public static Email createEmail(String value){
+        return new Email(value);
     }
 
     public boolean isSameEmail(Email email){

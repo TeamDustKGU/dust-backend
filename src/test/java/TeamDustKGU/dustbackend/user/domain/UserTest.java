@@ -12,9 +12,9 @@ public class UserTest{
     @DisplayName("User를 생성한다.")
     public void createUser() {
         Role role = Role.USER;
-        Email email = new Email("qwer@gmail.com");
+        Email email = Email.createEmail("qwer@gmail.com");
         String password = "qwer1234";
-        Nickname nickname = new Nickname("dust");
+        Nickname nickname = Nickname.createNickname("dust");
         User user = User.createUser(role, email, password, nickname);
 
         assertAll(
@@ -32,9 +32,9 @@ public class UserTest{
     void updateNickname(){
         //given
         Role role = Role.USER;
-        Email email = new Email("qwer@gmail.com");
+        Email email = Email.createEmail("qwer@gmail.com");
         String password = "qwer1234";
-        Nickname nickname = new Nickname("dust");
+        Nickname nickname = Nickname.createNickname("dust");
         User user = User.createUser(role, email,password, nickname);
 
         //when
@@ -50,12 +50,12 @@ public class UserTest{
     void isSameUser(){
         //given
         Role role = Role.USER;
-        Email email = new Email("qwer@gmail.com");
+        Email email = Email.createEmail("qwer@gmail.com");
         String password = "qwer1234";
-        Nickname nickname = new Nickname("dust");
+        Nickname nickname = Nickname.createNickname("dust");
         final User user = User.createUser(role, email,password, nickname);
         User user1 = User.createUser(role, email,password, nickname);
-        User user2 = User.createUser(role, new Email("dust@gmail.com"), password, nickname);
+        User user2 = User.createUser(role, Email.createEmail("dust@gmail.com"), password, nickname);
 
         //when
         boolean result1 = user.isSameUser(user1);

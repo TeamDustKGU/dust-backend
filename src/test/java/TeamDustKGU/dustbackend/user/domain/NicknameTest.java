@@ -11,7 +11,7 @@ public class NicknameTest {
     @DisplayName("닉네임을 변경한다.")
     void updateNickname(){
         //given
-        Nickname nickname = new Nickname("dust");
+        Nickname nickname = Nickname.createNickname("dust");
 
         //when
         String change = "dustChange";
