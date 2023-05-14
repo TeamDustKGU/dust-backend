@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 
 @Getter
@@ -18,14 +17,14 @@ public class User extends BaseTimeEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.USER;
 
     @Embedded
     private Email email;
 
     @Column(name = "auth", nullable = false)
     //인증 0, 미인증 1
-    private int auth = 1;
+    private Integer auth = 1;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -39,23 +38,22 @@ public class User extends BaseTimeEntity {
 
     //활성화 0, 비활성화 1
     @Column(name = "status", nullable = false)
-    private int status = 0;
+    private Integer status = 0;
 
     @Builder
-    public User(Role role, Email email, String password, Nickname nickname){
-        this.role=role;
+    public User(Email email, String password, Nickname nickname){
         this.email=email;
         this.password=password;
         this.nickname=nickname;
     }
 
-    public static User createUser(Role role, Email email,
+    public static User createUser(Email email,
                                   String password, Nickname nickname){
-        return new User(role, email, password, nickname);
+        return new User(email, password, nickname);
     }
 
-    public void updateNickname(String updateNickname){
-        this.nickname = this.nickname.updateNickname(updateNickname);
+    public void updateNickname(String updateNickname) {
+        this.nickname.changeNickname(updateNickname);
     }
 
     public boolean isSameUser(User user){

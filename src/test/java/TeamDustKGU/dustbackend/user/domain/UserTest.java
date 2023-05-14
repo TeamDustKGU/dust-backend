@@ -11,14 +11,13 @@ public class UserTest{
     @Test
     @DisplayName("User를 생성한다.")
     public void createUser() {
-        Role role = Role.USER;
         Email email = Email.createEmail("qwer@gmail.com");
         String password = "qwer1234";
         Nickname nickname = Nickname.createNickname("dust");
-        User user = User.createUser(role, email, password, nickname);
+        User user = User.createUser(email, password, nickname);
 
         assertAll(
-                () -> assertThat(user.getRole()).isEqualTo(role),
+                () -> assertThat(user.getRole()).isEqualTo(Role.USER),
                 () -> assertThat(user.getEmailValue()).isEqualTo(email.getValue()),
                 () -> assertThat(user.getAuth()).isEqualTo(1),
                 () -> assertThat(user.getPassword()).isEqualTo(password),
@@ -31,11 +30,10 @@ public class UserTest{
     @DisplayName("User 닉네임을 변경한다.")
     void updateNickname(){
         //given
-        Role role = Role.USER;
         Email email = Email.createEmail("qwer@gmail.com");
         String password = "qwer1234";
         Nickname nickname = Nickname.createNickname("dust");
-        User user = User.createUser(role, email,password, nickname);
+        User user = User.createUser(email,password, nickname);
 
         //when
         String change = "user1234";
@@ -49,13 +47,12 @@ public class UserTest{
     @DisplayName("이메일로 동일 사용자인지 확인한다.")
     void isSameUser(){
         //given
-        Role role = Role.USER;
         Email email = Email.createEmail("qwer@gmail.com");
         String password = "qwer1234";
         Nickname nickname = Nickname.createNickname("dust");
-        final User user = User.createUser(role, email,password, nickname);
-        User user1 = User.createUser(role, email,password, nickname);
-        User user2 = User.createUser(role, Email.createEmail("dust@gmail.com"), password, nickname);
+        final User user = User.createUser(email,password, nickname);
+        User user1 = User.createUser(email,password, nickname);
+        User user2 = User.createUser(Email.createEmail("dust@gmail.com"), password, nickname);
 
         //when
         boolean result1 = user.isSameUser(user1);

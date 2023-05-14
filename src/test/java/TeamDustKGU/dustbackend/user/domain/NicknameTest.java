@@ -9,13 +9,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class NicknameTest {
     @Test
     @DisplayName("닉네임을 변경한다.")
-    void updateNickname(){
+    void changeNickname(){
         //given
         Nickname nickname = Nickname.createNickname("dust");
 
         //when
         String change = "dustChange";
-        nickname.updateNickname(change);
+        nickname.changeNickname(change);
 
         //then
         assertThat(nickname.getValue()).isEqualTo(change);

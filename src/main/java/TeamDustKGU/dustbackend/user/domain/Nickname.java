@@ -2,7 +2,6 @@ package TeamDustKGU.dustbackend.user.domain;
 
 import TeamDustKGU.dustbackend.global.BaseTimeEntity;
 import lombok.*;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -21,8 +20,7 @@ public class Nickname extends BaseTimeEntity {
         return new Nickname(value);
     }
 
-    public Nickname updateNickname(String nickname){
-        this.value = nickname;
-        return new Nickname(value);
+    public void changeNickname(String updateNickname) {
+        this.value = updateNickname;
     }
 }
