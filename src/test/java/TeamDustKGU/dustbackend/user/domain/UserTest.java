@@ -10,7 +10,6 @@ public class UserTest{
     @Test
     @DisplayName("User를 생성한다.")
     public void createUser() {
-
         Role role = Role.USER;
         Email email = new Email("qwer@gmail.com");
         int auth = 1;
@@ -19,14 +18,12 @@ public class UserTest{
         int status = 0;
         User user1 = User.createUser(role, email, auth,password, nickname, status);
 
-
         assertThat(user1.getRole()).isEqualTo(role);
         assertThat(user1.getEmailValue()).isEqualTo(email.getValue());
         assertThat(user1.getAuth()).isEqualTo(auth);
         assertThat(user1.getPassword()).isEqualTo(password);
         assertThat(user1.getNicknameValue()).isEqualTo(nickname.getValue());
         assertThat(user1.getStatus()).isEqualTo(status);
-
     }
 
     @Test
@@ -71,6 +68,5 @@ public class UserTest{
         //then
         assertThat(result1).isTrue();
         assertThat(result2).isFalse();
-
     }
 }

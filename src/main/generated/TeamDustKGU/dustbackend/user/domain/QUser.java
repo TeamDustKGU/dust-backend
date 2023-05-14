@@ -1,21 +1,17 @@
 package TeamDustKGU.dustbackend.user.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
-
 import com.querydsl.core.types.dsl.*;
-
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
-
 
 /**
  * QUser is a Querydsl query type for User
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QUser extends EntityPathBase<User> {
-
     private static final long serialVersionUID = -343690206L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
@@ -65,6 +61,5 @@ public class QUser extends EntityPathBase<User> {
         this.email = inits.isInitialized("email") ? new QEmail(forProperty("email")) : null;
         this.nickname = inits.isInitialized("nickname") ? new QNickname(forProperty("nickname")) : null;
     }
-
 }
 

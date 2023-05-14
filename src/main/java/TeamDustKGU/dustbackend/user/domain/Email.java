@@ -3,16 +3,13 @@ package TeamDustKGU.dustbackend.user.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import java.util.regex.Pattern;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class Email {
-
     @Column(name = "email", nullable = false, unique = true, updatable = false)
     private String value;
 
@@ -23,5 +20,4 @@ public class Email {
     public boolean isSameEmail(Email email){
         return this.value.equals(email.getValue());
     }
-
 }

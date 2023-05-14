@@ -1,7 +1,6 @@
 package TeamDustKGU.dustbackend.user.domain;
 
 import lombok.*;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -9,7 +8,6 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class Nickname extends BaseTimeEntity {
-
     @Column(name = "nickname", nullable = false, unique = true)
     private String value;
 
@@ -21,5 +19,4 @@ public class Nickname extends BaseTimeEntity {
         this.value = nickname;
         return new Nickname(value);
     }
-
 }

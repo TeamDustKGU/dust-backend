@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-
 import javax.persistence.*;
 
 @Getter
@@ -12,7 +11,6 @@ import javax.persistence.*;
 @Entity
 @Table(name="users")
 public class User extends BaseTimeEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -75,5 +73,4 @@ public class User extends BaseTimeEntity {
     public String getNicknameValue(){
         return nickname.getValue();
     }
-
 }
