@@ -1,0 +1,4 @@
+jwt:
+  secret-key: qXtCJkVfWjZr4u7x!A%D*G-KaPdSgVkY
+  access-token-validity: 3600 # Access 토큰 유효시간(초 단위)
+  refresh-token-validity: 86400 # Refresh 토큰 유효시간(초 단위)
