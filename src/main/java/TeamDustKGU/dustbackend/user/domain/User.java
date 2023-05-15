@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Getter
@@ -17,14 +18,13 @@ public class User extends BaseTimeEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private Role role = Role.USER;
+    private Role role;
 
     @Embedded
     private Email email;
 
-    @Column(name = "auth", nullable = false)
-    //인증 0, 미인증 1
-    private Integer auth = 1;
+    @Column(name = "auth", nullable = false) // 인증 0, 미인증 1
+    private int auth;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -36,36 +36,44 @@ public class User extends BaseTimeEntity {
     })
     private Nickname nickname;
 
-    //활성화 0, 비활성화 1
-    @Column(name = "status", nullable = false)
-    private Integer status = 0;
+    @Column(name = "status", nullable = false) // 활성화 0, 비활성화 1
+    private int status;
 
     @Builder
-    public User(Email email, String password, Nickname nickname){
-        this.email=email;
-        this.password=password;
-        this.nickname=nickname;
+    public User(Email email, String password){
+        this.role = Role.USER;
+        this.email = email;
+        this.auth = 1;
+        this.password = password;
+        this.nickname = null;
+        this.status = 0;
     }
 
-    public static User createUser(Email email,
-                                  String password, Nickname nickname){
-        return new User(email, password, nickname);
+    public static User createUser(Email email, String password){
+        return new User(email, password);
     }
 
     public void updateNickname(String updateNickname) {
-        this.nickname.changeNickname(updateNickname);
+        if (this.nickname == null) {
+            this.nickname = Nickname.from(updateNickname);
+        } else {
+            this.nickname.update(updateNickname);
+        }
     }
 
     public boolean isSameUser(User user){
         return this.email.isSameEmail(user.getEmail());
     }
 
-    //Add Getter
+    // Add Getter
     public String getEmailValue(){
         return email.getValue();
     }
 
     public String getNicknameValue(){
+        if (nickname == null) {
+            return new String("A-"+id.toString());
+        }
         return nickname.getValue();
     }
 }
