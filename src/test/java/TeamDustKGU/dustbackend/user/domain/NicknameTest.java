@@ -8,16 +8,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("Nickname VO 테스트")
 public class NicknameTest {
     @Test
-    @DisplayName("닉네임을 변경한다.")
+    @DisplayName("닉네임을 변경한다")
     void changeNickname(){
-        //given
-        Nickname nickname = Nickname.createNickname("dust");
+        // given
+        Nickname nickname = Nickname.from("dust");
 
-        //when
+        // when
         String change = "dustChange";
-        nickname.changeNickname(change);
+        nickname.update(change);
 
-        //then
+        // then
         assertThat(nickname.getValue()).isEqualTo(change);
     }
 }
