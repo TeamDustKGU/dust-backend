@@ -12,7 +12,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.PERSIST;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -46,11 +46,11 @@ public class User extends BaseTimeEntity {
     private int status;
 
     //회원 탈퇴시 작성한 게시글 모두 삭제
-    @OneToMany(mappedBy = "writer", cascade = ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "writer", cascade = PERSIST, orphanRemoval = true)
     private List<Board> boardList = new ArrayList<>();
 
     //회원 탈퇴시 작성한 댓글 모두 삭제
-    @OneToMany(mappedBy = "writer", cascade = ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "writer", cascade = PERSIST, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
     @Builder

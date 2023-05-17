@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.PERSIST;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -39,7 +40,7 @@ public class Comment extends BaseTimeEntity {
     private Board board;
 
     //부모 댓글 삭제시 달려있는 자식 댓글 모두 삭제
-    @OneToMany(mappedBy = "parent", cascade = ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "parent", cascade = PERSIST, orphanRemoval = true)
     private List<Comment> childList = new ArrayList<>();
 
     @Builder
