@@ -32,8 +32,8 @@ public class Board extends BaseTimeEntity {
     @Column(name= "view", nullable = false)
     private int view;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="writer_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="writer_id", referencedColumnName = "id", nullable = false)
     private User writer;
 
     //게시글 삭제시 달려있는 댓글 모두 삭제

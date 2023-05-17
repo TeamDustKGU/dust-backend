@@ -30,12 +30,12 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "parent") //부모 댓글 없는 경우 null
     private Comment parent;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="writer_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="writer_id", referencedColumnName = "id", nullable = false)
     private User writer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="board_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="board_id", referencedColumnName = "id", nullable = false)
     private Board board;
 
     //부모 댓글 삭제시 달려있는 자식 댓글 모두 삭제
