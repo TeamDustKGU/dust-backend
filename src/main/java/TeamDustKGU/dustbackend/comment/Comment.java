@@ -23,7 +23,7 @@ public class Comment extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, length = 200)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
