@@ -26,6 +26,10 @@ public class QUser extends EntityPathBase<User> {
 
     public final NumberPath<Integer> auth = createNumber("auth", Integer.class);
 
+    public final ListPath<TeamDustKGU.dustbackend.board.Board, TeamDustKGU.dustbackend.board.QBoard> boardList = this.<TeamDustKGU.dustbackend.board.Board, TeamDustKGU.dustbackend.board.QBoard>createList("boardList", TeamDustKGU.dustbackend.board.Board.class, TeamDustKGU.dustbackend.board.QBoard.class, PathInits.DIRECT2);
+
+    public final ListPath<TeamDustKGU.dustbackend.comment.Comment, TeamDustKGU.dustbackend.comment.QComment> commentList = this.<TeamDustKGU.dustbackend.comment.Comment, TeamDustKGU.dustbackend.comment.QComment>createList("commentList", TeamDustKGU.dustbackend.comment.Comment.class, TeamDustKGU.dustbackend.comment.QComment.class, PathInits.DIRECT2);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
