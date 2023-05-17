@@ -50,4 +50,23 @@ public class CommentTest {
                 () -> assertThat(childComment.getBoard()).isEqualTo(board)
         );
     }
+
+    @Test
+    @DisplayName("자식 댓글을 추가한다")
+    void addChildComment() {
+        Comment parentComment = comment;
+        for(int i=1; i<=5; i++){
+            comment.addChildComment("자식 댓글"+i, writer, board);
+        }
+
+        assertAll(
+                () -> assertThat(parentComment.getChildList()).hasSize(5),
+                () -> assertThat(parentComment.getChildList())
+                        .map(Comment::getContent)
+                        .containsExactlyInAnyOrder("자식 댓글1", "자식 댓글2", "자식 댓글3", "자식 댓글4", "자식 댓글5"),
+                () -> assertThat(parentComment.getChildList())
+                        .map(Comment::getParent)
+                        .containsExactlyInAnyOrder(parentComment, parentComment, parentComment, parentComment, parentComment)
+        );
+    }
 }
