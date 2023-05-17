@@ -53,4 +53,8 @@ public class Comment extends BaseTimeEntity {
     public static Comment createComment(String content, Comment parent, User writer, Board board){
         return new Comment(content, parent, writer, board);
     }
+
+    public void addChildComment(String content, User writer, Board board){ // 자식 댓글 추가
+        childList.add(Comment.createComment(content, this, writer, board));
+    }
 }
