@@ -12,13 +12,12 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.CascadeType.PERSIST;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name="comment")
+@Table(name = "comment")
 public class Comment extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,11 +31,11 @@ public class Comment extends BaseTimeEntity {
     private Comment parent;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="writer_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "writer_id", referencedColumnName = "id", nullable = false)
     private User writer;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="board_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "board_id", referencedColumnName = "id", nullable = false)
     private Board board;
 
     //부모 댓글 삭제시 달려있는 자식 댓글 모두 삭제
@@ -51,7 +50,7 @@ public class Comment extends BaseTimeEntity {
         this.board = board;
     }
 
-    public static Comment createContent(String content, Comment parent, User writer, Board board){
+    public static Comment createComment(String content, Comment parent, User writer, Board board){
         return new Comment(content, parent, writer, board);
     }
 }
