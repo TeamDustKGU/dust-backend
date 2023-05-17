@@ -23,8 +23,8 @@ public class Comment extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "comment", nullable = false)
-    private String comment;
+    @Column(name = "content", nullable = false)
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent") //부모 댓글 없는 경우 null
@@ -43,14 +43,14 @@ public class Comment extends BaseTimeEntity {
     private List<Comment> childList = new ArrayList<>();
 
     @Builder
-    public Comment(String comment, Comment parent, User writer, Board board){
-        this.comment = comment;
+    public Comment(String content, Comment parent, User writer, Board board){
+        this.content = content;
         this.parent = parent;
         this.writer = writer;
         this.board = board;
     }
 
-    public static Comment createComment(String comment, Comment parent, User writer, Board board){
-        return new Comment(comment, parent, writer, board);
+    public static Comment createContent(String content, Comment parent, User writer, Board board){
+        return new Comment(content, parent, writer, board);
     }
 }

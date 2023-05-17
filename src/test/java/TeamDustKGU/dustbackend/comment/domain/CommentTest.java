@@ -22,7 +22,7 @@ public class CommentTest {
         Comment comment = Comment_1.toComment(writer,board);
 
         assertAll(
-                () -> assertThat(comment.getComment()).isEqualTo(Comment_1.getComment()),
+                () -> assertThat(comment.getContent()).isEqualTo(Comment_1.getComment()),
                 () -> assertThat(comment.getParent()).isEqualTo(Comment_1.getParent()),
                 () -> assertThat(comment.getWriter()).isEqualTo(writer),
                 () -> assertThat(comment.getBoard()).isEqualTo(board)
@@ -38,7 +38,7 @@ public class CommentTest {
         Comment childComment = new Comment("자식 댓글1",parentComment,writer,board);
 
         assertAll(
-                () -> assertThat(childComment.getComment()).isEqualTo("자식 댓글1"),
+                () -> assertThat(childComment.getContent()).isEqualTo("자식 댓글1"),
                 () -> assertThat(childComment.getParent()).isEqualTo(parentComment),
                 () -> assertThat(childComment.getWriter()).isEqualTo(writer),
                 () -> assertThat(childComment.getBoard()).isEqualTo(board)
