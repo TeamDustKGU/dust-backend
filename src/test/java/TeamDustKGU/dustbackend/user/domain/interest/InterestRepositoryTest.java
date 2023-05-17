@@ -27,19 +27,20 @@ public class InterestRepositoryTest extends RepositoryTest {
     private User user1;
     private User user2;
     private User user3;
-    private Interest interest;
 
     @BeforeEach
     void setup() {
         user1 = userRepository.save(SUNKYOUNG.toUser());
         user2 = userRepository.save(CHAERIN.toUser());
         user3 = userRepository.save(NAHYUN.toUser());
-        interest = interestRepository.save(Interest.registerInterest(user1, user2, "학생들 보세요.", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT)));
     }
 
     @Test
-    @DisplayName("관심유저를 등록한 회원과 관심유저로 등록된 회원을 이용하여 관심유저 정보가 존재하는지 확인한다")
+    @DisplayName("관심유저를 등록한 회원 ID와 관심유저로 등록된 회원 ID를 이용하여 관심유저 정보가 존재하는지 확인한다")
     void existsByInterestingIdAndAndInterestedId() {
+        // given
+        interestRepository.save(Interest.registerInterest(user1, user2, "학생들 보세요.", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT)));
+
         // when
         boolean actual1 = interestRepository.existsByInterestingIdAndAndInterestedId(user1.getId(), user2.getId());
         boolean actual2 = interestRepository.existsByInterestingIdAndAndInterestedId(user2.getId(), user1.getId());
@@ -51,5 +52,18 @@ public class InterestRepositoryTest extends RepositoryTest {
                 () -> assertThat(actual2).isFalse(),
                 () ->  assertThat(actual3).isFalse()
         );
+    }
+
+    @Test
+    @DisplayName("관심유저를 등록한 회원 ID와 관심유저로 등록된 회원 ID를 이용하여 관심유저 정보를 삭제한다")
+    void deleteByInterestingIdAndInterestedId() {
+        // given
+        interestRepository.save(Interest.registerInterest(user1, user2, "학생들 보세요.", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT)));
+
+        // when
+        interestRepository.deleteByInterestingIdAndInterestedId(user1.getId(), user2.getId());
+
+        // then
+        assertThat(interestRepository.existsByInterestingIdAndAndInterestedId(user1.getId(), user2.getId())).isFalse();
     }
 }

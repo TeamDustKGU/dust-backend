@@ -74,4 +74,30 @@ public class InterestServiceTest extends ServiceTest {
             );
         }
     }
+
+    @Nested
+    @DisplayName("관심유저 취소")
+    class cancel {
+        @Test
+        @DisplayName("관심유저로 등록되지 않은 회원을 취소할 수 없다")
+        void throwExceptionByInterestNotFound() {
+            // when - then
+            assertThatThrownBy(() -> interestService.cancel(userA.getId(), userB.getId()))
+                    .isInstanceOf(DustException.class)
+                    .hasMessage(UserErrorCode.INTEREST_NOT_FOUND.getMessage());
+        }
+
+        @Test
+        @DisplayName("관심유저 취소에 성공한다")
+        void success() {
+            // given
+            interestService.register(userA.getId(), userB.getId(), "익명 게시글", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT));
+
+            // when
+            interestService.cancel(userA.getId(), userB.getId());
+
+            // then
+            assertThat(interestRepository.existsByInterestingIdAndAndInterestedId(userA.getId(), userB.getId())).isFalse();
+        }
+    }
 }
