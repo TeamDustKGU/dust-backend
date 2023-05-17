@@ -1,7 +1,7 @@
 package TeamDustKGU.dustbackend.user.domain;
 
-import TeamDustKGU.dustbackend.board.Board;
-import TeamDustKGU.dustbackend.comment.Comment;
+import TeamDustKGU.dustbackend.board.domain.Board;
+import TeamDustKGU.dustbackend.comment.domain.Comment;
 import TeamDustKGU.dustbackend.global.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
