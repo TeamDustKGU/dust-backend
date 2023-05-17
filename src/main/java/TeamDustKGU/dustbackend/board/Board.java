@@ -12,13 +12,12 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.CascadeType.PERSIST;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name="board")
+@Table(name = "board")
 public class Board extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,14 +29,14 @@ public class Board extends BaseTimeEntity {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name= "view", nullable = false)
+    @Column(name = "view", nullable = false)
     private int view;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="writer_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "writer_id", referencedColumnName = "id", nullable = false)
     private User writer;
 
-    //게시글 삭제시 달려있는 댓글 모두 삭제
+    // 게시글 삭제시 달려있는 댓글 모두 삭제
     @OneToMany(mappedBy = "board", cascade = PERSIST, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
