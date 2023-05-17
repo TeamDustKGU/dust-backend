@@ -16,10 +16,17 @@ public class InterestApiController {
     private final InterestService interestService;
 
     @PostMapping
-    public ResponseEntity<Void> registerInterest(@ExtractPayload Long interestingId,
-                                                 @PathVariable Long interestedId,
-                                                 @RequestBody @Valid InterestRequest request) {
+    public ResponseEntity<Void> register(@ExtractPayload Long interestingId,
+                                         @PathVariable Long interestedId,
+                                         @RequestBody @Valid InterestRequest request) {
         interestService.register(interestingId, interestedId, request.boardTitle(), request.boardCreatedDate());
         return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> cancel(@ExtractPayload Long interestingId,
+                                       @PathVariable Long interestedId) {
+        interestService.cancel(interestingId, interestedId);
+        return ResponseEntity.ok().build();
     }
 }

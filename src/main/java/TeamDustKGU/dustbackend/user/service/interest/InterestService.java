@@ -42,4 +42,16 @@ public class InterestService {
             throw DustException.type(UserErrorCode.ALREADY_INTEREST);
         }
     }
+
+    @Transactional
+    public void cancel(Long interestingId, Long interestedId) {
+        validateCancel(interestingId, interestedId);
+        interestRepository.deleteByInterestingIdAndInterestedId(interestingId, interestedId);
+    }
+
+    private void validateCancel(Long interestingId, Long interestedId) {
+        if (!interestRepository.existsByInterestingIdAndAndInterestedId(interestingId, interestedId)) {
+            throw DustException.type(UserErrorCode.INTEREST_NOT_FOUND);
+        }
+    }
 }
