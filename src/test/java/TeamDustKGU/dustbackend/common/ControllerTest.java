@@ -4,6 +4,10 @@ import TeamDustKGU.dustbackend.auth.controller.TokenReissueApiController;
 import TeamDustKGU.dustbackend.auth.service.TokenManager;
 import TeamDustKGU.dustbackend.auth.service.TokenReissueService;
 import TeamDustKGU.dustbackend.auth.utils.JwtTokenProvider;
+import TeamDustKGU.dustbackend.user.controller.interest.InterestApiController;
+import TeamDustKGU.dustbackend.user.service.UserFindService;
+import TeamDustKGU.dustbackend.user.service.interest.InterestService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -16,7 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 
 @WebMvcTest({
-        TokenReissueApiController.class
+        TokenReissueApiController.class,
+        InterestApiController.class
 })
 @AutoConfigureRestDocs
 public abstract class ControllerTest {
@@ -33,6 +38,12 @@ public abstract class ControllerTest {
     protected TokenReissueService tokenReissueService;
 
     @MockBean
+    protected UserFindService userFindService;
+
+    @MockBean
+    protected InterestService interestService;
+
+    @MockBean
     protected TokenManager tokenManager;
 
     protected OperationRequestPreprocessor applyRequestPreprocessor() {
@@ -41,5 +52,9 @@ public abstract class ControllerTest {
 
     protected OperationResponsePreprocessor applyResponsePreprocessor() {
         return preprocessResponse(prettyPrint());
+    }
+
+    protected String convertObjectToJson(Object data) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(data);
     }
 }
