@@ -1,6 +1,5 @@
 package TeamDustKGU.dustbackend.board.domain;
 
-import TeamDustKGU.dustbackend.board.domain.Board;
 import TeamDustKGU.dustbackend.comment.domain.Comment;
 import TeamDustKGU.dustbackend.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("Board 도메인 테스트")
 public class BoardTest {
-    private User[] writer = new User[2];
-    private Board[] board = new Board[2];
+    private final User[] writer = new User[2];
+    private final Board[] board = new Board[2];
 
     @BeforeEach
     void setUp() {
