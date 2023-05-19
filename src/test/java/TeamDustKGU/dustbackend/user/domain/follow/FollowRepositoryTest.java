@@ -16,7 +16,7 @@ import java.time.LocalTime;
 import static TeamDustKGU.dustbackend.fixture.UserFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("User [Repository Layer] -> InterestRepository 테스트")
+@DisplayName("User [Repository Layer] -> FollowRepository 테스트")
 public class FollowRepositoryTest extends RepositoryTest {
     @Autowired
     private UserRepository userRepository;

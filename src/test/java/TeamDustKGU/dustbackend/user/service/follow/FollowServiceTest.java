@@ -40,7 +40,7 @@ public class FollowServiceTest extends ServiceTest {
     class register {
         @Test
         @DisplayName("본인을 관심유저로 등록할 수 없다")
-        void throwExceptionBySelfInterestNotAllowed() {
+        void throwExceptionBySelfFollowNotAllowed() {
             assertThatThrownBy(() -> followService.register(userA.getId(), userA.getId(), "익명 게시글", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT)))
                     .isInstanceOf(DustException.class)
                     .hasMessage(UserErrorCode.SELF_FOLLOW_NOT_ALLOWED.getMessage());
@@ -48,7 +48,7 @@ public class FollowServiceTest extends ServiceTest {
 
         @Test
         @DisplayName("한 사용자에게 두 번이상 관심유저로 등록할 수 없다")
-        void throwExceptionByAlreadyInterest() {
+        void throwExceptionByAlreadyFollow() {
             // given
             followService.register(userA.getId(), userB.getId(), "익명 게시글1", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT));
 
@@ -62,10 +62,10 @@ public class FollowServiceTest extends ServiceTest {
         @DisplayName("관심유저 등록에 성공한다")
         void success() {
             // when
-            Long interestId = followService.register(userA.getId(), userB.getId(), "익명 게시글", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT));
+            Long followId = followService.register(userA.getId(), userB.getId(), "익명 게시글", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT));
 
             // then
-            Follow findFollow = followRepository.findById(interestId).orElseThrow();
+            Follow findFollow = followRepository.findById(followId).orElseThrow();
             assertAll(
                     () -> assertThat(findFollow.getFollowing().getId()).isEqualTo(userA.getId()),
                     () -> assertThat(findFollow.getFollower().getId()).isEqualTo(userB.getId()),
@@ -80,7 +80,7 @@ public class FollowServiceTest extends ServiceTest {
     class cancel {
         @Test
         @DisplayName("관심유저로 등록되지 않은 회원을 취소할 수 없다")
-        void throwExceptionByInterestNotFound() {
+        void throwExceptionByFollowNotFound() {
             // when - then
             assertThatThrownBy(() -> followService.cancel(userA.getId(), userB.getId()))
                     .isInstanceOf(DustException.class)

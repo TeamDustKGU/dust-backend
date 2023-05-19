@@ -12,14 +12,14 @@ import java.time.LocalTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Interest 도메인 테스트")
+@DisplayName("Follow 도메인 테스트")
 public class FollowTest {
     private static final User SUNKYOUNG = UserFixture.SUNKYOUNG.toUser();
     private static final User CHAERIN = UserFixture.CHAERIN.toUser();
     
     @Test
-    @DisplayName("Interest를 생성한다")
-    void registerInterest() {
+    @DisplayName("Follow를 생성한다")
+    void registerFollow() {
         Follow follow = Follow.registerFollow(SUNKYOUNG, CHAERIN, "익명의 게시글", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT));
 
         Assertions.assertAll(
