@@ -27,4 +27,8 @@ public class ServiceTest {
     void clearDatabase() {
         databaseCleaner.cleanUpDatabase();
     }
+
+    public void flushAndClear() {
+        databaseCleaner.flushAndClear();
+    }
 }
