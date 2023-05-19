@@ -5,7 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-public record InterestRequest(
+public record FollowRequest(
         @NotNull(message = "관심유저의 게시글은 필수입니다.")
         String boardTitle,
 

@@ -1,4 +1,4 @@
-package TeamDustKGU.dustbackend.user.domain.interest;
+package TeamDustKGU.dustbackend.user.domain.follow;
 
 import TeamDustKGU.dustbackend.common.RepositoryTest;
 import TeamDustKGU.dustbackend.user.domain.User;
@@ -17,12 +17,12 @@ import static TeamDustKGU.dustbackend.fixture.UserFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("User [Repository Layer] -> InterestRepository 테스트")
-public class InterestRepositoryTest extends RepositoryTest {
+public class FollowRepositoryTest extends RepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private InterestRepository interestRepository;
+    private FollowRepository followRepository;
 
     private User user1;
     private User user2;
@@ -37,33 +37,33 @@ public class InterestRepositoryTest extends RepositoryTest {
 
     @Test
     @DisplayName("관심유저를 등록한 회원 ID와 관심유저로 등록된 회원 ID를 이용하여 관심유저 정보가 존재하는지 확인한다")
-    void existsByInterestingIdAndAndInterestedId() {
+    void existsByFollowingIdAndAndFollowerId() {
         // given
-        interestRepository.save(Interest.registerInterest(user1, user2, "학생들 보세요.", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT)));
+        followRepository.save(Follow.registerFollow(user1, user2, "학생들 보세요.", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT)));
 
         // when
-        boolean actual1 = interestRepository.existsByInterestingIdAndAndInterestedId(user1.getId(), user2.getId());
-        boolean actual2 = interestRepository.existsByInterestingIdAndAndInterestedId(user2.getId(), user1.getId());
-        boolean actual3 = interestRepository.existsByInterestingIdAndAndInterestedId(user1.getId(), user3.getId());
+        boolean actual1 = followRepository.existsByFollowingIdAndFollowerId(user1.getId(), user2.getId());
+        boolean actual2 = followRepository.existsByFollowingIdAndFollowerId(user2.getId(), user1.getId());
+        boolean actual3 = followRepository.existsByFollowingIdAndFollowerId(user1.getId(), user3.getId());
 
         // then
         Assertions.assertAll(
                 () -> assertThat(actual1).isTrue(),
                 () -> assertThat(actual2).isFalse(),
-                () ->  assertThat(actual3).isFalse()
+                () -> assertThat(actual3).isFalse()
         );
     }
 
     @Test
     @DisplayName("관심유저를 등록한 회원 ID와 관심유저로 등록된 회원 ID를 이용하여 관심유저 정보를 삭제한다")
-    void deleteByInterestingIdAndInterestedId() {
+    void deleteByFollowingIdAndFollowerId() {
         // given
-        interestRepository.save(Interest.registerInterest(user1, user2, "학생들 보세요.", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT)));
+        followRepository.save(Follow.registerFollow(user1, user2, "학생들 보세요.", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT)));
 
         // when
-        interestRepository.deleteByInterestingIdAndInterestedId(user1.getId(), user2.getId());
+        followRepository.deleteByFollowingIdAndFollowerId(user1.getId(), user2.getId());
 
         // then
-        assertThat(interestRepository.existsByInterestingIdAndAndInterestedId(user1.getId(), user2.getId())).isFalse();
+        assertThat(followRepository.existsByFollowingIdAndFollowerId(user1.getId(), user2.getId())).isFalse();
     }
 }

@@ -2,7 +2,7 @@ package TeamDustKGU.dustbackend.common;
 
 import TeamDustKGU.dustbackend.auth.domain.TokenRepository;
 import TeamDustKGU.dustbackend.user.domain.UserRepository;
-import TeamDustKGU.dustbackend.user.domain.interest.InterestRepository;
+import TeamDustKGU.dustbackend.user.domain.follow.FollowRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +21,7 @@ public class ServiceTest {
     protected UserRepository userRepository;
 
     @Autowired
-    protected InterestRepository interestRepository;
+    protected FollowRepository followRepository;
 
     @AfterEach
     void clearDatabase() {

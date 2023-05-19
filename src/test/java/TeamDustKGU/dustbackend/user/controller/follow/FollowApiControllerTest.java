@@ -1,9 +1,9 @@
-package TeamDustKGU.dustbackend.user.controller.interest;
+package TeamDustKGU.dustbackend.user.controller.follow;
 
 import TeamDustKGU.dustbackend.auth.exception.AuthErrorCode;
 import TeamDustKGU.dustbackend.common.ControllerTest;
 import TeamDustKGU.dustbackend.global.exception.DustException;
-import TeamDustKGU.dustbackend.user.controller.dto.request.InterestRequest;
+import TeamDustKGU.dustbackend.user.controller.dto.request.FollowRequest;
 import TeamDustKGU.dustbackend.user.exception.UserErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -29,22 +29,22 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("User [Controller Layer] -> InterestApiController 테스트")
-public class InterestApiControllerTest extends ControllerTest {
+@DisplayName("User [Controller Layer] -> FollowApiController 테스트")
+public class FollowApiControllerTest extends ControllerTest {
     @Nested
-    @DisplayName("관심유저 등록 API [POST /api/user/interest/{interested}]")
+    @DisplayName("관심유저 등록 API [POST /api/user/follow/{followerId}]")
     class register {
-        private static final String BASE_URL = "/api/user/interest/{interestedId}";
-        private static final Long INTERESTING_ID = 1L;
-        private static final Long INTERESTED_ID = 2L;
+        private static final String BASE_URL = "/api/user/follow/{followerId}";
+        private static final Long FOLLOWING_ID = 1L;
+        private static final Long FOLLOWER_ID = 2L;
 
         @Test
         @DisplayName("Authorization Header에 AccessToken이 없으면 관심유저 등록에 실패한다")
         void withoutAccessToken() throws Exception {
             // when
-            final InterestRequest request = createInterestRequest();
+            final FollowRequest request = createFollowRequest();
             MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
-                    .post(BASE_URL, INTERESTED_ID)
+                    .post(BASE_URL, FOLLOWER_ID)
                     .contentType(APPLICATION_JSON)
                     .content(convertObjectToJson(request));
 
@@ -62,11 +62,11 @@ public class InterestApiControllerTest extends ControllerTest {
                     )
                     .andDo(
                             document(
-                                    "UserApi/Interest/Register/Failure/Case1",
+                                    "UserApi/Follow/Register/Failure/Case1",
                                     applyRequestPreprocessor(),
                                     applyResponsePreprocessor(),
                                     pathParameters(
-                                            parameterWithName("interestedId").description("관심유저로 등록될 사용자 ID(PK)")
+                                            parameterWithName("followerId").description("관심유저로 등록될 사용자 ID(PK)")
                                     ),
                                     responseFields(
                                             fieldWithPath("status").description("HTTP 상태 코드"),
@@ -79,24 +79,24 @@ public class InterestApiControllerTest extends ControllerTest {
 
         @Test
         @DisplayName("본인을 관심유저로 등록할 수 없다")
-        void throwExceptionBySelfInterestNotAllowed() throws Exception {
+        void throwExceptionBySelfFollowNotAllowed() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
-            given(jwtTokenProvider.getId(anyString())).willReturn(INTERESTING_ID);
-            doThrow(DustException.type(UserErrorCode.SELF_INTEREST_NOT_ALLOWED))
-                    .when(interestService)
+            given(jwtTokenProvider.getId(anyString())).willReturn(FOLLOWING_ID);
+            doThrow(DustException.type(UserErrorCode.SELF_FOLLOW_NOT_ALLOWED))
+                    .when(followService)
                     .register(anyLong(), anyLong(), any(), any());
 
             // when
-            final InterestRequest request = createInterestRequest();
+            final FollowRequest request = createFollowRequest();
             MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
-                    .post(BASE_URL, INTERESTED_ID)
+                    .post(BASE_URL, FOLLOWER_ID)
                     .header(AUTHORIZATION, BEARER_TOKEN + REFRESH_TOKEN)
                     .contentType(APPLICATION_JSON)
                     .content(convertObjectToJson(request));
 
             // then
-            final UserErrorCode expectedError = UserErrorCode.SELF_INTEREST_NOT_ALLOWED;
+            final UserErrorCode expectedError = UserErrorCode.SELF_FOLLOW_NOT_ALLOWED;
             mockMvc.perform(requestBuilder)
                     .andExpectAll(
                             status().isConflict(),
@@ -109,11 +109,11 @@ public class InterestApiControllerTest extends ControllerTest {
                     )
                     .andDo(
                             document(
-                                    "UserApi/Interest/Register/Failure/Case2",
+                                    "UserApi/Follow/Register/Failure/Case2",
                                     applyRequestPreprocessor(),
                                     applyResponsePreprocessor(),
                                     pathParameters(
-                                            parameterWithName("interestedId").description("관심유저로 등록될 사용자 ID(PK)")
+                                            parameterWithName("followerId").description("관심유저로 등록될 사용자 ID(PK)")
                                     ),
                                     responseFields(
                                             fieldWithPath("status").description("HTTP 상태 코드"),
@@ -126,24 +126,24 @@ public class InterestApiControllerTest extends ControllerTest {
 
         @Test
         @DisplayName("한 사용자에게 두 번이상 관심유저로 등록할 수 없다")
-        void throwExceptionByAlreadyInterest() throws Exception {
+        void throwExceptionByAlreadyFollow() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
-            given(jwtTokenProvider.getId(anyString())).willReturn(INTERESTING_ID);
-            doThrow(DustException.type(UserErrorCode.ALREADY_INTEREST))
-                    .when(interestService)
+            given(jwtTokenProvider.getId(anyString())).willReturn(FOLLOWING_ID);
+            doThrow(DustException.type(UserErrorCode.ALREADY_FOLLOW))
+                    .when(followService)
                     .register(anyLong(), anyLong(), any(), any());
 
             // when
-            final InterestRequest request = createInterestRequest();
+            final FollowRequest request = createFollowRequest();
             MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
-                    .post(BASE_URL, INTERESTED_ID)
+                    .post(BASE_URL, FOLLOWER_ID)
                     .header(AUTHORIZATION, BEARER_TOKEN + REFRESH_TOKEN)
                     .contentType(APPLICATION_JSON)
                     .content(convertObjectToJson(request));
 
             // then
-            final UserErrorCode expectedError = UserErrorCode.ALREADY_INTEREST;
+            final UserErrorCode expectedError = UserErrorCode.ALREADY_FOLLOW;
             mockMvc.perform(requestBuilder)
                     .andExpectAll(
                             status().isConflict(),
@@ -156,11 +156,11 @@ public class InterestApiControllerTest extends ControllerTest {
                     )
                     .andDo(
                             document(
-                                    "UserApi/Interest/Register/Failure/Case3",
+                                    "UserApi/Follow/Register/Failure/Case3",
                                     applyRequestPreprocessor(),
                                     applyResponsePreprocessor(),
                                     pathParameters(
-                                            parameterWithName("interestedId").description("관심유저로 등록될 사용자 ID(PK)")
+                                            parameterWithName("followerId").description("관심유저로 등록될 사용자 ID(PK)")
                                     ),
                                     responseFields(
                                             fieldWithPath("status").description("HTTP 상태 코드"),
@@ -177,15 +177,15 @@ public class InterestApiControllerTest extends ControllerTest {
         void success() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
-            given(jwtTokenProvider.getId(anyString())).willReturn(INTERESTING_ID);
+            given(jwtTokenProvider.getId(anyString())).willReturn(FOLLOWING_ID);
             doReturn(1L)
-                    .when(interestService)
+                    .when(followService)
                     .register(anyLong(), anyLong(), any(), any());
 
             // when
-            final InterestRequest request = createInterestRequest();
+            final FollowRequest request = createFollowRequest();
             MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
-                    .post(BASE_URL, INTERESTED_ID)
+                    .post(BASE_URL, FOLLOWER_ID)
                     .header(AUTHORIZATION, BEARER_TOKEN + REFRESH_TOKEN)
                     .contentType(APPLICATION_JSON)
                     .content(convertObjectToJson(request));
@@ -197,11 +197,11 @@ public class InterestApiControllerTest extends ControllerTest {
                     )
                     .andDo(
                             document(
-                                    "UserApi/Interest/Register/Success",
+                                    "UserApi/Follow/Register/Success",
                                     applyRequestPreprocessor(),
                                     applyResponsePreprocessor(),
                                     pathParameters(
-                                            parameterWithName("interestedId").description("관심유저로 등록될 회원 ID(PK)")
+                                            parameterWithName("followerId").description("관심유저로 등록될 회원 ID(PK)")
                                     ),
                                     requestFields(
                                             fieldWithPath("boardTitle").description("관심유저로 설정한 회원의 게시글 제목"),
@@ -213,19 +213,19 @@ public class InterestApiControllerTest extends ControllerTest {
     }
 
     @Nested
-    @DisplayName("관심유저 취소 API [DELETE /api/user/interest/{interested}]")
+    @DisplayName("관심유저 취소 API [DELETE /api/user/follow/{followerId}]")
     class cancel {
-        private static final String BASE_URL = "/api/user/interest/{interestedId}";
-        private static final Long INTERESTING_ID = 1L;
-        private static final Long INTERESTED_ID = 2L;
+        private static final String BASE_URL = "/api/user/follow/{followerId}";
+        private static final Long FOLLOWING_ID = 1L;
+        private static final Long FOLLOWER_ID = 2L;
 
         @Test
         @DisplayName("Authorization Header에 AccessToken이 없으면 관심유저 취소에 실패한다")
         void withoutAccessToken() throws Exception {
             // when
-            final InterestRequest request = createInterestRequest();
+            final FollowRequest request = createFollowRequest();
             MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
-                    .delete(BASE_URL, INTERESTED_ID)
+                    .delete(BASE_URL, FOLLOWER_ID)
                     .contentType(APPLICATION_JSON)
                     .content(convertObjectToJson(request));
 
@@ -243,11 +243,11 @@ public class InterestApiControllerTest extends ControllerTest {
                     )
                     .andDo(
                             document(
-                                    "UserApi/Interest/Cancel/Failure/Case1",
+                                    "UserApi/Follow/Cancel/Failure/Case1",
                                     applyRequestPreprocessor(),
                                     applyResponsePreprocessor(),
                                     pathParameters(
-                                            parameterWithName("interestedId").description("관심유저로 등록될 사용자 ID(PK)")
+                                            parameterWithName("followerId").description("관심유저로 등록될 사용자 ID(PK)")
                                     ),
                                     responseFields(
                                             fieldWithPath("status").description("HTTP 상태 코드"),
@@ -260,24 +260,24 @@ public class InterestApiControllerTest extends ControllerTest {
 
         @Test
         @DisplayName("관심유저로 등록되어 있지 않은 회원을 취소할 수 없다")
-        void throwExceptionByInterestNotFound() throws Exception {
+        void throwExceptionByFollowNotFound() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
-            given(jwtTokenProvider.getId(anyString())).willReturn(INTERESTING_ID);
-            doThrow(DustException.type(UserErrorCode.INTEREST_NOT_FOUND))
-                    .when(interestService)
+            given(jwtTokenProvider.getId(anyString())).willReturn(FOLLOWING_ID);
+            doThrow(DustException.type(UserErrorCode.FOLLOW_NOT_FOUND))
+                    .when(followService)
                     .cancel(anyLong(), anyLong());
 
             // when
-            final InterestRequest request = createInterestRequest();
+            final FollowRequest request = createFollowRequest();
             MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
-                    .delete(BASE_URL, INTERESTED_ID)
+                    .delete(BASE_URL, FOLLOWER_ID)
                     .header(AUTHORIZATION, BEARER_TOKEN + REFRESH_TOKEN)
                     .contentType(APPLICATION_JSON)
                     .content(convertObjectToJson(request));
 
             // then
-            final UserErrorCode expectedError = UserErrorCode.INTEREST_NOT_FOUND;
+            final UserErrorCode expectedError = UserErrorCode.FOLLOW_NOT_FOUND;
             mockMvc.perform(requestBuilder)
                     .andExpectAll(
                             status().isNotFound(),
@@ -290,11 +290,11 @@ public class InterestApiControllerTest extends ControllerTest {
                     )
                     .andDo(
                             document(
-                                    "UserApi/Interest/Cancel/Failure/Case2",
+                                    "UserApi/Follow/Cancel/Failure/Case2",
                                     applyRequestPreprocessor(),
                                     applyResponsePreprocessor(),
                                     pathParameters(
-                                            parameterWithName("interestedId").description("관심유저로 등록될 사용자 ID(PK)")
+                                            parameterWithName("followerId").description("관심유저로 등록될 사용자 ID(PK)")
                                     ),
                                     responseFields(
                                             fieldWithPath("status").description("HTTP 상태 코드"),
@@ -310,15 +310,15 @@ public class InterestApiControllerTest extends ControllerTest {
         void success() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
-            given(jwtTokenProvider.getId(anyString())).willReturn(INTERESTING_ID);
+            given(jwtTokenProvider.getId(anyString())).willReturn(FOLLOWING_ID);
             doNothing()
-                    .when(interestService)
+                    .when(followService)
                     .cancel(anyLong(), anyLong());
 
             // when
-            final InterestRequest request = createInterestRequest();
+            final FollowRequest request = createFollowRequest();
             MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
-                    .delete(BASE_URL, INTERESTED_ID)
+                    .delete(BASE_URL, FOLLOWER_ID)
                     .header(AUTHORIZATION, BEARER_TOKEN + REFRESH_TOKEN)
                     .contentType(APPLICATION_JSON)
                     .content(convertObjectToJson(request));
@@ -330,19 +330,19 @@ public class InterestApiControllerTest extends ControllerTest {
                     )
                     .andDo(
                             document(
-                                    "UserApi/Interest/Cancel/Success",
+                                    "UserApi/Follow/Cancel/Success",
                                     applyRequestPreprocessor(),
                                     applyResponsePreprocessor(),
                                     pathParameters(
-                                            parameterWithName("interestedId").description("관심유저로 등록될 사용자 ID(PK)")
+                                            parameterWithName("followerId").description("관심유저로 등록될 사용자 ID(PK)")
                                     )
                             )
                     );
         }
     }
 
-    private InterestRequest createInterestRequest() {
-        return new InterestRequest("익명의 게시글", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT)
+    private FollowRequest createFollowRequest() {
+        return new FollowRequest("익명의 게시글", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT)
     );
 }
 }
