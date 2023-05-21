@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class Nickname {
-    @Column(name = "nickname", nullable = true, unique = true)
+    @Column(name = "nickname", unique = true)
     private String value;
 
     @LastModifiedDate
