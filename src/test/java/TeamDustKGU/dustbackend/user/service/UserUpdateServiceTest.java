@@ -41,7 +41,7 @@ class UserUpdateServiceTest extends ServiceTest {
         @DisplayName("마지막 수정시간으로부터 30일 후에 닉네임을 변경할 수 있다")
         void throwExceptionByUpdateNicknameAfter30Days() {
             // given
-            userUpdateService.updateNickname(user.getId(), "닉네임1");
+            userUpdateService.updateNickname(user.getId(), "닉네임");
             flushAndClear();
 
             // when
@@ -55,16 +55,33 @@ class UserUpdateServiceTest extends ServiceTest {
 
         @Test
         @DisplayName("닉네임 변경에 성공한다")
-        void success() {
+        void successInitial() {
             // given
-            userUpdateService.updateNickname(user.getId(), "닉네임1");
+            userUpdateService.updateNickname(user.getId(), "닉네임");
             flushAndClear();
 
             // when
             User findUser = userFindService.findById(user.getId());
 
             // then
-            assertThat(findUser.getNicknameValue()).isEqualTo("닉네임1");
+            assertThat(findUser.getNicknameValue()).isEqualTo("닉네임");
+            assertThat(findUser.getNickname().getModifiedDate().format(formatter)).isEqualTo(LocalDateTime.now().format(formatter));
+        }
+
+        @Test
+        @DisplayName("마지막 닉네임 수정시간이 30일 전이라 가정하고, 닉네임 변경에 성공한다")
+        void successAfter30Days() {
+            // given
+            userUpdateService.updateNickname(user.getId(), "닉네임");
+            flushAndClear();
+
+            // when
+            User findUser = userFindService.findById(user.getId());
+            userUpdateService.validateIfDateAfter30Days(findUser.getModifiedDate().minusDays(31));
+            findUser.updateNickname("새로운 닉네임");
+
+            // then
+            assertThat(findUser.getNicknameValue()).isEqualTo("새로운 닉네임");
             assertThat(findUser.getNickname().getModifiedDate().format(formatter)).isEqualTo(LocalDateTime.now().format(formatter));
         }
     }

@@ -3,6 +3,7 @@ package TeamDustKGU.dustbackend.user.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -15,11 +16,11 @@ public class Nickname {
     @Column(name = "nickname", nullable = true, unique = true)
     private String value;
 
+    @LastModifiedDate
     private LocalDateTime modifiedDate;
 
     private Nickname(String value) {
         this.value = value;
-        this.modifiedDate = LocalDateTime.now();
     }
 
     public static Nickname from(String value) {
@@ -28,6 +29,5 @@ public class Nickname {
 
     public void update(String updateValue) {
         this.value = updateValue;
-        modifiedDate = LocalDateTime.now();
     }
 }

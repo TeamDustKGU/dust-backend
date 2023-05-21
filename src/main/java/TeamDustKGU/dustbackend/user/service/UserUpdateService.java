@@ -27,8 +27,6 @@ public class UserUpdateService {
     }
 
     public void validateIfDateAfter30Days(LocalDateTime target) {
-        if (target == null) return;
-
         if (LocalDateTime.now().isBefore(target.plusDays(30))) {
             throw DustException.type(UserErrorCode.UPDATE_NICKNAME_AFTER_30_DAYS);
         }
