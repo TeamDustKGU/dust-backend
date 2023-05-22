@@ -11,5 +11,5 @@
 
 ### OPTIONS
 
-### ISSEU NUMBERS AND LINK
+### ISSUE NUMBERS AND LINK
 Closes #{이슈 번호}

@@ -22,6 +22,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -112,6 +114,9 @@ public class FollowApiControllerTest extends ControllerTest {
                                     "UserApi/Follow/Register/Failure/Case2",
                                     applyRequestPreprocessor(),
                                     applyResponsePreprocessor(),
+                                    requestHeaders(
+                                            headerWithName(AUTHORIZATION).description("Access Token")
+                                    ),
                                     pathParameters(
                                             parameterWithName("followerId").description("관심유저로 등록될 사용자 ID(PK)")
                                     ),
@@ -159,6 +164,9 @@ public class FollowApiControllerTest extends ControllerTest {
                                     "UserApi/Follow/Register/Failure/Case3",
                                     applyRequestPreprocessor(),
                                     applyResponsePreprocessor(),
+                                    requestHeaders(
+                                            headerWithName(AUTHORIZATION).description("Access Token")
+                                    ),
                                     pathParameters(
                                             parameterWithName("followerId").description("관심유저로 등록될 사용자 ID(PK)")
                                     ),
@@ -200,6 +208,9 @@ public class FollowApiControllerTest extends ControllerTest {
                                     "UserApi/Follow/Register/Success",
                                     applyRequestPreprocessor(),
                                     applyResponsePreprocessor(),
+                                    requestHeaders(
+                                            headerWithName(AUTHORIZATION).description("Access Token")
+                                    ),
                                     pathParameters(
                                             parameterWithName("followerId").description("관심유저로 등록될 회원 ID(PK)")
                                     ),
@@ -293,6 +304,9 @@ public class FollowApiControllerTest extends ControllerTest {
                                     "UserApi/Follow/Cancel/Failure/Case2",
                                     applyRequestPreprocessor(),
                                     applyResponsePreprocessor(),
+                                    requestHeaders(
+                                            headerWithName(AUTHORIZATION).description("Access Token")
+                                    ),
                                     pathParameters(
                                             parameterWithName("followerId").description("관심유저로 등록될 사용자 ID(PK)")
                                     ),
@@ -333,6 +347,9 @@ public class FollowApiControllerTest extends ControllerTest {
                                     "UserApi/Follow/Cancel/Success",
                                     applyRequestPreprocessor(),
                                     applyResponsePreprocessor(),
+                                    requestHeaders(
+                                            headerWithName(AUTHORIZATION).description("Access Token")
+                                    ),
                                     pathParameters(
                                             parameterWithName("followerId").description("관심유저로 등록될 사용자 ID(PK)")
                                     )
