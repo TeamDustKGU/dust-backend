@@ -20,4 +20,8 @@ public enum UserFixture {
     public User toUser() {
         return User.createUser(Email.from(email), password);
     }
+
+    public User toAdmin() {
+        return User.createAdmin(Email.from(email), password);
+    }
 }
