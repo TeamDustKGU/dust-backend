@@ -36,10 +36,7 @@ public class User extends BaseTimeEntity {
     private String password;
 
     @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "createdDate", column = @Column(name = "nickname_createdDate")),
-            @AttributeOverride(name = "modifiedDate", column = @Column(name = "nickname_modifiedDate"))
-    })
+    @AttributeOverride(name = "modifiedDate", column = @Column(name = "nickname_modifiedDate"))
     private Nickname nickname;
 
     @Column(name = "status", nullable = false) // 활성화 0, 비활성화 1

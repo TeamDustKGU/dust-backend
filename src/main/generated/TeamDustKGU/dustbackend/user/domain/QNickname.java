@@ -19,13 +19,7 @@ public class QNickname extends BeanPath<Nickname> {
 
     public static final QNickname nickname = new QNickname("nickname");
 
-    public final TeamDustKGU.dustbackend.global.QBaseTimeEntity _super = new TeamDustKGU.dustbackend.global.QBaseTimeEntity(this);
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
+    public final DateTimePath<java.time.LocalDateTime> modifiedDate = createDateTime("modifiedDate", java.time.LocalDateTime.class);
 
     public final StringPath value = createString("value");
 
