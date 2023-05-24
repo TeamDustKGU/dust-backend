@@ -102,7 +102,7 @@ public class BoardServiceTest extends ServiceTest {
 
         @Test
         @DisplayName("게시글 삭제에 성공한다")
-        void success(){
+        void success() {
             // given
             boardService.delete(writer.getId(), board.getId());
 

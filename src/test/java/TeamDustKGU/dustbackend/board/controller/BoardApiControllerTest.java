@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class BoardApiControllerTest extends ControllerTest {
     @Nested
     @DisplayName("게시글 등록 API [POST /api/board/create]")
-    class createBoard{
+    class createBoard {
         private static final String BASE_URL = "/api/board/create";
         private static final Long WRITER_ID = 1L;
         private static final Long BOARD_ID = 2L;
@@ -120,7 +120,7 @@ public class BoardApiControllerTest extends ControllerTest {
 
     @Nested
     @DisplayName("게시글 수정 API [PATCH /api/board/update/{boardId}]")
-    class updateBoard{
+    class updateBoard {
         private static final String BASE_URL = "/api/board/update/{boardId}";
         private static final Long WRITER_ID = 1L;
         private static final Long BOARD_ID = 2L;
@@ -169,7 +169,7 @@ public class BoardApiControllerTest extends ControllerTest {
 
         @Test
         @DisplayName("다른 사람의 게시글은 수정할 수 없다")
-        void throwExceptionByUserIsNotWriter() throws Exception{
+        void throwExceptionByUserIsNotWriter() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
             given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID);
@@ -266,7 +266,7 @@ public class BoardApiControllerTest extends ControllerTest {
 
     @Nested
     @DisplayName("게시글 삭제 API [DELETE /api/board/delete/{boardId}]")
-    class deleteBoard{
+    class deleteBoard {
         private static final String BASE_URL = "/api/board/delete/{boardId}";
         private static final Long WRITER_ID = 1L;
         private static final Long BOARD_ID = 2L;
@@ -312,7 +312,7 @@ public class BoardApiControllerTest extends ControllerTest {
 
         @Test
         @DisplayName("다른 사람의 게시글은 삭제할 수 없다")
-        void throwExceptionByUserIsNotWriter() throws Exception{
+        void throwExceptionByUserIsNotWriter() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
             given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID);
