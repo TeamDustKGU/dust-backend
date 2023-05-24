@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum CommentFixture {
-    Comment_1("댓글1", null)
+    COMMENT_1("댓글1", null)
     ;
 
     private final String comment;
