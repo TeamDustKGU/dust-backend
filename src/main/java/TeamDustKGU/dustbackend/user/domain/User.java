@@ -93,4 +93,12 @@ public class User extends BaseTimeEntity {
         }
         return nickname.getValue();
     }
+
+    public void activate() {
+        this.status = 0;
+    }
+
+    public void deactivate() {
+        this.status = 1;
+    }
 }
