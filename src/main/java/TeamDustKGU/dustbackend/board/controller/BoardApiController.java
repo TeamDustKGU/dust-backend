@@ -16,7 +16,6 @@ import java.net.URI;
 @RequestMapping("/api/board")
 public class BoardApiController {
     private final BoardService boardService;
-    private final BoardFindService boardFindService;
 
     @PostMapping("/create")
     public ResponseEntity<Void> create(@ExtractPayload Long writerId,
