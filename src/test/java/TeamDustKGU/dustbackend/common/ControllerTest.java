@@ -4,6 +4,9 @@ import TeamDustKGU.dustbackend.auth.controller.TokenReissueApiController;
 import TeamDustKGU.dustbackend.auth.service.TokenManager;
 import TeamDustKGU.dustbackend.auth.service.TokenReissueService;
 import TeamDustKGU.dustbackend.auth.utils.JwtTokenProvider;
+import TeamDustKGU.dustbackend.board.controller.BoardApiController;
+import TeamDustKGU.dustbackend.board.service.BoardFindService;
+import TeamDustKGU.dustbackend.board.service.BoardService;
 import TeamDustKGU.dustbackend.user.controller.UserUpdateApiController;
 import TeamDustKGU.dustbackend.user.controller.follow.FollowApiController;
 import TeamDustKGU.dustbackend.user.service.UserFindService;
@@ -24,7 +27,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 @WebMvcTest({
         TokenReissueApiController.class,
         FollowApiController.class,
-        UserUpdateApiController.class
+        UserUpdateApiController.class,
+        BoardApiController.class
 })
 @AutoConfigureRestDocs
 public abstract class ControllerTest {
@@ -48,6 +52,12 @@ public abstract class ControllerTest {
 
     @MockBean
     protected UserUpdateService userUpdateService;
+
+    @MockBean
+    protected BoardFindService boardFindService;
+
+    @MockBean
+    protected BoardService boardService;
 
     @MockBean
     protected TokenManager tokenManager;
