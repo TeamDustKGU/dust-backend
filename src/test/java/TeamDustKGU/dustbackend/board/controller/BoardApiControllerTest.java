@@ -99,7 +99,7 @@ public class BoardApiControllerTest extends ControllerTest {
             // then
             mockMvc.perform(requestBuilder)
                     .andExpectAll(
-                            status().isNoContent()
+                            status().isCreated()
                     )
                     .andDo(
                             document(
