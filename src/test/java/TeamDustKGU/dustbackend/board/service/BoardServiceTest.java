@@ -63,7 +63,7 @@ public class BoardServiceTest extends ServiceTest {
     class update {
         @Test
         @DisplayName("다른 사람의 게시글은 수정할 수 없다")
-        void throwExceptionByUpdateBoardOnlyWriter() {
+        void throwExceptionByUserIsNotWriter() {
             // when - then
             assertThatThrownBy(() -> boardService.update(not_writer.getId(),board.getId(), "제목2", "내용2"))
                     .isInstanceOf(DustException.class)
@@ -93,7 +93,7 @@ public class BoardServiceTest extends ServiceTest {
     class delete {
         @Test
         @DisplayName("다른 사람의 게시글은 삭제할 수 없다")
-        void throwExceptionByDeleteBoardOnlyWriter() {
+        void throwExceptionByUserIsNotWriter() {
             // when - then
             assertThatThrownBy(() -> boardService.delete(not_writer.getId(),board.getId()))
                     .isInstanceOf(DustException.class)

@@ -28,7 +28,7 @@ public class BoardService {
 
     @Transactional
     public void update(Long writerId, Long boardId, String title, String content){
-        validateUser(writerId, boardId);
+        validateWriter(writerId, boardId);
         Board board = boardFindService.findById(boardId);
 
         board.updateTitle(title);
@@ -37,13 +37,13 @@ public class BoardService {
 
     @Transactional
     public void delete(Long writerId, Long boardId){
-        validateUser(writerId, boardId);
+        validateWriter(writerId, boardId);
         Board board = boardFindService.findById(boardId);
 
         boardRepository.delete(board);
     }
 
-    private void validateUser(Long writerId, Long boardId) {
+    private void validateWriter(Long writerId, Long boardId) {
         Board board = boardFindService.findById(boardId);
         if (!board.getWriter().getId().equals(writerId)) {
             throw DustException.type(BoardErrorCode.USER_IS_NOT_WRITER);
