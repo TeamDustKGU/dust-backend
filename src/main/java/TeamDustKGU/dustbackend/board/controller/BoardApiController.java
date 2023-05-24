@@ -1,7 +1,6 @@
 package TeamDustKGU.dustbackend.board.controller;
 
 import TeamDustKGU.dustbackend.board.controller.dto.BoardRequest;
-import TeamDustKGU.dustbackend.board.service.BoardFindService;
 import TeamDustKGU.dustbackend.board.service.BoardService;
 import TeamDustKGU.dustbackend.global.annotation.ExtractPayload;
 import lombok.RequiredArgsConstructor;
