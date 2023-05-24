@@ -67,7 +67,7 @@ public class BoardServiceTest extends ServiceTest {
             // when - then
             assertThatThrownBy(() -> boardService.update(writer2.getId(),board.getId(), "제목2", "내용2"))
                     .isInstanceOf(DustException.class)
-                    .hasMessage(BoardErrorCode.UPDATE_BOARD_ONLY_WRITER.getMessage());
+                    .hasMessage(BoardErrorCode.USER_IS_NOT_WRITER.getMessage());
         }
 
         @Test
@@ -97,7 +97,7 @@ public class BoardServiceTest extends ServiceTest {
             // when - then
             assertThatThrownBy(() -> boardService.delete(writer2.getId(),board.getId()))
                     .isInstanceOf(DustException.class)
-                    .hasMessage(BoardErrorCode.DELETE_BOARD_ONLY_WRITER.getMessage());
+                    .hasMessage(BoardErrorCode.USER_IS_NOT_WRITER.getMessage());
         }
 
         @Test

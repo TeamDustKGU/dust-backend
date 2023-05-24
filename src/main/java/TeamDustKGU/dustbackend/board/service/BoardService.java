@@ -46,14 +46,14 @@ public class BoardService {
     private void validateUpdate(Long writerId, Long boardId) {
         Board board = boardFindService.findById(boardId);
         if (!board.getWriter().getId().equals(writerId)) {
-            throw DustException.type(BoardErrorCode.UPDATE_BOARD_ONLY_WRITER);
+            throw DustException.type(BoardErrorCode.USER_IS_NOT_WRITER);
         }
     }
 
     private void validateDelete(Long writerId, Long boardId) {
         Board board = boardFindService.findById(boardId);
         if (!board.getWriter().getId().equals(writerId)) {
-            throw DustException.type(BoardErrorCode.DELETE_BOARD_ONLY_WRITER);
+            throw DustException.type(BoardErrorCode.USER_IS_NOT_WRITER);
         }
     }
 }
