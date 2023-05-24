@@ -9,6 +9,7 @@ public record BoardRequest(
         String title,
 
         @NotBlank(message = "내용 작성은 필수입니다.")
+        @Size(max = 2000, message = "내용은 2000자 이내로 작성해주세요.")
         String content
 ) {
 }
