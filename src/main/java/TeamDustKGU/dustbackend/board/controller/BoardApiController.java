@@ -21,8 +21,8 @@ public class BoardApiController {
     @PostMapping("/create")
     public ResponseEntity<Void> create(@ExtractPayload Long writerId,
                                        @RequestBody @Valid BoardRequest request) {
-        Long createdId = boardService.create(writerId, request.title(), request.content());
-        return ResponseEntity.created(URI.create("/detail/"+createdId)).build();
+        Long boardId = boardService.create(writerId, request.title(), request.content());
+        return ResponseEntity.created(URI.create("/detail/"+boardId)).build();
     }
 
     @PatchMapping("/update/{boardId}")
