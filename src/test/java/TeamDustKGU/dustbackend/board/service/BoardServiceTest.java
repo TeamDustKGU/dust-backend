@@ -29,28 +29,28 @@ public class BoardServiceTest extends ServiceTest {
     @Autowired
     private BoardFindService boardFindService;
 
-    private User writer1;
-    private User writer2;
+    private User writer;
+    private User not_writer;
     private Board board;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     @BeforeEach
     void setup() {
-        writer1 = userRepository.save(SUNKYOUNG.toUser());
-        writer2 = userRepository.save(CHAERIN.toUser());
-        board = boardRepository.save(BOARD_1.toBoard(writer1));
+        writer = userRepository.save(SUNKYOUNG.toUser());
+        not_writer = userRepository.save(CHAERIN.toUser());
+        board = boardRepository.save(BOARD_1.toBoard(writer));
     }
 
     @Test
     @DisplayName("게시글 등록에 성공한다")
     void success() {
         // when
-        Long boardId = boardService.create(writer1.getId(), "제목", "내용");
+        Long boardId = boardService.create(writer.getId(), "제목", "내용");
 
         // then
         Board findBoard = boardRepository.findById(boardId).orElseThrow();
         assertAll(
-                () -> assertThat(findBoard.getWriter().getId()).isEqualTo(writer1.getId()),
+                () -> assertThat(findBoard.getWriter().getId()).isEqualTo(writer.getId()),
                 () -> assertThat(findBoard.getTitle()).isEqualTo("제목"),
                 () -> assertThat(findBoard.getContent()).isEqualTo("내용"),
                 () -> assertThat(findBoard.getCreatedDate().format(formatter)).isEqualTo(LocalDateTime.now().format(formatter)),
@@ -65,7 +65,7 @@ public class BoardServiceTest extends ServiceTest {
         @DisplayName("다른 사람의 게시글은 수정할 수 없다")
         void throwExceptionByUpdateBoardOnlyWriter() {
             // when - then
-            assertThatThrownBy(() -> boardService.update(writer2.getId(),board.getId(), "제목2", "내용2"))
+            assertThatThrownBy(() -> boardService.update(not_writer.getId(),board.getId(), "제목2", "내용2"))
                     .isInstanceOf(DustException.class)
                     .hasMessage(BoardErrorCode.USER_IS_NOT_WRITER.getMessage());
         }
@@ -74,7 +74,7 @@ public class BoardServiceTest extends ServiceTest {
         @DisplayName("게시글 수정에 성공한다")
         void success() {
             //given
-            boardService.update(writer1.getId(), board.getId(), "제목2","내용2");
+            boardService.update(writer.getId(), board.getId(), "제목2","내용2");
 
             // when
             Board findBoard = boardFindService.findById(board.getId());
@@ -95,7 +95,7 @@ public class BoardServiceTest extends ServiceTest {
         @DisplayName("다른 사람의 게시글은 삭제할 수 없다")
         void throwExceptionByDeleteBoardOnlyWriter() {
             // when - then
-            assertThatThrownBy(() -> boardService.delete(writer2.getId(),board.getId()))
+            assertThatThrownBy(() -> boardService.delete(not_writer.getId(),board.getId()))
                     .isInstanceOf(DustException.class)
                     .hasMessage(BoardErrorCode.USER_IS_NOT_WRITER.getMessage());
         }
@@ -104,7 +104,7 @@ public class BoardServiceTest extends ServiceTest {
         @DisplayName("게시글 삭제에 성공한다")
         void success(){
             // given
-            boardService.delete(writer1.getId(), board.getId());
+            boardService.delete(writer.getId(), board.getId());
 
             // when - then
             assertThatThrownBy(() -> boardFindService.findById(board.getId() + 100L))

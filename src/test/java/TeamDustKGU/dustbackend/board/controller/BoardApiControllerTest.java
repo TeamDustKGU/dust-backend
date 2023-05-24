@@ -169,7 +169,7 @@ public class BoardApiControllerTest extends ControllerTest {
 
         @Test
         @DisplayName("다른 사람의 게시글은 수정할 수 없다")
-        void throwExceptionByUpdateBoardOnlyWriter() throws Exception{
+        void throwExceptionByUserIsNotWriter() throws Exception{
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
             given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID);
@@ -312,7 +312,7 @@ public class BoardApiControllerTest extends ControllerTest {
 
         @Test
         @DisplayName("다른 사람의 게시글은 삭제할 수 없다")
-        void throwExceptionByDeleteBoardOnlyWriter() throws Exception{
+        void throwExceptionByUserIsNotWriter() throws Exception{
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
             given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID);
