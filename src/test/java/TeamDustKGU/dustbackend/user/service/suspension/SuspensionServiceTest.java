@@ -60,11 +60,10 @@ public class SuspensionServiceTest extends ServiceTest {
             Suspension findSuspension = suspensionRepository.findById(suspendedId).orElseThrow();
             assertAll(
                     () -> assertThat(findSuspension.getSuspended().getId()).isEqualTo(userA.getId()),
-                    () -> assertThat(findSuspension.getStart_date()).isEqualTo(start),
-                    () -> assertThat(findSuspension.getEnd_date()).isEqualTo(end),
+                    () -> assertThat(findSuspension.getStartDate()).isEqualTo(start),
+                    () -> assertThat(findSuspension.getEndDate()).isEqualTo(end),
                     () -> assertThat(findSuspension.getReason()).isEqualTo(reason)
             );
         }
-
     }
 }

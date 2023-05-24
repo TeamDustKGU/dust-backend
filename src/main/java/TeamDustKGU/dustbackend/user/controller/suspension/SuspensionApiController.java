@@ -21,6 +21,6 @@ public class SuspensionApiController {
                                         @PathVariable Long suspendedId,
                                         @RequestBody @Valid SuspensionRequest request) {
         suspensionService.suspend(adminId, suspendedId, LocalDateTime.now(), LocalDateTime.now().plusDays(request.days()), request.reason());
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }

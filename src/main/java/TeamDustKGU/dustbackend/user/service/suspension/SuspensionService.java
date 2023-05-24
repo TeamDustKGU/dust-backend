@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.time.LocalDateTime;
 
 @Service
@@ -24,9 +23,11 @@ public class SuspensionService {
     @Transactional
     public Long suspend(Long adminId, Long suspendedId, LocalDateTime start_date, LocalDateTime end_date, String reason) {
         User admin = userFindService.findById(adminId);
-        User suspendedUser = userFindService.findById(suspendedId);
-        Suspension suspension = Suspension.getSuspension(reason, start_date, end_date, suspendedUser);
         validateRoleIsAdmin(admin.getRole());
+
+        User suspendedUser = userFindService.findById(suspendedId);
+        suspendedUser.deactivate();
+        Suspension suspension = Suspension.createSuspension(reason, start_date, end_date, suspendedUser);
         return suspensionRepository.save(suspension).getId();
     }
 
