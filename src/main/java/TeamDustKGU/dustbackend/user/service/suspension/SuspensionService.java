@@ -21,13 +21,13 @@ public class SuspensionService {
     private final SuspensionRepository suspensionRepository;
 
     @Transactional
-    public Long suspend(Long adminId, Long suspendedId, LocalDateTime start_date, LocalDateTime end_date, String reason) {
+    public Long suspend(Long adminId, Long suspendedId, LocalDateTime startDate, LocalDateTime endDate, String reason) {
         User admin = userFindService.findById(adminId);
         validateRoleIsAdmin(admin.getRole());
 
         User suspendedUser = userFindService.findById(suspendedId);
         suspendedUser.deactivate();
-        Suspension suspension = Suspension.createSuspension(reason, start_date, end_date, suspendedUser);
+        Suspension suspension = Suspension.createSuspension(reason, startDate, endDate, suspendedUser);
         return suspensionRepository.save(suspension).getId();
     }
 

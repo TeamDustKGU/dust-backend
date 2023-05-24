@@ -79,7 +79,7 @@ public class SuspensionApiControllerTest extends ControllerTest {
         }
 
         @Test
-        @DisplayName("권한이 ADMIN이어야 한다")
+        @DisplayName("관리자가 아니면 유저 비활성화에 실패한다")
         void throwExceptionByInSufficientPrivilege() throws Exception {
             //given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
