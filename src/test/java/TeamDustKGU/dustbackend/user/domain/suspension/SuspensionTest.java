@@ -19,12 +19,12 @@ public class SuspensionTest {
     @Test
     @DisplayName("Suspension을 생성한다.")
     void getSuspension() {
-        Suspension suspension = Suspension.createSuspension("정책 위반", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT), LocalDateTime.of(2023, 6, 27, 10, 00, 00, 0000), SEOKHO);
+        Suspension suspension = Suspension.createSuspension("정책 위반", LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT), LocalDateTime.of(2023, 6, 27, 10, 0, 0, 0), SEOKHO);
 
         Assertions.assertAll(
                 () -> assertThat(suspension.getReason()).isEqualTo("정책 위반"),
                 () -> assertThat(suspension.getStartDate()).isEqualTo(LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT)),
-                () -> assertThat(suspension.getEndDate()).isEqualTo(LocalDateTime.of(2023, 6, 27, 10, 00, 00, 0000)),
+                () -> assertThat(suspension.getEndDate()).isEqualTo(LocalDateTime.of(2023, 6, 27, 10, 0, 0, 0)),
                 () -> assertThat(suspension.getSuspended()).isEqualTo(SEOKHO)
         );
     }
