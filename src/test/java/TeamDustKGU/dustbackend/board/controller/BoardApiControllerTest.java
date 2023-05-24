@@ -91,7 +91,7 @@ public class BoardApiControllerTest extends ControllerTest {
             // when
             final BoardRequest request = createBoardRequest();
             MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
-                    .post(BASE_URL, BOARD_ID)
+                    .post(BASE_URL)
                     .header(AUTHORIZATION, BEARER_TOKEN + REFRESH_TOKEN)
                     .contentType(APPLICATION_JSON)
                     .content(convertObjectToJson(request));
