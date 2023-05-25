@@ -4,7 +4,6 @@ import TeamDustKGU.dustbackend.auth.exception.AuthErrorCode;
 import TeamDustKGU.dustbackend.board.controller.dto.BoardRequest;
 import TeamDustKGU.dustbackend.board.exception.BoardErrorCode;
 import TeamDustKGU.dustbackend.common.ControllerTest;
-
 import TeamDustKGU.dustbackend.global.exception.DustException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,7 +14,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import static TeamDustKGU.dustbackend.auth.utils.TokenUtils.BEARER_TOKEN;
 import static TeamDustKGU.dustbackend.auth.utils.TokenUtils.REFRESH_TOKEN;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -24,7 +22,6 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
