@@ -26,7 +26,7 @@ public class Board extends BaseTimeEntity {
     @Column(name = "title", nullable = false, length = 20)
     private String title;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, length = 2000)
     private String content;
 
     @Column(name = "view", nullable = false)
