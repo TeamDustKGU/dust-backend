@@ -35,7 +35,7 @@ public class SuspensionService {
 
     public void validateAdmin(Role role) {
         if(!(role == Role.ADMIN)) {
-            throw DustException.type(UserErrorCode.USE_IS_NOT_ADMIN);
+            throw DustException.type(UserErrorCode.USER_IS_NOT_ADMIN);
         }
     }
 

@@ -47,7 +47,7 @@ public class SuspensionServiceTest extends ServiceTest {
         void throwExceptionByUserIsNotAdmin() {
             assertThatThrownBy(() -> suspensionService.suspend(userA.getId(), userB.getId(), startDate, endDate, reason))
                     .isInstanceOf(DustException.class)
-                    .hasMessage(UserErrorCode.USE_IS_NOT_ADMIN.getMessage());
+                    .hasMessage(UserErrorCode.USER_IS_NOT_ADMIN.getMessage());
         }
 
         @Test

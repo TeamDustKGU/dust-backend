@@ -84,7 +84,7 @@ public class SuspensionApiControllerTest extends ControllerTest {
             //given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
             given(jwtTokenProvider.getId(anyString())).willReturn(ADMIN_ID);
-            doThrow(DustException.type(UserErrorCode.USE_IS_NOT_ADMIN))
+            doThrow(DustException.type(UserErrorCode.USER_IS_NOT_ADMIN))
                     .when(suspensionService)
                     .suspend(anyLong(), anyLong(), any(), any(), anyString());
 
@@ -97,7 +97,7 @@ public class SuspensionApiControllerTest extends ControllerTest {
                     .content(convertObjectToJson(request));
 
             //then
-            final UserErrorCode expectedError = UserErrorCode.USE_IS_NOT_ADMIN;
+            final UserErrorCode expectedError = UserErrorCode.USER_IS_NOT_ADMIN;
             mockMvc.perform(requestBuilder)
                     .andExpectAll(
                             status().isForbidden(),
