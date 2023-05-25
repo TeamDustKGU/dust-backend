@@ -105,6 +105,22 @@ public class BoardServiceTest extends ServiceTest {
         }
 
         @Test
+        @DisplayName("게시글이 삭제되면 달린 댓글도 삭제되어야 한다")
+        void throwExceptionByBoardCommentRemain() {
+            //given
+            for(int i=1; i<=5; i++){
+                commentService.create(writer.getId(), board.getId(), "댓글"+i);
+            }
+            boardService.delete(writer.getId(), board.getId());
+
+            // when - then
+            assertAll(
+                    () -> assertThat(commentRepository.count()).isEqualTo(0)
+
+            );
+        }
+
+        @Test
         @DisplayName("게시글 삭제에 성공한다")
         void success() {
             // given
