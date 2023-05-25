@@ -2,6 +2,7 @@ package TeamDustKGU.dustbackend.board.service;
 
 import TeamDustKGU.dustbackend.board.domain.Board;
 import TeamDustKGU.dustbackend.board.exception.BoardErrorCode;
+import TeamDustKGU.dustbackend.comment.service.CommentService;
 import TeamDustKGU.dustbackend.common.ServiceTest;
 import TeamDustKGU.dustbackend.global.exception.DustException;
 import TeamDustKGU.dustbackend.user.domain.User;
@@ -28,6 +29,9 @@ public class BoardServiceTest extends ServiceTest {
 
     @Autowired
     private BoardFindService boardFindService;
+
+    @Autowired
+    private CommentService commentService;
 
     private User writer;
     private User not_writer;
@@ -63,11 +67,11 @@ public class BoardServiceTest extends ServiceTest {
     class update {
         @Test
         @DisplayName("다른 사람의 게시글은 수정할 수 없다")
-        void throwExceptionByUserIsNotWriter() {
+        void throwExceptionByUserNotBoardWriter() {
             // when - then
             assertThatThrownBy(() -> boardService.update(not_writer.getId(),board.getId(), "제목2", "내용2"))
                     .isInstanceOf(DustException.class)
-                    .hasMessage(BoardErrorCode.USER_IS_NOT_WRITER.getMessage());
+                    .hasMessage(BoardErrorCode.USER_NOT_BOARD_WRITER.getMessage());
         }
 
         @Test
@@ -93,11 +97,11 @@ public class BoardServiceTest extends ServiceTest {
     class delete {
         @Test
         @DisplayName("다른 사람의 게시글은 삭제할 수 없다")
-        void throwExceptionByUserIsNotWriter() {
+        void throwExceptionByUserNotBoardWriter() {
             // when - then
             assertThatThrownBy(() -> boardService.delete(not_writer.getId(),board.getId()))
                     .isInstanceOf(DustException.class)
-                    .hasMessage(BoardErrorCode.USER_IS_NOT_WRITER.getMessage());
+                    .hasMessage(BoardErrorCode.USER_NOT_BOARD_WRITER.getMessage());
         }
 
         @Test

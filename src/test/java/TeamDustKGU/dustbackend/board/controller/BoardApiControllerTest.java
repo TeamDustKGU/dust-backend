@@ -37,7 +37,6 @@ public class BoardApiControllerTest extends ControllerTest {
     class createBoard {
         private static final String BASE_URL = "/api/board/create";
         private static final Long WRITER_ID = 1L;
-        private static final Long BOARD_ID = 2L;
 
         @Test
         @DisplayName("Authorization Header에 AccessToken이 없으면 게시글 등록에 실패한다")
@@ -169,11 +168,11 @@ public class BoardApiControllerTest extends ControllerTest {
 
         @Test
         @DisplayName("다른 사람의 게시글은 수정할 수 없다")
-        void throwExceptionByUserIsNotWriter() throws Exception {
+        void throwExceptionByUserNotBoardWriter() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
             given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID);
-            doThrow(DustException.type(BoardErrorCode.USER_IS_NOT_WRITER))
+            doThrow(DustException.type(BoardErrorCode.USER_NOT_BOARD_WRITER))
                     .when(boardService)
                     .update(anyLong(), anyLong(), any(), any());
 
@@ -186,7 +185,7 @@ public class BoardApiControllerTest extends ControllerTest {
                     .content(convertObjectToJson(request));
 
             // then
-            final BoardErrorCode expectedError = BoardErrorCode.USER_IS_NOT_WRITER;
+            final BoardErrorCode expectedError = BoardErrorCode.USER_NOT_BOARD_WRITER;
             mockMvc.perform(requestBuilder)
                     .andExpectAll(
                             status().isConflict(),
@@ -312,11 +311,11 @@ public class BoardApiControllerTest extends ControllerTest {
 
         @Test
         @DisplayName("다른 사람의 게시글은 삭제할 수 없다")
-        void throwExceptionByUserIsNotWriter() throws Exception {
+        void throwExceptionByUserNotBoardWriter() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
             given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID);
-            doThrow(DustException.type(BoardErrorCode.USER_IS_NOT_WRITER))
+            doThrow(DustException.type(BoardErrorCode.USER_NOT_BOARD_WRITER))
                     .when(boardService)
                     .delete(anyLong(),anyLong());
 
@@ -329,7 +328,7 @@ public class BoardApiControllerTest extends ControllerTest {
                     .content(convertObjectToJson(request));
 
             // then
-            final BoardErrorCode expectedError = BoardErrorCode.USER_IS_NOT_WRITER;
+            final BoardErrorCode expectedError = BoardErrorCode.USER_NOT_BOARD_WRITER;
             mockMvc.perform(requestBuilder)
                     .andExpectAll(
                             status().isConflict(),
