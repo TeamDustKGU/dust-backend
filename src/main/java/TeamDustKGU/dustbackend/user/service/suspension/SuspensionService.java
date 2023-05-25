@@ -23,17 +23,25 @@ public class SuspensionService {
     @Transactional
     public Long suspend(Long adminId, Long suspendedId, LocalDateTime startDate, LocalDateTime endDate, String reason) {
         User admin = userFindService.findById(adminId);
-        validateRoleIsAdmin(admin.getRole());
+        validateAdmin(admin.getRole());
 
         User suspendedUser = userFindService.findById(suspendedId);
+        validateAlreadySuspended(suspendedUser.getStatus());
+
         suspendedUser.deactivate();
         Suspension suspension = Suspension.createSuspension(reason, startDate, endDate, suspendedUser);
         return suspensionRepository.save(suspension).getId();
     }
 
-    public void validateRoleIsAdmin(Role role) {
+    public void validateAdmin(Role role) {
         if(!(role == Role.ADMIN)) {
-            throw DustException.type(UserErrorCode.INSUFFICIENT_PRIVILEGES);
+            throw DustException.type(UserErrorCode.USE_IS_NOT_ADMIN);
+        }
+    }
+
+    public void validateAlreadySuspended(int status) {
+        if(status == 1) {
+            throw DustException.type(UserErrorCode.ALREADY_SUSPENDED);
         }
     }
 }

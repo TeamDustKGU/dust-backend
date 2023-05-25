@@ -26,7 +26,7 @@ public class SuspensionServiceTest extends ServiceTest {
     private User admin;
     private User userA;
     private User userB;
-    private LocalDateTime start, end;
+    private LocalDateTime startDate, endDate;
     private String reason;
 
     @BeforeEach
@@ -34,8 +34,8 @@ public class SuspensionServiceTest extends ServiceTest {
         admin = userRepository.save(SEOKHO.toAdmin());
         userA = userRepository.save(CHAERIN.toUser());
         userB = userRepository.save(SUNKYOUNG.toUser());
-        start = LocalDateTime.now();
-        end = start.plusDays(7);
+        startDate = LocalDateTime.now();
+        endDate = startDate.plusDays(7);
         reason = "정책 위반";
     }
 
@@ -43,25 +43,36 @@ public class SuspensionServiceTest extends ServiceTest {
     @DisplayName("유저 비활성화")
     class suspend {
         @Test
-        @DisplayName("권한이 ADMIN이어야 한다.")
-        void throwExceptionByInSufficientPrivilege() {
-            assertThatThrownBy(() -> suspensionService.suspend(userA.getId(), userB.getId(), start, end, reason))
+        @DisplayName("관리자가 아니면 유저 비활성화에 실패한다")
+        void throwExceptionByUserIsNotAdmin() {
+            assertThatThrownBy(() -> suspensionService.suspend(userA.getId(), userB.getId(), startDate, endDate, reason))
                     .isInstanceOf(DustException.class)
-                    .hasMessage(UserErrorCode.INSUFFICIENT_PRIVILEGES.getMessage());
+                    .hasMessage(UserErrorCode.USE_IS_NOT_ADMIN.getMessage());
+        }
+
+        @Test
+        @DisplayName("이미 비활성화된 유저를 비활성화할 수 없다")
+        void throwExceptionByAlreadySuspended() {
+            //given
+            suspensionService.suspend(admin.getId(), userA.getId(), startDate, endDate, reason);
+            //when - then
+            assertThatThrownBy(() -> suspensionService.suspend(admin.getId(), userA.getId(), startDate, endDate, reason))
+                    .isInstanceOf(DustException.class)
+                    .hasMessage(UserErrorCode.ALREADY_SUSPENDED.getMessage());
         }
 
         @Test
         @DisplayName("유저 비활성화 성공")
         void success() {
             //when
-            Long suspendedId = suspensionService.suspend(admin.getId(), userA.getId(), start, end, reason);
+            Long suspendedId = suspensionService.suspend(admin.getId(), userA.getId(), startDate, endDate, reason);
 
             //then
             Suspension findSuspension = suspensionRepository.findById(suspendedId).orElseThrow();
             assertAll(
                     () -> assertThat(findSuspension.getSuspended().getId()).isEqualTo(userA.getId()),
-                    () -> assertThat(findSuspension.getStartDate()).isEqualTo(start),
-                    () -> assertThat(findSuspension.getEndDate()).isEqualTo(end),
+                    () -> assertThat(findSuspension.getStartDate()).isEqualTo(startDate),
+                    () -> assertThat(findSuspension.getEndDate()).isEqualTo(endDate),
                     () -> assertThat(findSuspension.getReason()).isEqualTo(reason)
             );
         }
