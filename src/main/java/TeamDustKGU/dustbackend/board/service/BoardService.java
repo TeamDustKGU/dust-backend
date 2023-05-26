@@ -38,9 +38,7 @@ public class BoardService {
     @Transactional
     public void delete(Long writerId, Long boardId){
         validateWriter(writerId, boardId);
-        Board board = boardFindService.findById(boardId);
-
-        boardRepository.delete(board);
+        boardRepository.deleteById(boardId);
     }
 
     private void validateWriter(Long writerId, Long boardId) {

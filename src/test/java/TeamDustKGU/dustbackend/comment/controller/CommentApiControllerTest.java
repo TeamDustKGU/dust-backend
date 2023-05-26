@@ -170,7 +170,7 @@ public class CommentApiControllerTest extends ControllerTest {
         void throwExceptionByUserIsNotCommentWriter() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
-            given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID);
+            given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID + 100L);
             doThrow(DustException.type(CommentErrorCode.USER_IS_NOT_COMMENT_WRITER))
                     .when(commentService)
                     .delete(anyLong(), anyLong());

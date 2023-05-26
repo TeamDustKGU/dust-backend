@@ -33,9 +33,7 @@ public class CommentService {
     @Transactional
     public void delete(Long writerId, Long commentId){
         validateWriter(writerId, commentId);
-        Comment comment = commentFindService.findById(commentId);
-
-        commentRepository.delete(comment);
+        commentRepository.deleteById(commentId);
     }
 
     private void validateWriter(Long writerId, Long commentId) {

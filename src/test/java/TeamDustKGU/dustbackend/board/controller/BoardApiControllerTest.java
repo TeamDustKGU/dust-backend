@@ -171,7 +171,7 @@ public class BoardApiControllerTest extends ControllerTest {
         void throwExceptionByUserIsNotBoardWriter() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
-            given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID);
+            given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID + 100L);
             doThrow(DustException.type(BoardErrorCode.USER_IS_NOT_BOARD_WRITER))
                     .when(boardService)
                     .update(anyLong(), anyLong(), any(), any());
@@ -314,7 +314,7 @@ public class BoardApiControllerTest extends ControllerTest {
         void throwExceptionByUserIsNotBoardWriter() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
-            given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID);
+            given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID + 100L);
             doThrow(DustException.type(BoardErrorCode.USER_IS_NOT_BOARD_WRITER))
                     .when(boardService)
                     .delete(anyLong(),anyLong());
