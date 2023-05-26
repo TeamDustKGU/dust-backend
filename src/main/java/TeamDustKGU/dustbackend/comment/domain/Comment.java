@@ -38,7 +38,7 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "board_id", referencedColumnName = "id", nullable = false)
     private Board board;
 
-    // 부모 댓글 삭제시 달려있는 자식 댓글 모두 삭제
+    // 부모 댓글 삭제시 달려있는 자식 댓글 모두
     @OneToMany(mappedBy = "parent", cascade = PERSIST, orphanRemoval = true)
     private List<Comment> childList = new ArrayList<>();
 
