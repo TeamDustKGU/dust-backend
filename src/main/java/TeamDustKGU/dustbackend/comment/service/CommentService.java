@@ -41,7 +41,7 @@ public class CommentService {
     private void validateWriter(Long writerId, Long commentId) {
         Comment comment = commentFindService.findById(commentId);
         if (!comment.getWriter().getId().equals(writerId)) {
-            throw DustException.type(CommentErrorCode.USER_NOT_COMMENT_WRITER);
+            throw DustException.type(CommentErrorCode.USER_IS_NOT_COMMENT_WRITER);
         }
     }
 }

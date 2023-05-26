@@ -46,7 +46,7 @@ public class BoardService {
     private void validateWriter(Long writerId, Long boardId) {
         Board board = boardFindService.findById(boardId);
         if (!board.getWriter().getId().equals(writerId)) {
-            throw DustException.type(BoardErrorCode.USER_NOT_BOARD_WRITER);
+            throw DustException.type(BoardErrorCode.USER_IS_NOT_BOARD_WRITER);
         }
     }
 }

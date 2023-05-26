@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("Comment [Controller Layer] -> CommentApiController 테스트")
 public class CommentApiControllerTest extends ControllerTest {
     @Nested
-    @DisplayName("댓글 등록 API [Comment /api/Comment/create]")
+    @DisplayName("댓글 등록 API [POST /api/comment/create]")
     class createBoard {
         private static final String BASE_URL = "/api/comment/create/{boardId}";
         private static final Long WRITER_ID = 1L;
@@ -167,11 +167,11 @@ public class CommentApiControllerTest extends ControllerTest {
 
         @Test
         @DisplayName("다른 사람의 게시글은 삭제할 수 없다")
-        void throwExceptionByUserNotCommentWriter() throws Exception {
+        void throwExceptionByUserIsNotCommentWriter() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
             given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID);
-            doThrow(DustException.type(CommentErrorCode.USER_NOT_COMMENT_WRITER))
+            doThrow(DustException.type(CommentErrorCode.USER_IS_NOT_COMMENT_WRITER))
                     .when(commentService)
                     .delete(anyLong(), anyLong());
 
@@ -184,7 +184,7 @@ public class CommentApiControllerTest extends ControllerTest {
                     .content(convertObjectToJson(request));
 
             // then
-            final CommentErrorCode expectedError = CommentErrorCode.USER_NOT_COMMENT_WRITER;
+            final CommentErrorCode expectedError = CommentErrorCode.USER_IS_NOT_COMMENT_WRITER;
             mockMvc.perform(requestBuilder)
                     .andExpectAll(
                             status().isConflict(),

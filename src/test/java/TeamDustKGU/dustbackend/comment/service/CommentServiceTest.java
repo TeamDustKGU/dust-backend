@@ -72,11 +72,11 @@ public class CommentServiceTest extends ServiceTest {
     class delete {
         @Test
         @DisplayName("다른 사람의 댓글은 삭제할 수 없다")
-        void throwExceptionByUserIsNotWriter() {
+        void throwExceptionByUserIsNotCommentWriter() {
             // when - then
             assertThatThrownBy(() -> commentService.delete(not_writer.getId(),comment.getId()))
                     .isInstanceOf(DustException.class)
-                    .hasMessage(CommentErrorCode.USER_NOT_COMMENT_WRITER.getMessage());
+                    .hasMessage(CommentErrorCode.USER_IS_NOT_COMMENT_WRITER.getMessage());
         }
 
         @Test

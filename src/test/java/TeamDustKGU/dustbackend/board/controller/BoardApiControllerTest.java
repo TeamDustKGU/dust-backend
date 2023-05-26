@@ -168,11 +168,11 @@ public class BoardApiControllerTest extends ControllerTest {
 
         @Test
         @DisplayName("다른 사람의 게시글은 수정할 수 없다")
-        void throwExceptionByUserNotBoardWriter() throws Exception {
+        void throwExceptionByUserIsNotBoardWriter() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
             given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID);
-            doThrow(DustException.type(BoardErrorCode.USER_NOT_BOARD_WRITER))
+            doThrow(DustException.type(BoardErrorCode.USER_IS_NOT_BOARD_WRITER))
                     .when(boardService)
                     .update(anyLong(), anyLong(), any(), any());
 
@@ -185,7 +185,7 @@ public class BoardApiControllerTest extends ControllerTest {
                     .content(convertObjectToJson(request));
 
             // then
-            final BoardErrorCode expectedError = BoardErrorCode.USER_NOT_BOARD_WRITER;
+            final BoardErrorCode expectedError = BoardErrorCode.USER_IS_NOT_BOARD_WRITER;
             mockMvc.perform(requestBuilder)
                     .andExpectAll(
                             status().isConflict(),
@@ -311,11 +311,11 @@ public class BoardApiControllerTest extends ControllerTest {
 
         @Test
         @DisplayName("다른 사람의 게시글은 삭제할 수 없다")
-        void throwExceptionByUserNotBoardWriter() throws Exception {
+        void throwExceptionByUserIsNotBoardWriter() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
             given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID);
-            doThrow(DustException.type(BoardErrorCode.USER_NOT_BOARD_WRITER))
+            doThrow(DustException.type(BoardErrorCode.USER_IS_NOT_BOARD_WRITER))
                     .when(boardService)
                     .delete(anyLong(),anyLong());
 
@@ -328,7 +328,7 @@ public class BoardApiControllerTest extends ControllerTest {
                     .content(convertObjectToJson(request));
 
             // then
-            final BoardErrorCode expectedError = BoardErrorCode.USER_NOT_BOARD_WRITER;
+            final BoardErrorCode expectedError = BoardErrorCode.USER_IS_NOT_BOARD_WRITER;
             mockMvc.perform(requestBuilder)
                     .andExpectAll(
                             status().isConflict(),
