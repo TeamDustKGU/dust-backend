@@ -83,7 +83,7 @@ public class SuspensionApiControllerTest extends ControllerTest {
         void throwExceptionByInSufficientPrivilege() throws Exception {
             //given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
-            given(jwtTokenProvider.getId(anyString())).willReturn(ADMIN_ID);
+            given(jwtTokenProvider.getId(anyString())).willReturn(ADMIN_ID + 100L);
             doThrow(DustException.type(UserErrorCode.USER_IS_NOT_ADMIN))
                     .when(suspensionService)
                     .suspend(anyLong(), anyLong(), any(), any(), anyString());
@@ -134,7 +134,7 @@ public class SuspensionApiControllerTest extends ControllerTest {
         void success() throws Exception {
             //given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
-            given(jwtTokenProvider.getId(anyString())).willReturn(SUSPENDED_ID);
+            given(jwtTokenProvider.getId(anyString())).willReturn(ADMIN_ID);
             doReturn(1L)
                     .when(suspensionService)
                     .suspend(anyLong(), anyLong(), any(), any(), anyString());

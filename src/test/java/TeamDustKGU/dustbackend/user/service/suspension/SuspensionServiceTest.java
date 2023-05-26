@@ -53,9 +53,10 @@ public class SuspensionServiceTest extends ServiceTest {
         @Test
         @DisplayName("이미 비활성화된 유저를 비활성화할 수 없다")
         void throwExceptionByAlreadySuspended() {
-            //given
+            // given
             suspensionService.suspend(admin.getId(), userA.getId(), startDate, endDate, reason);
-            //when - then
+
+            // when - then
             assertThatThrownBy(() -> suspensionService.suspend(admin.getId(), userA.getId(), startDate, endDate, reason))
                     .isInstanceOf(DustException.class)
                     .hasMessage(UserErrorCode.ALREADY_SUSPENDED.getMessage());
@@ -64,10 +65,10 @@ public class SuspensionServiceTest extends ServiceTest {
         @Test
         @DisplayName("유저 비활성화 성공")
         void success() {
-            //when
+            // when
             Long suspendedId = suspensionService.suspend(admin.getId(), userA.getId(), startDate, endDate, reason);
 
-            //then
+            // then
             Suspension findSuspension = suspensionRepository.findById(suspendedId).orElseThrow();
             assertAll(
                     () -> assertThat(findSuspension.getSuspended().getId()).isEqualTo(userA.getId()),
