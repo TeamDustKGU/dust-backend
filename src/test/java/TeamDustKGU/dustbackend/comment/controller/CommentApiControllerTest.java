@@ -30,9 +30,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("Comment [Controller Layer] -> CommentApiController 테스트")
 public class CommentApiControllerTest extends ControllerTest {
     @Nested
-    @DisplayName("댓글 등록 API [POST /api/comment/create]")
+    @DisplayName("댓글 등록 API [POST /api/comment/{boardId}]")
     class createBoard {
-        private static final String BASE_URL = "/api/comment/create/{boardId}";
+        private static final String BASE_URL = "/api/comment/{boardId}";
         private static final Long WRITER_ID = 1L;
         private static final Long BOARD_ID = 2L;
 
@@ -120,9 +120,9 @@ public class CommentApiControllerTest extends ControllerTest {
     }
 
     @Nested
-    @DisplayName("댓글 삭제 API [DELETE /api/comment/delete/{commentId}]")
+    @DisplayName("댓글 삭제 API [DELETE /api/comment/{commentId}]")
     class deleteBoard {
-        private static final String BASE_URL = "/api/comment/delete/{commentId}";
+        private static final String BASE_URL = "/api/comment/{commentId}";
         private static final Long WRITER_ID = 1L;
         private static final Long COMMENT_ID = 2L;
 

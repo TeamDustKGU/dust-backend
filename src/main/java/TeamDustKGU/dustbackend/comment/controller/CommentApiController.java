@@ -12,18 +12,18 @@ import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping
+@RequestMapping("/api")
 public class CommentApiController {
     private final CommentService commentService;
 
-    @PostMapping("/api/comment/create/{boardId}")
+    @PostMapping("/comment/{boardId}")
     public ResponseEntity<Void> create(@ExtractPayload Long writerId, @PathVariable Long boardId,
                                        @RequestBody @Valid CommentRequest request) {
         commentService.create(writerId, boardId, request.content());
-        return ResponseEntity.created(URI.create("/api/board/detail/"+boardId)).build();
+        return ResponseEntity.created(URI.create("/board/detail/"+boardId)).build();
     }
 
-    @DeleteMapping("/api/comment/delete/{commentId}")
+    @DeleteMapping("/comment/{commentId}")
     public ResponseEntity<Void> delete(@ExtractPayload Long writerId, @PathVariable Long commentId) {
         commentService.delete(writerId, commentId);
         return ResponseEntity.ok().build();

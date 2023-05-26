@@ -16,21 +16,21 @@ import java.net.URI;
 public class BoardApiController {
     private final BoardService boardService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<Void> create(@ExtractPayload Long writerId,
                                        @RequestBody @Valid BoardRequest request) {
         Long boardId = boardService.create(writerId, request.title(), request.content());
         return ResponseEntity.created(URI.create("/detail/"+boardId)).build();
     }
 
-    @PatchMapping("/update/{boardId}")
+    @PatchMapping("/{boardId}")
     public ResponseEntity<Void> update(@ExtractPayload Long writerId, @PathVariable Long boardId,
                                          @RequestBody @Valid BoardRequest request) {
         boardService.update(writerId, boardId, request.title(), request.content());
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/delete/{boardId}")
+    @DeleteMapping("/{boardId}")
     public ResponseEntity<Void> delete(@ExtractPayload Long writerId, @PathVariable Long boardId) {
         boardService.delete(writerId, boardId);
         return ResponseEntity.ok().build();
