@@ -2,6 +2,7 @@ package TeamDustKGU.dustbackend.common;
 
 import TeamDustKGU.dustbackend.auth.domain.TokenRepository;
 import TeamDustKGU.dustbackend.board.domain.BoardRepository;
+import TeamDustKGU.dustbackend.comment.domain.CommentRepository;
 import TeamDustKGU.dustbackend.user.domain.UserRepository;
 import TeamDustKGU.dustbackend.user.domain.follow.FollowRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -26,6 +27,9 @@ public class ServiceTest {
 
     @Autowired
     protected BoardRepository boardRepository;
+
+    @Autowired
+    protected CommentRepository commentRepository;
 
     @AfterEach
     void clearDatabase() {

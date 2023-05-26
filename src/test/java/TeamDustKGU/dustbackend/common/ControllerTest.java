@@ -7,6 +7,8 @@ import TeamDustKGU.dustbackend.auth.utils.JwtTokenProvider;
 import TeamDustKGU.dustbackend.board.controller.BoardApiController;
 import TeamDustKGU.dustbackend.board.service.BoardFindService;
 import TeamDustKGU.dustbackend.board.service.BoardService;
+import TeamDustKGU.dustbackend.comment.controller.CommentApiController;
+import TeamDustKGU.dustbackend.comment.service.CommentService;
 import TeamDustKGU.dustbackend.user.controller.UserUpdateApiController;
 import TeamDustKGU.dustbackend.user.controller.follow.FollowApiController;
 import TeamDustKGU.dustbackend.user.service.UserFindService;
@@ -28,7 +30,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
         TokenReissueApiController.class,
         FollowApiController.class,
         UserUpdateApiController.class,
-        BoardApiController.class
+        BoardApiController.class,
+        CommentApiController.class
 })
 @AutoConfigureRestDocs
 public abstract class ControllerTest {
@@ -58,6 +61,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected BoardService boardService;
+
+    @MockBean
+    protected CommentService commentService;
 
     @MockBean
     protected TokenManager tokenManager;
