@@ -38,7 +38,7 @@ public class Suspension extends BaseTimeEntity {
         this.suspended = suspended;
     }
 
-    public static Suspension createSuspension(String reason, LocalDateTime start_date, LocalDateTime end_date, User suspended) {
-        return new Suspension(reason, start_date, end_date, suspended);
+    public static Suspension createSuspension(String reason, LocalDateTime startDate, LocalDateTime endDate, User suspended) {
+        return new Suspension(reason, startDate, endDate, suspended);
     }
 }
