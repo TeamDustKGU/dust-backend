@@ -77,7 +77,7 @@ public class BoardServiceTest extends ServiceTest {
         @Test
         @DisplayName("게시글 수정에 성공한다")
         void success() {
-            //given
+            // given
             boardService.update(writer.getId(), board.getId(), "제목2","내용2");
 
             // when
@@ -106,18 +106,19 @@ public class BoardServiceTest extends ServiceTest {
 
         @Test
         @DisplayName("게시글이 삭제되면 달린 댓글도 삭제되어야 한다")
-        void throwExceptionByBoardCommentRemain() {
-            //given
+        void successDeleteAllComment() {
+            // given
             for(int i=1; i<=5; i++){
                 commentService.create(writer.getId(), board.getId(), "댓글"+i);
             }
-            boardService.delete(writer.getId(), board.getId());
+            flushAndClear();
 
-            // when - then
-            assertAll(
-                    () -> assertThat(commentRepository.count()).isEqualTo(0)
+            // when
+            Board findBoard = boardFindService.findById(board.getId());
+            boardService.delete(writer.getId(), findBoard.getId());
 
-            );
+            // then
+            assertThat(commentRepository.count()).isEqualTo(0);
         }
 
         @Test
