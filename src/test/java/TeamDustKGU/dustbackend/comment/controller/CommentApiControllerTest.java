@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("Comment [Controller Layer] -> CommentApiController 테스트")
 public class CommentApiControllerTest extends ControllerTest {
     @Nested
-    @DisplayName("댓글 등록 API [POST /api/Comment/create]")
+    @DisplayName("댓글 등록 API [Comment /api/Comment/create]")
     class createBoard {
         private static final String BASE_URL = "/api/comment/create/{boardId}";
         private static final Long WRITER_ID = 1L;

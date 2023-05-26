@@ -108,7 +108,7 @@ public class BoardServiceTest extends ServiceTest {
         @DisplayName("게시글이 삭제되면 달린 댓글도 삭제되어야 한다")
         void successDeleteAllComment() {
             // given
-            for(int i=1; i<=5; i++){
+            for(int i=1; i<=5; i++) {
                 commentService.create(writer.getId(), board.getId(), "댓글"+i);
             }
             flushAndClear();

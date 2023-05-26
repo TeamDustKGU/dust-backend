@@ -70,7 +70,6 @@ public class CommentServiceTest extends ServiceTest {
     @Nested
     @DisplayName("댓글 삭제")
     class delete {
-
         @Test
         @DisplayName("다른 사람의 댓글은 삭제할 수 없다")
         void throwExceptionByUserIsNotWriter() {
