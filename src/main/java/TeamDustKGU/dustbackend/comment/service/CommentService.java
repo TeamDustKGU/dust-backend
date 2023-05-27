@@ -32,11 +32,11 @@ public class CommentService {
 
     @Transactional
     public void delete(Long writerId, Long commentId){
-        validateWriter(writerId, commentId);
+        validateWriter(commentId, writerId);
         commentRepository.deleteById(commentId);
     }
 
-    private void validateWriter(Long writerId, Long commentId) {
+    private void validateWriter(Long commentId, Long writerId) {
         Comment comment = commentFindService.findById(commentId);
         if (!comment.getWriter().getId().equals(writerId)) {
             throw DustException.type(CommentErrorCode.USER_IS_NOT_COMMENT_WRITER);

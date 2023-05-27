@@ -52,16 +52,13 @@ public class CommentServiceTest extends ServiceTest {
     @Test
     @DisplayName("댓글 등록에 성공한다")
     void success() {
-        // given
-        Long commentId = commentService.create(writer.getId(), board.getId(), "내용");
-
         // when - then
-        Comment findComment = commentRepository.findById(commentId).orElseThrow();
+        Comment findComment = commentRepository.findById(comment.getId()).orElseThrow();
         assertAll(
                 () -> assertThat(findComment.getWriter().getId()).isEqualTo(writer.getId()),
                 () -> assertThat(findComment.getBoard().getId()).isEqualTo(board.getId()),
                 () -> assertThat(findComment.getParent()).isEqualTo(null),
-                () -> assertThat(findComment.getContent()).isEqualTo("내용"),
+                () -> assertThat(findComment.getContent()).isEqualTo("댓글1"),
                 () -> assertThat(findComment.getCreatedDate().format(formatter)).isEqualTo(LocalDateTime.now().format(formatter)),
                 () -> assertThat(findComment.getModifiedDate().format(formatter)).isEqualTo(LocalDateTime.now().format(formatter))
         );
@@ -108,7 +105,7 @@ public class CommentServiceTest extends ServiceTest {
             commentService.delete(writer.getId(), comment.getId());
 
             // when - then
-            assertThatThrownBy(() -> commentFindService.findById(comment.getId() + 100L))
+            assertThatThrownBy(() -> commentFindService.findById(comment.getId()))
                     .isInstanceOf(DustException.class)
                     .hasMessage(CommentErrorCode.COMMENT_NOT_FOUND.getMessage());
         }

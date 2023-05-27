@@ -128,7 +128,7 @@ public class BoardServiceTest extends ServiceTest {
             boardService.delete(writer.getId(), board.getId());
 
             // when - then
-            assertThatThrownBy(() -> boardFindService.findById(board.getId() + 100L))
+            assertThatThrownBy(() -> boardFindService.findById(board.getId()))
                     .isInstanceOf(DustException.class)
                     .hasMessage(BoardErrorCode.BOARD_NOT_FOUND.getMessage());
         }
