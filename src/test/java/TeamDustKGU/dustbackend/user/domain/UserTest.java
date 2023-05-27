@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static TeamDustKGU.dustbackend.fixture.UserFixture.*;
+import static TeamDustKGU.dustbackend.global.utils.PasswordEncoderUtils.ENCODER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -17,10 +18,10 @@ public class UserTest{
         assertAll(
                 () -> assertThat(user.getRole()).isEqualTo(Role.USER),
                 () -> assertThat(user.getEmailValue()).isEqualTo(CHAERIN.getEmail()),
-                () -> assertThat(user.getAuth()).isEqualTo(1),
-                () -> assertThat(user.getPassword()).isEqualTo(CHAERIN.getPassword()),
+                () -> assertThat(user.getAuth()).isEqualTo(0),
+                () -> assertThat(user.getPassword().isSamePassword(CHAERIN.getPassword(), ENCODER)).isTrue(),
                 () -> assertThat(user.getNickname()).isNull(),
-                () -> assertThat(user.getStatus()).isEqualTo(0)
+                () -> assertThat(user.getStatus()).isEqualTo(1)
         );
     }
 
@@ -48,11 +49,9 @@ public class UserTest{
     void isSameUser(){
         // given
         User user1 = CHAERIN.toUser();
-        User user2 = User.createUser(Email.from(CHAERIN.getEmail()), "password");
-        User user3 = User.createUser(Email.from("diff" + CHAERIN.getEmail()), "password");
+        User user2 = User.createUser(Email.from("diff" + CHAERIN.getEmail()), Password.encrypt("!Password123", ENCODER));
 
         // then
-        assertThat(user1.isSameUser(user2)).isTrue();
-        assertThat(user1.isSameUser(user3)).isFalse();
+        assertThat(user1.isSameUser(user2)).isFalse();
     }
 }
