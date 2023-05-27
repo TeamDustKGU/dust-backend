@@ -2,6 +2,7 @@ package TeamDustKGU.dustbackend.board.service;
 
 import TeamDustKGU.dustbackend.board.domain.Board;
 import TeamDustKGU.dustbackend.board.exception.BoardErrorCode;
+import TeamDustKGU.dustbackend.comment.service.CommentService;
 import TeamDustKGU.dustbackend.common.ServiceTest;
 import TeamDustKGU.dustbackend.global.exception.DustException;
 import TeamDustKGU.dustbackend.user.domain.User;
@@ -28,6 +29,9 @@ public class BoardServiceTest extends ServiceTest {
 
     @Autowired
     private BoardFindService boardFindService;
+
+    @Autowired
+    private CommentService commentService;
 
     private User writer;
     private User not_writer;
@@ -63,17 +67,17 @@ public class BoardServiceTest extends ServiceTest {
     class update {
         @Test
         @DisplayName("다른 사람의 게시글은 수정할 수 없다")
-        void throwExceptionByUpdateBoardOnlyWriter() {
+        void throwExceptionByUserNotBoardWriter() {
             // when - then
             assertThatThrownBy(() -> boardService.update(not_writer.getId(),board.getId(), "제목2", "내용2"))
                     .isInstanceOf(DustException.class)
-                    .hasMessage(BoardErrorCode.USER_IS_NOT_WRITER.getMessage());
+                    .hasMessage(BoardErrorCode.USER_IS_NOT_BOARD_WRITER.getMessage());
         }
 
         @Test
         @DisplayName("게시글 수정에 성공한다")
         void success() {
-            //given
+            // given
             boardService.update(writer.getId(), board.getId(), "제목2","내용2");
 
             // when
@@ -93,11 +97,28 @@ public class BoardServiceTest extends ServiceTest {
     class delete {
         @Test
         @DisplayName("다른 사람의 게시글은 삭제할 수 없다")
-        void throwExceptionByDeleteBoardOnlyWriter() {
+        void throwExceptionByUserNotBoardWriter() {
             // when - then
             assertThatThrownBy(() -> boardService.delete(not_writer.getId(),board.getId()))
                     .isInstanceOf(DustException.class)
-                    .hasMessage(BoardErrorCode.USER_IS_NOT_WRITER.getMessage());
+                    .hasMessage(BoardErrorCode.USER_IS_NOT_BOARD_WRITER.getMessage());
+        }
+
+        @Test
+        @DisplayName("게시글이 삭제되면 달린 댓글도 삭제되어야 한다")
+        void successDeleteAllComment() {
+            // given
+            for(int i=1; i<=5; i++) {
+                commentService.create(writer.getId(), board.getId(), "댓글"+i);
+            }
+            flushAndClear();
+
+            // when
+            Board findBoard = boardFindService.findById(board.getId());
+            boardService.delete(writer.getId(), findBoard.getId());
+
+            // then
+            assertThat(commentRepository.count()).isEqualTo(0);
         }
 
         @Test
@@ -107,7 +128,7 @@ public class BoardServiceTest extends ServiceTest {
             boardService.delete(writer.getId(), board.getId());
 
             // when - then
-            assertThatThrownBy(() -> boardFindService.findById(board.getId() + 100L))
+            assertThatThrownBy(() -> boardFindService.findById(board.getId()))
                     .isInstanceOf(DustException.class)
                     .hasMessage(BoardErrorCode.BOARD_NOT_FOUND.getMessage());
         }

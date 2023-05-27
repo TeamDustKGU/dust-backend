@@ -1,7 +1,6 @@
 package TeamDustKGU.dustbackend.user.domain;
 
 import TeamDustKGU.dustbackend.board.domain.Board;
-import TeamDustKGU.dustbackend.comment.domain.Comment;
 import TeamDustKGU.dustbackend.global.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -45,10 +44,6 @@ public class User extends BaseTimeEntity {
     // 회원 탈퇴시 작성한 게시글 모두 삭제
     @OneToMany(mappedBy = "writer", cascade = PERSIST, orphanRemoval = true)
     private List<Board> boardList = new ArrayList<>();
-
-    // 회원 탈퇴시 작성한 댓글 모두 삭제
-    @OneToMany(mappedBy = "writer", cascade = PERSIST, orphanRemoval = true)
-    private List<Comment> commentList = new ArrayList<>();
 
     @Builder
     public User(Email email, Password password){

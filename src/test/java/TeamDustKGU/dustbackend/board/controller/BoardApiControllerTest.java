@@ -30,11 +30,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("Board [Controller Layer] -> BoardApiController 테스트")
 public class BoardApiControllerTest extends ControllerTest {
     @Nested
-    @DisplayName("게시글 등록 API [POST /api/board/create]")
+    @DisplayName("게시글 등록 API [POST /api/board]")
     class createBoard {
-        private static final String BASE_URL = "/api/board/create";
+        private static final String BASE_URL = "/api/board";
         private static final Long WRITER_ID = 1L;
-        private static final Long BOARD_ID = 2L;
 
         @Test
         @DisplayName("Authorization Header에 AccessToken이 없으면 게시글 등록에 실패한다")
@@ -88,7 +87,7 @@ public class BoardApiControllerTest extends ControllerTest {
             // when
             final BoardRequest request = createBoardRequest();
             MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
-                    .post(BASE_URL, BOARD_ID)
+                    .post(BASE_URL)
                     .header(AUTHORIZATION, BEARER_TOKEN + REFRESH_TOKEN)
                     .contentType(APPLICATION_JSON)
                     .content(convertObjectToJson(request));
@@ -116,9 +115,9 @@ public class BoardApiControllerTest extends ControllerTest {
     }
 
     @Nested
-    @DisplayName("게시글 수정 API [PATCH /api/board/update/{boardId}]")
+    @DisplayName("게시글 수정 API [PATCH /api/board/{boardId}]")
     class updateBoard {
-        private static final String BASE_URL = "/api/board/update/{boardId}";
+        private static final String BASE_URL = "/api/board/{boardId}";
         private static final Long WRITER_ID = 1L;
         private static final Long BOARD_ID = 2L;
 
@@ -166,11 +165,11 @@ public class BoardApiControllerTest extends ControllerTest {
 
         @Test
         @DisplayName("다른 사람의 게시글은 수정할 수 없다")
-        void throwExceptionByUserIsNotWriter() throws Exception {
+        void throwExceptionByUserIsNotBoardWriter() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
-            given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID);
-            doThrow(DustException.type(BoardErrorCode.USER_IS_NOT_WRITER))
+            given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID + 100L);
+            doThrow(DustException.type(BoardErrorCode.USER_IS_NOT_BOARD_WRITER))
                     .when(boardService)
                     .update(anyLong(), anyLong(), any(), any());
 
@@ -183,7 +182,7 @@ public class BoardApiControllerTest extends ControllerTest {
                     .content(convertObjectToJson(request));
 
             // then
-            final BoardErrorCode expectedError = BoardErrorCode.USER_IS_NOT_WRITER;
+            final BoardErrorCode expectedError = BoardErrorCode.USER_IS_NOT_BOARD_WRITER;
             mockMvc.perform(requestBuilder)
                     .andExpectAll(
                             status().isConflict(),
@@ -262,9 +261,9 @@ public class BoardApiControllerTest extends ControllerTest {
     }
 
     @Nested
-    @DisplayName("게시글 삭제 API [DELETE /api/board/delete/{boardId}]")
+    @DisplayName("게시글 삭제 API [DELETE /api/board/{boardId}]")
     class deleteBoard {
-        private static final String BASE_URL = "/api/board/delete/{boardId}";
+        private static final String BASE_URL = "/api/board/{boardId}";
         private static final Long WRITER_ID = 1L;
         private static final Long BOARD_ID = 2L;
 
@@ -309,11 +308,11 @@ public class BoardApiControllerTest extends ControllerTest {
 
         @Test
         @DisplayName("다른 사람의 게시글은 삭제할 수 없다")
-        void throwExceptionByUserIsNotWriter() throws Exception {
+        void throwExceptionByUserIsNotBoardWriter() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
-            given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID);
-            doThrow(DustException.type(BoardErrorCode.USER_IS_NOT_WRITER))
+            given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID + 100L);
+            doThrow(DustException.type(BoardErrorCode.USER_IS_NOT_BOARD_WRITER))
                     .when(boardService)
                     .delete(anyLong(),anyLong());
 
@@ -326,7 +325,7 @@ public class BoardApiControllerTest extends ControllerTest {
                     .content(convertObjectToJson(request));
 
             // then
-            final BoardErrorCode expectedError = BoardErrorCode.USER_IS_NOT_WRITER;
+            final BoardErrorCode expectedError = BoardErrorCode.USER_IS_NOT_BOARD_WRITER;
             mockMvc.perform(requestBuilder)
                     .andExpectAll(
                             status().isConflict(),

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static TeamDustKGU.dustbackend.fixture.BoardFixture.BOARD_1;
-import static TeamDustKGU.dustbackend.fixture.CommentFixture.Comment_1;
+import static TeamDustKGU.dustbackend.fixture.CommentFixture.COMMENT_1;
 import static TeamDustKGU.dustbackend.fixture.UserFixture.CHAERIN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -22,15 +22,15 @@ public class CommentTest {
     void setUp() {
         writer = CHAERIN.toUser();
         board = BOARD_1.toBoard(writer);
-        comment = Comment_1.toComment(writer,board);
+        comment = COMMENT_1.toComment(writer,board);
     }
 
     @Test
     @DisplayName("댓글을 생성한다")
     void createComment() {
         assertAll(
-                () -> assertThat(comment.getContent()).isEqualTo(Comment_1.getComment()),
-                () -> assertThat(comment.getParent()).isEqualTo(Comment_1.getParent()),
+                () -> assertThat(comment.getContent()).isEqualTo(COMMENT_1.getContent()),
+                () -> assertThat(comment.getParent()).isEqualTo(COMMENT_1.getParent()),
                 () -> assertThat(comment.getWriter()).isEqualTo(writer),
                 () -> assertThat(comment.getBoard()).isEqualTo(board)
         );
