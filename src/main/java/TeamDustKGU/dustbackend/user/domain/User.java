@@ -29,17 +29,17 @@ public class User extends BaseTimeEntity {
     @Embedded
     private Email email;
 
-    @Column(name = "auth", nullable = false) // 인증 0, 미인증 1
+    @Column(name = "auth", nullable = false) // 미인증 0, 인증 1
     private int auth;
 
     @Column(name = "password", nullable = false)
-    private String password;
+    private Password password;
 
     @Embedded
     @AttributeOverride(name = "modifiedDate", column = @Column(name = "nickname_modifiedDate"))
     private Nickname nickname;
 
-    @Column(name = "status", nullable = false) // 활성화 0, 비활성화 1
+    @Column(name = "status", nullable = false) // 비활성화 0, 활성화 1
     private int status;
 
     // 회원 탈퇴시 작성한 게시글 모두 삭제
@@ -51,16 +51,16 @@ public class User extends BaseTimeEntity {
     private List<Comment> commentList = new ArrayList<>();
 
     @Builder
-    public User(Email email, String password){
+    public User(Email email, Password password){
         this.role = Role.USER;
         this.email = email;
-        this.auth = 1;
+        this.auth = 0;
         this.password = password;
         this.nickname = null;
-        this.status = 0;
+        this.status = 1;
     }
 
-    public static User createUser(Email email, String password){
+    public static User createUser(Email email, Password password){
         return new User(email, password);
     }
 
@@ -82,6 +82,10 @@ public class User extends BaseTimeEntity {
         return this.email.isSameEmail(user.getEmail());
     }
 
+    public void authenticate() {
+        this.auth = 1;
+    }
+
     // Add Getter
     public String getEmailValue(){
         return email.getValue();
@@ -89,7 +93,7 @@ public class User extends BaseTimeEntity {
 
     public String getNicknameValue(){
         if (nickname == null) {
-            return new String("A-"+id.toString());
+            return "A-"+id.toString();
         }
         return nickname.getValue();
     }

@@ -8,7 +8,6 @@ import TeamDustKGU.dustbackend.user.exception.UserErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
@@ -19,6 +18,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -41,7 +41,7 @@ class UserUpdateApiControllerTest extends ControllerTest {
             final NicknameUpdateRequest request = createNicknameUpdateRequest();
             MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
                     .patch(BASE_URL)
-                    .contentType(MediaType.APPLICATION_JSON)
+                    .contentType(APPLICATION_JSON)
                     .content(convertObjectToJson(request));
 
             // then
@@ -88,7 +88,7 @@ class UserUpdateApiControllerTest extends ControllerTest {
             MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
                     .patch(BASE_URL)
                     .header(AUTHORIZATION, BEARER_TOKEN + REFRESH_TOKEN)
-                    .contentType(MediaType.APPLICATION_JSON)
+                    .contentType(APPLICATION_JSON)
                     .content(convertObjectToJson(request));
 
             // then
@@ -138,7 +138,7 @@ class UserUpdateApiControllerTest extends ControllerTest {
             MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
                     .patch(BASE_URL)
                     .header(AUTHORIZATION, BEARER_TOKEN + REFRESH_TOKEN)
-                    .contentType(MediaType.APPLICATION_JSON)
+                    .contentType(APPLICATION_JSON)
                     .content(convertObjectToJson(request));
 
             // then

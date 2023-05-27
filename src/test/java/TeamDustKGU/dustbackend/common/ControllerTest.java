@@ -1,9 +1,15 @@
 package TeamDustKGU.dustbackend.common;
 
+import TeamDustKGU.dustbackend.auth.controller.AuthApiController;
 import TeamDustKGU.dustbackend.auth.controller.TokenReissueApiController;
+import TeamDustKGU.dustbackend.auth.service.AuthService;
+import TeamDustKGU.dustbackend.auth.service.EmailAuthService;
 import TeamDustKGU.dustbackend.auth.service.TokenManager;
 import TeamDustKGU.dustbackend.auth.service.TokenReissueService;
 import TeamDustKGU.dustbackend.auth.utils.JwtTokenProvider;
+import TeamDustKGU.dustbackend.board.controller.BoardApiController;
+import TeamDustKGU.dustbackend.board.service.BoardFindService;
+import TeamDustKGU.dustbackend.board.service.BoardService;
 import TeamDustKGU.dustbackend.user.controller.UserUpdateApiController;
 import TeamDustKGU.dustbackend.user.controller.follow.FollowApiController;
 import TeamDustKGU.dustbackend.user.controller.suspension.SuspensionApiController;
@@ -27,7 +33,9 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
         TokenReissueApiController.class,
         FollowApiController.class,
         UserUpdateApiController.class,
-        SuspensionApiController.class
+        SuspensionApiController.class,
+        BoardApiController.class,
+        AuthApiController.class
 })
 @AutoConfigureRestDocs
 public abstract class ControllerTest {
@@ -54,9 +62,21 @@ public abstract class ControllerTest {
 
     @MockBean
     protected SuspensionService suspensionService;
+    
+    @MockBean
+    protected BoardFindService boardFindService;
+
+    @MockBean
+    protected BoardService boardService;
 
     @MockBean
     protected TokenManager tokenManager;
+
+    @MockBean
+    protected AuthService authService;
+
+    @MockBean
+    protected EmailAuthService emailAuthService;
 
     protected OperationRequestPreprocessor applyRequestPreprocessor() {
         return preprocessRequest(prettyPrint());

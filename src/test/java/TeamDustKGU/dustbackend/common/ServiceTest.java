@@ -1,6 +1,8 @@
 package TeamDustKGU.dustbackend.common;
 
+import TeamDustKGU.dustbackend.auth.domain.EmailAuthRepository;
 import TeamDustKGU.dustbackend.auth.domain.TokenRepository;
+import TeamDustKGU.dustbackend.board.domain.BoardRepository;
 import TeamDustKGU.dustbackend.user.domain.UserRepository;
 import TeamDustKGU.dustbackend.user.domain.follow.FollowRepository;
 import TeamDustKGU.dustbackend.user.domain.suspension.SuspensionRepository;
@@ -26,6 +28,12 @@ public class ServiceTest {
 
     @Autowired
     protected SuspensionRepository suspensionRepository;
+  
+    @Autowired
+    protected BoardRepository boardRepository;
+
+    @Autowired
+    protected EmailAuthRepository emailAuthRepository;
 
     @AfterEach
     void clearDatabase() {
