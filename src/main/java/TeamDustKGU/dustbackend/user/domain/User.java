@@ -64,6 +64,12 @@ public class User extends BaseTimeEntity {
         return new User(email, password);
     }
 
+    public static User createAdmin(Email email, String password) {
+        User user = createUser(email, password);
+        user.role = Role.ADMIN;
+        return user;
+    }
+
     public void updateNickname(String updateNickname) {
         if (this.nickname == null) {
             this.nickname = Nickname.from(updateNickname);
@@ -90,5 +96,13 @@ public class User extends BaseTimeEntity {
             return "A-"+id.toString();
         }
         return nickname.getValue();
+    }
+
+    public void activate() {
+        this.status = 0;
+    }
+
+    public void deactivate() {
+        this.status = 1;
     }
 }

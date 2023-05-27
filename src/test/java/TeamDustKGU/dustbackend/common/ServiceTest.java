@@ -5,6 +5,7 @@ import TeamDustKGU.dustbackend.auth.domain.TokenRepository;
 import TeamDustKGU.dustbackend.board.domain.BoardRepository;
 import TeamDustKGU.dustbackend.user.domain.UserRepository;
 import TeamDustKGU.dustbackend.user.domain.follow.FollowRepository;
+import TeamDustKGU.dustbackend.user.domain.suspension.SuspensionRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +26,9 @@ public class ServiceTest {
     @Autowired
     protected FollowRepository followRepository;
 
+    @Autowired
+    protected SuspensionRepository suspensionRepository;
+  
     @Autowired
     protected BoardRepository boardRepository;
 

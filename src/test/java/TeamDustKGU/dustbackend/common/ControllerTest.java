@@ -12,9 +12,11 @@ import TeamDustKGU.dustbackend.board.service.BoardFindService;
 import TeamDustKGU.dustbackend.board.service.BoardService;
 import TeamDustKGU.dustbackend.user.controller.UserUpdateApiController;
 import TeamDustKGU.dustbackend.user.controller.follow.FollowApiController;
+import TeamDustKGU.dustbackend.user.controller.suspension.SuspensionApiController;
 import TeamDustKGU.dustbackend.user.service.UserFindService;
 import TeamDustKGU.dustbackend.user.service.UserUpdateService;
 import TeamDustKGU.dustbackend.user.service.follow.FollowService;
+import TeamDustKGU.dustbackend.user.service.suspension.SuspensionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
         TokenReissueApiController.class,
         FollowApiController.class,
         UserUpdateApiController.class,
+        SuspensionApiController.class,
         BoardApiController.class,
         AuthApiController.class
 })
@@ -57,6 +60,9 @@ public abstract class ControllerTest {
     @MockBean
     protected UserUpdateService userUpdateService;
 
+    @MockBean
+    protected SuspensionService suspensionService;
+    
     @MockBean
     protected BoardFindService boardFindService;
 
