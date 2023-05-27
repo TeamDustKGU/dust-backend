@@ -1,5 +1,6 @@
 package TeamDustKGU.dustbackend.common;
 
+import TeamDustKGU.dustbackend.auth.domain.EmailAuthRepository;
 import TeamDustKGU.dustbackend.auth.domain.TokenRepository;
 import TeamDustKGU.dustbackend.board.domain.BoardRepository;
 import TeamDustKGU.dustbackend.user.domain.UserRepository;
@@ -26,6 +27,9 @@ public class ServiceTest {
 
     @Autowired
     protected BoardRepository boardRepository;
+
+    @Autowired
+    protected EmailAuthRepository emailAuthRepository;
 
     @AfterEach
     void clearDatabase() {

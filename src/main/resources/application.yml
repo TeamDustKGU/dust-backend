@@ -3,3 +3,4 @@ spring:
     import:
       - security/application-jwt.yml
       - security/application-local-datasource.yml
+      - security/application-mail.yml

@@ -1,6 +1,7 @@
 package TeamDustKGU.dustbackend.user.service;
 
 import TeamDustKGU.dustbackend.global.exception.DustException;
+import TeamDustKGU.dustbackend.user.domain.Email;
 import TeamDustKGU.dustbackend.user.domain.User;
 import TeamDustKGU.dustbackend.user.domain.UserRepository;
 import TeamDustKGU.dustbackend.user.exception.UserErrorCode;
@@ -16,6 +17,11 @@ public class UserFindService {
 
     public User findById(Long userId) {
         return userRepository.findById(userId)
+                .orElseThrow(() -> DustException.type(UserErrorCode.USER_NOT_FOUND));
+    }
+
+    public User findByEmail(Email email) {
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> DustException.type(UserErrorCode.USER_NOT_FOUND));
     }
 }

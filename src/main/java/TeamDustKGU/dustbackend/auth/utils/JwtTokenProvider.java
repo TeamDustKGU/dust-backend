@@ -27,18 +27,18 @@ public class JwtTokenProvider {
         this.refreshTokenValidityInMilliseconds = refreshTokenValidityInMilliseconds;
     }
 
-    public String createAccessToken(Long memberId) {
-        return createToken(memberId, accessTokenValidityInMilliseconds);
+    public String createAccessToken(Long userId) {
+        return createToken(userId, accessTokenValidityInMilliseconds);
     }
 
-    public String createRefreshToken(Long memberId) {
-        return createToken(memberId, refreshTokenValidityInMilliseconds);
+    public String createRefreshToken(Long userId) {
+        return createToken(userId, refreshTokenValidityInMilliseconds);
     }
 
-    private String createToken(Long memberId, long validityInMilliseconds) {
+    private String createToken(Long userId, long validityInMilliseconds) {
         // Payload
         Claims claims = Jwts.claims();
-        claims.put("id", memberId);
+        claims.put("id", userId);
 
         // Expires At
         ZonedDateTime now = ZonedDateTime.now();

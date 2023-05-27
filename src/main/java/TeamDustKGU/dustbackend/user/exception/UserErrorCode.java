@@ -13,7 +13,9 @@ public enum UserErrorCode implements ErrorCode {
     ALREADY_FOLLOW(HttpStatus.CONFLICT, "USER_003", "이미 관심유저로 등록한 회원입니다."),
     SELF_FOLLOW_NOT_ALLOWED(HttpStatus.CONFLICT, "USER_004", "본인을 관심유저로 설정할 수 없습니다."),
     FOLLOW_NOT_FOUND(HttpStatus.NOT_FOUND, "USER_005", "관심유저로 등록되어 있지 않은 회원입니다."),
-    UPDATE_NICKNAME_AFTER_30_DAYS(HttpStatus.CONFLICT, "USER_006", "마지막 수정시간으로부터 30일 후에 닉네임을 변경할 수 있습니다.")
+    UPDATE_NICKNAME_AFTER_30_DAYS(HttpStatus.CONFLICT, "USER_006", "마지막 수정시간으로부터 30일 후에 닉네임을 변경할 수 있습니다."),
+    INVALID_PASSWORD_PATTERN(HttpStatus.BAD_REQUEST, "USER_007", "비밀번호 형식에 맞지 않습니다."),
+    DUPLICATE_EMAIL(HttpStatus.CONFLICT, "USER_008", "이미 존재하는 이메일입니다."),
     ;
 
     private final HttpStatus status;
