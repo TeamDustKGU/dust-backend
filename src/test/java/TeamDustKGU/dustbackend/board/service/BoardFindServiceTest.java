@@ -1,10 +1,10 @@
 package TeamDustKGU.dustbackend.board.service;
 
 import TeamDustKGU.dustbackend.board.domain.Board;
+import TeamDustKGU.dustbackend.board.exception.BoardErrorCode;
 import TeamDustKGU.dustbackend.common.ServiceTest;
 import TeamDustKGU.dustbackend.global.exception.DustException;
 import TeamDustKGU.dustbackend.user.domain.User;
-import TeamDustKGU.dustbackend.board.exception.BoardErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,12 +20,11 @@ public class BoardFindServiceTest extends ServiceTest {
     @Autowired
     private BoardFindService boardFindService;
 
-    private User writer;
     private Board board;
 
     @BeforeEach
     void setup() {
-        writer = userRepository.save(SUNKYOUNG.toUser());
+        User writer = userRepository.save(SUNKYOUNG.toUser());
         board = boardRepository.save(BOARD_1.toBoard(writer));
     }
 

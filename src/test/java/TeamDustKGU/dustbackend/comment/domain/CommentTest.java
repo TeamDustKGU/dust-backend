@@ -29,7 +29,7 @@ public class CommentTest {
     @DisplayName("댓글을 생성한다")
     void createComment() {
         assertAll(
-                () -> assertThat(comment.getContent()).isEqualTo(COMMENT_1.getComment()),
+                () -> assertThat(comment.getContent()).isEqualTo(COMMENT_1.getContent()),
                 () -> assertThat(comment.getParent()).isEqualTo(COMMENT_1.getParent()),
                 () -> assertThat(comment.getWriter()).isEqualTo(writer),
                 () -> assertThat(comment.getBoard()).isEqualTo(board)

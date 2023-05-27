@@ -11,8 +11,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static TeamDustKGU.dustbackend.fixture.BoardFixture.BOARD_1;
-import static TeamDustKGU.dustbackend.fixture.CommentFixture.COMMENT_1;
+import static TeamDustKGU.dustbackend.fixture.BoardFixture.BOARD_0;
+import static TeamDustKGU.dustbackend.fixture.CommentFixture.COMMENT_0;
 import static TeamDustKGU.dustbackend.fixture.UserFixture.SUNKYOUNG;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -22,15 +22,13 @@ public class CommentFindServiceTest extends ServiceTest {
     @Autowired
     private CommentFindService commentFindService;
 
-    private User writer;
-    private Board board;
     private Comment comment;
 
     @BeforeEach
     void setup() {
-        writer = userRepository.save(SUNKYOUNG.toUser());
-        board = boardRepository.save(BOARD_1.toBoard(writer));
-        comment = commentRepository.save(COMMENT_1.toComment(writer, board));
+        User writer = userRepository.save(SUNKYOUNG.toUser());
+        Board board = boardRepository.save(BOARD_0.toBoard(writer));
+        comment = commentRepository.save(COMMENT_0.toComment(writer, board));
     }
 
     @Test

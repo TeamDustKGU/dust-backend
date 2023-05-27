@@ -9,13 +9,17 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum CommentFixture {
-    COMMENT_1("댓글1", null)
+    COMMENT_0("댓글0", null),
+    COMMENT_1("댓글1", null),
+    COMMENT_2("댓글2", null),
+    COMMENT_3("댓글3", null),
+    COMMENT_4("댓글4", null)
     ;
 
-    private final String comment;
+    private final String content;
     private final Comment parent;
 
     public Comment toComment(User writer, Board board) {
-        return Comment.createComment(comment, parent, writer, board);
+        return Comment.createComment(content, parent, writer, board);
     }
 }

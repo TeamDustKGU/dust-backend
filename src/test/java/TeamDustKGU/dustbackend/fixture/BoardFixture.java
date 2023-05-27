@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum BoardFixture {
+    BOARD_0("제목0", "내용0"),
     BOARD_1("제목1", "내용1"),
     BOARD_2("제목2", "내용2")
     ;
