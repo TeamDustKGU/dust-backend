@@ -40,7 +40,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final QNickname nickname;
 
-    public final StringPath password = createString("password");
+    public final QPassword password;
 
     public final EnumPath<Role> role = createEnum("role", Role.class);
 
@@ -66,6 +66,7 @@ public class QUser extends EntityPathBase<User> {
         super(type, metadata, inits);
         this.email = inits.isInitialized("email") ? new QEmail(forProperty("email")) : null;
         this.nickname = inits.isInitialized("nickname") ? new QNickname(forProperty("nickname")) : null;
+        this.password = inits.isInitialized("password") ? new QPassword(forProperty("password")) : null;
     }
 
 }
