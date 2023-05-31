@@ -27,7 +27,7 @@ public class Comment extends BaseTimeEntity {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent") // 부모 댓글 없는 경우 null
+    @JoinColumn(name = "parent_id") // 부모 댓글 없는 경우 null
     private Comment parent;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
