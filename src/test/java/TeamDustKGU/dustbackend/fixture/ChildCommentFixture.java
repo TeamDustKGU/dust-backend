@@ -9,10 +9,10 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ChildCommentFixture {
-    CHILD_COMMENT_0("자식댓글0"),
-    CHILD_COMMENT_1("자식댓글1"),
-    CHILD_COMMENT_2("자식댓글2"),
-    CHILD_COMMENT_3("자식댓글3")
+    CHILD_COMMENT_0("대댓글0"),
+    CHILD_COMMENT_1("대댓글1"),
+    CHILD_COMMENT_2("대댓글2"),
+    CHILD_COMMENT_3("대댓글3")
     ;
 
     private final String content;

@@ -290,7 +290,7 @@ public class CommentApiControllerTest extends ControllerTest {
                                     applyResponsePreprocessor(),
                                     pathParameters(
                                             parameterWithName("boardId").description("댓글을 등록할 게시글 ID(PK)"),
-                                            parameterWithName("parentCommentId").description("댓글을 등록할 댓글 ID(PK)")
+                                            parameterWithName("parentCommentId").description("댓글을 등록할 부모 댓글 ID(PK)")
                                     ),
                                     requestFields(
                                             fieldWithPath("content").description("등록할 내용")
@@ -337,7 +337,7 @@ public class CommentApiControllerTest extends ControllerTest {
                                     ),
                                     pathParameters(
                                             parameterWithName("boardId").description("댓글을 등록할 게시글 ID(PK)"),
-                                            parameterWithName("parentCommentId").description("댓글을 등록할 댓글 ID(PK)")
+                                            parameterWithName("parentCommentId").description("댓글을 등록할 부모 댓글 ID(PK)")
                                     ),
                                     requestFields(
                                             fieldWithPath("content").description("등록할 내용")
