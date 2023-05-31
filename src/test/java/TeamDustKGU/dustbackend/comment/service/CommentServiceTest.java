@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static TeamDustKGU.dustbackend.fixture.BoardFixture.BOARD_1;
+import static TeamDustKGU.dustbackend.fixture.ChildCommentFixture.*;
 import static TeamDustKGU.dustbackend.fixture.CommentFixture.*;
 import static TeamDustKGU.dustbackend.fixture.UserFixture.CHAERIN;
 import static TeamDustKGU.dustbackend.fixture.UserFixture.SUNKYOUNG;
@@ -35,6 +36,7 @@ public class CommentServiceTest extends ServiceTest {
     private User not_writer;
     private Board board;
     private final Comment[] comments = new Comment[5];
+    private final Comment[] childComments = new Comment[4];
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     @BeforeEach
@@ -47,21 +49,29 @@ public class CommentServiceTest extends ServiceTest {
         comments[2] = commentRepository.save(COMMENT_2.toComment(writer, board));
         comments[3] = commentRepository.save(COMMENT_3.toComment(writer, board));
         comments[4] = commentRepository.save(COMMENT_4.toComment(writer, board));
+        childComments[0] = commentRepository.save(CHILD_COMMENT_0.toChildComment(writer, board, comments[0]));
+        childComments[1] = commentRepository.save(CHILD_COMMENT_1.toChildComment(writer, board, comments[0]));
+        childComments[2] = commentRepository.save(CHILD_COMMENT_2.toChildComment(writer, board, comments[0]));
+        childComments[3] = commentRepository.save(CHILD_COMMENT_3.toChildComment(writer, board, comments[0]));
     }
 
-    @Test
-    @DisplayName("댓글 등록에 성공한다")
-    void success() {
-        // when - then
-        Comment findComment = commentRepository.findById(comments[0].getId()).orElseThrow();
-        assertAll(
-                () -> assertThat(findComment.getWriter().getId()).isEqualTo(writer.getId()),
-                () -> assertThat(findComment.getBoard().getId()).isEqualTo(board.getId()),
-                () -> assertThat(findComment.getParent()).isEqualTo(null),
-                () -> assertThat(findComment.getContent()).isEqualTo(COMMENT_0.getContent()),
-                () -> assertThat(findComment.getCreatedDate().format(formatter)).isEqualTo(LocalDateTime.now().format(formatter)),
-                () -> assertThat(findComment.getModifiedDate().format(formatter)).isEqualTo(LocalDateTime.now().format(formatter))
-        );
+    @Nested
+    @DisplayName("댓글 등록")
+    class createComment {
+        @Test
+        @DisplayName("댓글 등록에 성공한다")
+        void success() {
+            // when - then
+            Comment findComment = commentRepository.findById(comments[0].getId()).orElseThrow();
+            assertAll(
+                    () -> assertThat(findComment.getWriter().getId()).isEqualTo(writer.getId()),
+                    () -> assertThat(findComment.getBoard().getId()).isEqualTo(board.getId()),
+                    () -> assertThat(findComment.getParent()).isEqualTo(null),
+                    () -> assertThat(findComment.getContent()).isEqualTo(COMMENT_0.getContent()),
+                    () -> assertThat(findComment.getCreatedDate().format(formatter)).isEqualTo(LocalDateTime.now().format(formatter)),
+                    () -> assertThat(findComment.getModifiedDate().format(formatter)).isEqualTo(LocalDateTime.now().format(formatter))
+            );
+        }
     }
 
     @Nested
@@ -80,6 +90,7 @@ public class CommentServiceTest extends ServiceTest {
         @DisplayName("게시글의 특정 댓글을 삭제할 수 있다")
         void successDeleteSpecificComment() {
             // when
+            flushAndClear();
             commentService.delete(writer.getId(), comments[0].getId());
             commentService.delete(writer.getId(), comments[1].getId());
 
@@ -92,13 +103,76 @@ public class CommentServiceTest extends ServiceTest {
         }
 
         @Test
-        @DisplayName("댓글 삭제에 성공한다")
-        void success() {
-            // given
+        @DisplayName("댓글이 삭제되면 달린 대댓글도 삭제되어야 한다.")
+        void successDeleteAllChildComment() {
+            // when
+            flushAndClear();
             commentService.delete(writer.getId(), comments[0].getId());
 
-            // when - then
+            // then
+            assertThat(commentRepository.countByParent(comments[0])).isEqualTo(0L);
+        }
+
+        @Test
+        @DisplayName("댓글 삭제에 성공한다")
+        void success() {
+            // when
+            flushAndClear();
+            commentService.delete(writer.getId(), comments[0].getId());
+
+            // then
             assertThatThrownBy(() -> commentFindService.findById(comments[0].getId()))
+                    .isInstanceOf(DustException.class)
+                    .hasMessage(CommentErrorCode.COMMENT_NOT_FOUND.getMessage());
+        }
+    }
+
+    @Nested
+    @DisplayName("대댓글 등록")
+    class createChildComment {
+        @Test
+        @DisplayName("대댓글 등록에 성공한다")
+        void successChild() {
+            // when - then
+            Comment findComment = commentRepository.findById(childComments[0].getId()).orElseThrow();
+
+            assertAll(
+                    () -> assertThat(findComment.getWriter().getId()).isEqualTo(writer.getId()),
+                    () -> assertThat(findComment.getBoard().getId()).isEqualTo(board.getId()),
+                    () -> assertThat(findComment.getParent().getId()).isEqualTo(comments[0].getId()),
+                    () -> assertThat(findComment.getContent()).isEqualTo(CHILD_COMMENT_0.getContent()),
+                    () -> assertThat(findComment.getCreatedDate().format(formatter)).isEqualTo(LocalDateTime.now().format(formatter)),
+                    () -> assertThat(findComment.getModifiedDate().format(formatter)).isEqualTo(LocalDateTime.now().format(formatter))
+            );
+        }
+    }
+
+    @Nested
+    @DisplayName("대댓글 등록")
+    class deleteChildComment {
+        @Test
+        @DisplayName("댓글의 특정 대댓글을 삭제할 수 있다")
+        void successDeleteSpecificChildComment() {
+            // when
+            commentService.delete(writer.getId(), childComments[0].getId());
+            commentService.delete(writer.getId(), childComments[1].getId());
+
+            // then
+            assertAll(
+                    () -> assertThat(commentRepository.countByParent(comments[0])).isEqualTo(2L),
+                    () -> assertThat(commentRepository.existsById(childComments[0].getId())).isFalse(),
+                    () -> assertThat(commentRepository.existsById(childComments[1].getId())).isFalse()
+            );
+        }
+
+        @Test
+        @DisplayName("대댓글 삭제에 성공한다")
+        void childSuccess() {
+            // when
+            commentService.delete(writer.getId(), childComments[0].getId());
+
+            // then
+            assertThatThrownBy(() -> commentFindService.findById(childComments[0].getId()))
                     .isInstanceOf(DustException.class)
                     .hasMessage(CommentErrorCode.COMMENT_NOT_FOUND.getMessage());
         }
