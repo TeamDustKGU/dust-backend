@@ -55,7 +55,7 @@ public class CommentTest {
     void addChildComment() {
         Comment parentComment = comment;
         for(int i=1; i<=5; i++){
-            comment.addChildComment("대댓글"+i, writer, board);
+            comment.addChildComment("대댓글" + i, writer, board);
         }
 
         assertAll(
