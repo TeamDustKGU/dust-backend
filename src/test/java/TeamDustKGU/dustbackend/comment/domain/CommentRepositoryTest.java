@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static TeamDustKGU.dustbackend.fixture.BoardFixture.BOARD_1;
+import static TeamDustKGU.dustbackend.fixture.ChildCommentFixture.*;
+import static TeamDustKGU.dustbackend.fixture.ChildCommentFixture.CHILD_COMMENT_3;
 import static TeamDustKGU.dustbackend.fixture.CommentFixture.*;
 import static TeamDustKGU.dustbackend.fixture.UserFixture.SUNKYOUNG;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,6 +30,7 @@ class CommentRepositoryTest extends RepositoryTest {
 
     private Board board;
     private final Comment[] comments = new Comment[5];
+    private final Comment[] childComments = new Comment[4];
 
     @BeforeEach
     void setup() {
@@ -38,10 +41,19 @@ class CommentRepositoryTest extends RepositoryTest {
         comments[2] = commentRepository.save(COMMENT_2.toComment(writer, board));
         comments[3] = commentRepository.save(COMMENT_3.toComment(writer, board));
         comments[4] = commentRepository.save(COMMENT_4.toComment(writer, board));
+        childComments[0] = commentRepository.save(CHILD_COMMENT_0.toChildComment(writer, board, comments[0]));
+        childComments[1] = commentRepository.save(CHILD_COMMENT_1.toChildComment(writer, board, comments[0]));
+        childComments[2] = commentRepository.save(CHILD_COMMENT_2.toChildComment(writer, board, comments[0]));
+        childComments[3] = commentRepository.save(CHILD_COMMENT_3.toChildComment(writer, board, comments[0]));
     }
 
     @Test
     void countByBoard() {
-        assertThat(commentRepository.countByBoard(board)).isEqualTo(5L);
+        assertThat(commentRepository.countByBoard(board)).isEqualTo(9L);
+    }
+
+    @Test
+    void countByParent() {
+        assertThat(commentRepository.countByParent(comments[0])).isEqualTo(4L);
     }
 }
