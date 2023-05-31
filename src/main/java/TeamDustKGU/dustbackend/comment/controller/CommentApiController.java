@@ -20,7 +20,7 @@ public class CommentApiController {
     public ResponseEntity<Void> create(@ExtractPayload Long writerId, @PathVariable Long boardId,
                                        @RequestBody @Valid CommentRequest request) {
         commentService.create(writerId, boardId, request.content());
-        return ResponseEntity.created(URI.create("/board/detail/"+boardId)).build();
+        return ResponseEntity.created(URI.create("/board/detail/" + boardId)).build();
     }
 
     @DeleteMapping("/comment/{commentId}")
@@ -31,8 +31,8 @@ public class CommentApiController {
 
     @PostMapping("/childComment/{boardId}/{parentCommentId}")
     public ResponseEntity<Void> createChild(@ExtractPayload Long writerId, @PathVariable Long boardId,
-                                                @PathVariable Long parentCommentId, @RequestBody @Valid CommentRequest request) {
+                                            @PathVariable Long parentCommentId, @RequestBody @Valid CommentRequest request) {
         commentService.createChild(writerId, boardId, parentCommentId, request.content());
-        return ResponseEntity.created(URI.create("/board/detail/"+boardId)).build();
+        return ResponseEntity.created(URI.create("/board/detail/" + boardId)).build();
     }
 }
