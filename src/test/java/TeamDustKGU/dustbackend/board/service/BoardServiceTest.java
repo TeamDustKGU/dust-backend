@@ -114,8 +114,7 @@ public class BoardServiceTest extends ServiceTest {
             flushAndClear();
 
             // when
-            Board findBoard = boardFindService.findById(board.getId());
-            boardService.delete(writer.getId(), findBoard.getId());
+            boardService.delete(writer.getId(), board.getId());
 
             // then
             assertThat(commentRepository.count()).isEqualTo(0);
