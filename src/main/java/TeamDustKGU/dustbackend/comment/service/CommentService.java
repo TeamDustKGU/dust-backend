@@ -36,6 +36,16 @@ public class CommentService {
         commentRepository.deleteById(commentId);
     }
 
+    @Transactional
+    public Long createChild(Long writerId, Long boardId, Long parentCommentId, String content){
+        User writer = userFindService.findById(writerId);
+        Board board = boardFindService.findById(boardId);
+        Comment parentComment = commentFindService.findById(parentCommentId);
+        Comment childComment = Comment.createComment(content, parentComment, writer, board);
+
+        return commentRepository.save(childComment).getId();
+    }
+
     private void validateWriter(Long commentId, Long writerId) {
         Comment comment = commentFindService.findById(commentId);
         if (!comment.getWriter().getId().equals(writerId)) {

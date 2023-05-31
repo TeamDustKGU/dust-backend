@@ -28,4 +28,11 @@ public class CommentApiController {
         commentService.delete(writerId, commentId);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/childComment/{boardId}/{parentCommentId}")
+    public ResponseEntity<Void> createChild(@ExtractPayload Long writerId, @PathVariable Long boardId,
+                                                @PathVariable Long parentCommentId, @RequestBody @Valid CommentRequest request) {
+        commentService.createChild(writerId, boardId, parentCommentId, request.content());
+        return ResponseEntity.created(URI.create("/board/detail/"+boardId)).build();
+    }
 }
