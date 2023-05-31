@@ -40,7 +40,7 @@ public class CommentTest {
     @DisplayName("대댓글을 생성한다")
     void createChildComment() {
         Comment parentComment = comment;
-        Comment childComment = new Comment("대댓글1",parentComment,writer,board);
+        Comment childComment = new Comment(writer, board, parentComment, "대댓글1");
 
         assertAll(
                 () -> assertThat(childComment.getContent()).isEqualTo("대댓글1"),
@@ -55,7 +55,7 @@ public class CommentTest {
     void addChildComment() {
         Comment parentComment = comment;
         for(int i=1; i<=5; i++){
-            comment.addChildComment("대댓글" + i, writer, board);
+            comment.addChildComment(writer, board, "대댓글" + i);
         }
 
         assertAll(

@@ -18,6 +18,6 @@ public enum ChildCommentFixture {
     private final String content;
 
     public Comment toChildComment(User writer, Board board, Comment parent) {
-        return Comment.createComment(content, parent, writer, board);
+        return Comment.createComment(writer, board, parent, content);
     }
 }

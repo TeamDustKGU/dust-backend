@@ -20,6 +20,6 @@ public enum CommentFixture {
     private final Comment parent;
 
     public Comment toComment(User writer, Board board) {
-        return Comment.createComment(content, parent, writer, board);
+        return Comment.createComment(writer, board, parent, content);
     }
 }

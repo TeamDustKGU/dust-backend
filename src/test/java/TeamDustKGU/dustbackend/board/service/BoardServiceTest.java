@@ -109,7 +109,7 @@ public class BoardServiceTest extends ServiceTest {
         void successDeleteAllComment() {
             // given
             for(int i=1; i<=5; i++) {
-                commentService.create(writer.getId(), board.getId(), "댓글"+i);
+                commentService.create(writer.getId(), board.getId(), "댓글" + i);
             }
             flushAndClear();
 

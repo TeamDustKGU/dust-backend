@@ -25,7 +25,7 @@ public class CommentService {
     public Long create(Long writerId, Long boardId, String content){
         User writer = userFindService.findById(writerId);
         Board board = boardFindService.findById(boardId);
-        Comment comment = Comment.createComment(content, null, writer, board);
+        Comment comment = Comment.createComment(writer, board, null, content);
 
         return commentRepository.save(comment).getId();
     }
@@ -41,7 +41,7 @@ public class CommentService {
         User writer = userFindService.findById(writerId);
         Board board = boardFindService.findById(boardId);
         Comment parentComment = commentFindService.findById(parentCommentId);
-        Comment childComment = Comment.createComment(content, parentComment, writer, board);
+        Comment childComment = Comment.createComment(writer, board, parentComment, content);
 
         return commentRepository.save(childComment).getId();
     }

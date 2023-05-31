@@ -148,7 +148,7 @@ public class CommentServiceTest extends ServiceTest {
     }
 
     @Nested
-    @DisplayName("대댓글 등록")
+    @DisplayName("대댓글 삭제")
     class deleteChildComment {
         @Test
         @DisplayName("댓글의 특정 대댓글을 삭제할 수 있다")

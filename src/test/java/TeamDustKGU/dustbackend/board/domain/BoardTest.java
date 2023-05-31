@@ -65,10 +65,10 @@ public class BoardTest {
     @DisplayName("게시글에 부모 댓글을 추가한다")
     void addComment() {
         for(int i=1; i<=2; i++){
-            board[0].addComment("댓글"+i, writer[0]);
+            board[0].addComment(writer[0], "댓글" + i);
         }
         for(int i=3; i<=5; i++){
-            board[0].addComment("댓글"+i, writer[1]);
+            board[0].addComment(writer[1], "댓글" + i);
         }
 
         assertAll(
