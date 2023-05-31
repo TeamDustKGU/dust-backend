@@ -35,7 +35,7 @@ public class CommentServiceTest extends ServiceTest {
     private User writer;
     private User not_writer;
     private Board board;
-    private final Comment[] comments = new Comment[5];
+    private final Comment[] parentComments = new Comment[5];
     private final Comment[] childComments = new Comment[4];
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -44,15 +44,15 @@ public class CommentServiceTest extends ServiceTest {
         writer = userRepository.save(SUNKYOUNG.toUser());
         not_writer = userRepository.save(CHAERIN.toUser());
         board = boardRepository.save(BOARD_1.toBoard(writer));
-        comments[0] = commentRepository.save(COMMENT_0.toComment(writer, board));
-        comments[1] = commentRepository.save(COMMENT_1.toComment(writer, board));
-        comments[2] = commentRepository.save(COMMENT_2.toComment(writer, board));
-        comments[3] = commentRepository.save(COMMENT_3.toComment(writer, board));
-        comments[4] = commentRepository.save(COMMENT_4.toComment(writer, board));
-        childComments[0] = commentRepository.save(CHILD_COMMENT_0.toChildComment(writer, board, comments[0]));
-        childComments[1] = commentRepository.save(CHILD_COMMENT_1.toChildComment(writer, board, comments[0]));
-        childComments[2] = commentRepository.save(CHILD_COMMENT_2.toChildComment(writer, board, comments[0]));
-        childComments[3] = commentRepository.save(CHILD_COMMENT_3.toChildComment(writer, board, comments[0]));
+        parentComments[0] = commentRepository.save(COMMENT_0.toComment(writer, board));
+        parentComments[1] = commentRepository.save(COMMENT_1.toComment(writer, board));
+        parentComments[2] = commentRepository.save(COMMENT_2.toComment(writer, board));
+        parentComments[3] = commentRepository.save(COMMENT_3.toComment(writer, board));
+        parentComments[4] = commentRepository.save(COMMENT_4.toComment(writer, board));
+        childComments[0] = commentRepository.save(CHILD_COMMENT_0.toChildComment(writer, board, parentComments[0]));
+        childComments[1] = commentRepository.save(CHILD_COMMENT_1.toChildComment(writer, board, parentComments[0]));
+        childComments[2] = commentRepository.save(CHILD_COMMENT_2.toChildComment(writer, board, parentComments[0]));
+        childComments[3] = commentRepository.save(CHILD_COMMENT_3.toChildComment(writer, board, parentComments[0]));
     }
 
     @Nested
@@ -62,7 +62,7 @@ public class CommentServiceTest extends ServiceTest {
         @DisplayName("댓글 등록에 성공한다")
         void success() {
             // when - then
-            Comment findComment = commentRepository.findById(comments[0].getId()).orElseThrow();
+            Comment findComment = commentRepository.findById(parentComments[0].getId()).orElseThrow();
             assertAll(
                     () -> assertThat(findComment.getWriter().getId()).isEqualTo(writer.getId()),
                     () -> assertThat(findComment.getBoard().getId()).isEqualTo(board.getId()),
@@ -81,7 +81,7 @@ public class CommentServiceTest extends ServiceTest {
         @DisplayName("다른 사람의 댓글은 삭제할 수 없다")
         void throwExceptionByUserIsNotCommentWriter() {
             // when - then
-            assertThatThrownBy(() -> commentService.delete(not_writer.getId(), comments[0].getId()))
+            assertThatThrownBy(() -> commentService.delete(not_writer.getId(), parentComments[0].getId()))
                     .isInstanceOf(DustException.class)
                     .hasMessage(CommentErrorCode.USER_IS_NOT_COMMENT_WRITER.getMessage());
         }
@@ -91,14 +91,14 @@ public class CommentServiceTest extends ServiceTest {
         void successDeleteSpecificComment() {
             // when
             flushAndClear();
-            commentService.delete(writer.getId(), comments[0].getId());
-            commentService.delete(writer.getId(), comments[1].getId());
+            commentService.delete(writer.getId(), parentComments[0].getId());
+            commentService.delete(writer.getId(), parentComments[1].getId());
 
             // then
             assertAll(
                     () -> assertThat(commentRepository.countByBoard(board)).isEqualTo(3L),
-                    () -> assertThat(commentRepository.existsById(comments[0].getId())).isFalse(),
-                    () -> assertThat(commentRepository.existsById(comments[1].getId())).isFalse()
+                    () -> assertThat(commentRepository.existsById(parentComments[0].getId())).isFalse(),
+                    () -> assertThat(commentRepository.existsById(parentComments[1].getId())).isFalse()
             );
         }
 
@@ -107,10 +107,10 @@ public class CommentServiceTest extends ServiceTest {
         void successDeleteAllChildComment() {
             // when
             flushAndClear();
-            commentService.delete(writer.getId(), comments[0].getId());
+            commentService.delete(writer.getId(), parentComments[0].getId());
 
             // then
-            assertThat(commentRepository.countByParent(comments[0])).isEqualTo(0L);
+            assertThat(commentRepository.countByParent(parentComments[0])).isEqualTo(0L);
         }
 
         @Test
@@ -118,10 +118,10 @@ public class CommentServiceTest extends ServiceTest {
         void success() {
             // when
             flushAndClear();
-            commentService.delete(writer.getId(), comments[0].getId());
+            commentService.delete(writer.getId(), parentComments[0].getId());
 
             // then
-            assertThatThrownBy(() -> commentFindService.findById(comments[0].getId()))
+            assertThatThrownBy(() -> commentFindService.findById(parentComments[0].getId()))
                     .isInstanceOf(DustException.class)
                     .hasMessage(CommentErrorCode.COMMENT_NOT_FOUND.getMessage());
         }
@@ -139,7 +139,7 @@ public class CommentServiceTest extends ServiceTest {
             assertAll(
                     () -> assertThat(findComment.getWriter().getId()).isEqualTo(writer.getId()),
                     () -> assertThat(findComment.getBoard().getId()).isEqualTo(board.getId()),
-                    () -> assertThat(findComment.getParent().getId()).isEqualTo(comments[0].getId()),
+                    () -> assertThat(findComment.getParent().getId()).isEqualTo(parentComments[0].getId()),
                     () -> assertThat(findComment.getContent()).isEqualTo(CHILD_COMMENT_0.getContent()),
                     () -> assertThat(findComment.getCreatedDate().format(formatter)).isEqualTo(LocalDateTime.now().format(formatter)),
                     () -> assertThat(findComment.getModifiedDate().format(formatter)).isEqualTo(LocalDateTime.now().format(formatter))
@@ -159,7 +159,7 @@ public class CommentServiceTest extends ServiceTest {
 
             // then
             assertAll(
-                    () -> assertThat(commentRepository.countByParent(comments[0])).isEqualTo(2L),
+                    () -> assertThat(commentRepository.countByParent(parentComments[0])).isEqualTo(2L),
                     () -> assertThat(commentRepository.existsById(childComments[0].getId())).isFalse(),
                     () -> assertThat(commentRepository.existsById(childComments[1].getId())).isFalse()
             );
