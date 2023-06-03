@@ -30,9 +30,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("Comment [Controller Layer] -> CommentApiController 테스트")
 public class CommentApiControllerTest extends ControllerTest {
     @Nested
-    @DisplayName("댓글 등록 API [POST /api/comment/{boardId}]")
+    @DisplayName("댓글 등록 API [POST /api/comments/{boardId}]")
     class createComment {
-        private static final String BASE_URL = "/api/comment/{boardId}";
+        private static final String BASE_URL = "/api/comments/{boardId}";
         private static final Long WRITER_ID = 1L;
         private static final Long BOARD_ID = 2L;
 
@@ -120,9 +120,9 @@ public class CommentApiControllerTest extends ControllerTest {
     }
 
     @Nested
-    @DisplayName("댓글 삭제 API [DELETE /api/comment/{commentId}]")
+    @DisplayName("댓글 삭제 API [DELETE /api/comments/{commentId}]")
     class deleteComment {
-        private static final String BASE_URL = "/api/comment/{commentId}";
+        private static final String BASE_URL = "/api/comments/{commentId}";
         private static final Long WRITER_ID = 1L;
         private static final Long COMMENT_ID = 2L;
 
@@ -255,12 +255,12 @@ public class CommentApiControllerTest extends ControllerTest {
     }
 
     @Nested
-    @DisplayName("대댓글 등록 API [POST /api/childComment/{boardId}/{parentCommentId}]")
+    @DisplayName("대댓글 등록 API [POST /api/comments/{boardId}/{parentId}/child-comments]")
     class createChildComment {
-        private static final String BASE_URL = "/api/childComment/{boardId}/{parentCommentId}";
+        private static final String BASE_URL = "/api/comments/{boardId}/{parentId}/child-comments";
         private static final Long WRITER_ID = 1L;
         private static final Long BOARD_ID = 2L;
-        private static final Long PARENT_COMMENT_ID = 3L;
+        private static final Long PARENT_ID = 3L;
 
         @Test
         @DisplayName("Authorization Header에 AccessToken이 없으면 대댓글 등록에 실패한다")
@@ -268,7 +268,7 @@ public class CommentApiControllerTest extends ControllerTest {
             // when
             final CommentRequest request = createCommentRequest();
             MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
-                    .post(BASE_URL, BOARD_ID, PARENT_COMMENT_ID)
+                    .post(BASE_URL, BOARD_ID, PARENT_ID)
                     .contentType(APPLICATION_JSON)
                     .content(convertObjectToJson(request));
             // then
@@ -290,7 +290,7 @@ public class CommentApiControllerTest extends ControllerTest {
                                     applyResponsePreprocessor(),
                                     pathParameters(
                                             parameterWithName("boardId").description("댓글을 등록할 게시글 ID(PK)"),
-                                            parameterWithName("parentCommentId").description("댓글을 등록할 부모 댓글 ID(PK)")
+                                            parameterWithName("parentId").description("댓글을 등록할 부모 댓글 ID(PK)")
                                     ),
                                     requestFields(
                                             fieldWithPath("content").description("등록할 내용")
@@ -317,7 +317,7 @@ public class CommentApiControllerTest extends ControllerTest {
             // when
             final CommentRequest request = createCommentRequest();
             MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
-                    .post(BASE_URL, BOARD_ID, PARENT_COMMENT_ID)
+                    .post(BASE_URL, BOARD_ID, PARENT_ID)
                     .header(AUTHORIZATION, BEARER_TOKEN + REFRESH_TOKEN)
                     .contentType(APPLICATION_JSON)
                     .content(convertObjectToJson(request));
@@ -337,7 +337,7 @@ public class CommentApiControllerTest extends ControllerTest {
                                     ),
                                     pathParameters(
                                             parameterWithName("boardId").description("댓글을 등록할 게시글 ID(PK)"),
-                                            parameterWithName("parentCommentId").description("댓글을 등록할 부모 댓글 ID(PK)")
+                                            parameterWithName("parentId").description("댓글을 등록할 부모 댓글 ID(PK)")
                                     ),
                                     requestFields(
                                             fieldWithPath("content").description("등록할 내용")

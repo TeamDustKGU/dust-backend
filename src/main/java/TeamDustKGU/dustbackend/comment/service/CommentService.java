@@ -37,10 +37,10 @@ public class CommentService {
     }
 
     @Transactional
-    public Long createChild(Long writerId, Long boardId, Long parentCommentId, String content){
+    public Long createChild(Long writerId, Long boardId, Long parentId, String content){
         User writer = userFindService.findById(writerId);
         Board board = boardFindService.findById(boardId);
-        Comment parentComment = commentFindService.findById(parentCommentId);
+        Comment parentComment = commentFindService.findById(parentId);
         Comment childComment = Comment.createComment(writer, board, parentComment, content);
 
         return commentRepository.save(childComment).getId();
