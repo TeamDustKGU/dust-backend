@@ -17,6 +17,6 @@ public enum BoardFixture {
     private final String content;
 
     public Board toBoard(User writer) {
-        return Board.createBoard(title, content, writer);
+        return Board.createBoard(writer, title, content);
     }
 }

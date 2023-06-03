@@ -40,7 +40,7 @@ public class SuspensionService {
     }
 
     public void validateAlreadySuspended(int status) {
-        if(status == 1) {
+        if(status == 0) {
             throw DustException.type(UserErrorCode.ALREADY_SUSPENDED);
         }
     }

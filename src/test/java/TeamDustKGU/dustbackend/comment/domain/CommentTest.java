@@ -37,13 +37,13 @@ public class CommentTest {
     }
 
     @Test
-    @DisplayName("자식 댓글을 생성한다")
+    @DisplayName("대댓글을 생성한다")
     void createChildComment() {
         Comment parentComment = comment;
-        Comment childComment = new Comment("자식 댓글1",parentComment,writer,board);
+        Comment childComment = new Comment(writer, board, parentComment, "대댓글1");
 
         assertAll(
-                () -> assertThat(childComment.getContent()).isEqualTo("자식 댓글1"),
+                () -> assertThat(childComment.getContent()).isEqualTo("대댓글1"),
                 () -> assertThat(childComment.getParent()).isEqualTo(parentComment),
                 () -> assertThat(childComment.getWriter()).isEqualTo(writer),
                 () -> assertThat(childComment.getBoard()).isEqualTo(board)
@@ -51,18 +51,18 @@ public class CommentTest {
     }
 
     @Test
-    @DisplayName("자식 댓글을 추가한다")
+    @DisplayName("대댓글을 추가한다")
     void addChildComment() {
         Comment parentComment = comment;
         for(int i=1; i<=5; i++){
-            comment.addChildComment("자식 댓글"+i, writer, board);
+            comment.addChildComment(writer, board, "대댓글" + i);
         }
 
         assertAll(
                 () -> assertThat(parentComment.getChildList()).hasSize(5),
                 () -> assertThat(parentComment.getChildList())
                         .map(Comment::getContent)
-                        .containsExactlyInAnyOrder("자식 댓글1", "자식 댓글2", "자식 댓글3", "자식 댓글4", "자식 댓글5"),
+                        .containsExactlyInAnyOrder("대댓글1", "대댓글2", "대댓글3", "대댓글4", "대댓글5"),
                 () -> assertThat(parentComment.getChildList())
                         .map(Comment::getParent)
                         .containsExactlyInAnyOrder(parentComment, parentComment, parentComment, parentComment, parentComment)

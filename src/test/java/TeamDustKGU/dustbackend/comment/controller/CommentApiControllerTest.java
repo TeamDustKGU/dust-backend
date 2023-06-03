@@ -30,9 +30,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("Comment [Controller Layer] -> CommentApiController 테스트")
 public class CommentApiControllerTest extends ControllerTest {
     @Nested
-    @DisplayName("댓글 등록 API [POST /api/comment/{boardId}]")
-    class createBoard {
-        private static final String BASE_URL = "/api/comment/{boardId}";
+    @DisplayName("댓글 등록 API [POST /api/comments/{boardId}]")
+    class createComment {
+        private static final String BASE_URL = "/api/comments/{boardId}";
         private static final Long WRITER_ID = 1L;
         private static final Long BOARD_ID = 2L;
 
@@ -120,9 +120,9 @@ public class CommentApiControllerTest extends ControllerTest {
     }
 
     @Nested
-    @DisplayName("댓글 삭제 API [DELETE /api/comment/{commentId}]")
-    class deleteBoard {
-        private static final String BASE_URL = "/api/comment/{commentId}";
+    @DisplayName("댓글 삭제 API [DELETE /api/comments/{commentId}]")
+    class deleteComment {
+        private static final String BASE_URL = "/api/comments/{commentId}";
         private static final Long WRITER_ID = 1L;
         private static final Long COMMENT_ID = 2L;
 
@@ -166,7 +166,7 @@ public class CommentApiControllerTest extends ControllerTest {
         }
 
         @Test
-        @DisplayName("다른 사람의 게시글은 삭제할 수 없다")
+        @DisplayName("다른 사람의 댓글은 삭제할 수 없다")
         void throwExceptionByUserIsNotCommentWriter() throws Exception {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
@@ -248,6 +248,99 @@ public class CommentApiControllerTest extends ControllerTest {
                                     ),
                                     pathParameters(
                                             parameterWithName("commentId").description("삭제할 댓글 ID(PK)")
+                                    )
+                            )
+                    );
+        }
+    }
+
+    @Nested
+    @DisplayName("대댓글 등록 API [POST /api/comments/{boardId}/{parentId}/child-comments]")
+    class createChildComment {
+        private static final String BASE_URL = "/api/comments/{boardId}/{parentId}/child-comments";
+        private static final Long WRITER_ID = 1L;
+        private static final Long BOARD_ID = 2L;
+        private static final Long PARENT_ID = 3L;
+
+        @Test
+        @DisplayName("Authorization Header에 AccessToken이 없으면 대댓글 등록에 실패한다")
+        void withoutAccessToken() throws Exception {
+            // when
+            final CommentRequest request = createCommentRequest();
+            MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
+                    .post(BASE_URL, BOARD_ID, PARENT_ID)
+                    .contentType(APPLICATION_JSON)
+                    .content(convertObjectToJson(request));
+            // then
+            final AuthErrorCode expectedError = AuthErrorCode.INVALID_PERMISSION;
+            mockMvc.perform(requestBuilder)
+                    .andExpectAll(
+                            status().isForbidden(),
+                            jsonPath("$.status").exists(),
+                            jsonPath("$.status").value(expectedError.getStatus().value()),
+                            jsonPath("$.errorCode").exists(),
+                            jsonPath("$.errorCode").value(expectedError.getErrorCode()),
+                            jsonPath("$.message").exists(),
+                            jsonPath("$.message").value(expectedError.getMessage())
+                    )
+                    .andDo(
+                            document(
+                                    "CommentApi/childCommentCreate/Failure/Case1",
+                                    applyRequestPreprocessor(),
+                                    applyResponsePreprocessor(),
+                                    pathParameters(
+                                            parameterWithName("boardId").description("댓글을 등록할 게시글 ID(PK)"),
+                                            parameterWithName("parentId").description("댓글을 등록할 부모 댓글 ID(PK)")
+                                    ),
+                                    requestFields(
+                                            fieldWithPath("content").description("등록할 내용")
+                                    ),
+                                    responseFields(
+                                            fieldWithPath("status").description("HTTP 상태 코드"),
+                                            fieldWithPath("errorCode").description("커스텀 예외 코드"),
+                                            fieldWithPath("message").description("예외 메시지")
+                                    )
+                            )
+                    );
+        }
+
+        @Test
+        @DisplayName("대댓글 등록에 성공한다")
+        void successChild() throws Exception {
+            // given
+            given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
+            given(jwtTokenProvider.getId(anyString())).willReturn(WRITER_ID);
+            doReturn(1L)
+                    .when(commentService)
+                    .createChild(anyLong(), anyLong(), anyLong(), any());
+
+            // when
+            final CommentRequest request = createCommentRequest();
+            MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
+                    .post(BASE_URL, BOARD_ID, PARENT_ID)
+                    .header(AUTHORIZATION, BEARER_TOKEN + REFRESH_TOKEN)
+                    .contentType(APPLICATION_JSON)
+                    .content(convertObjectToJson(request));
+
+            // then
+            mockMvc.perform(requestBuilder)
+                    .andExpectAll(
+                            status().isCreated()
+                    )
+                    .andDo(
+                            document(
+                                    "CommentApi/childCommentCreateChild/Success",
+                                    applyRequestPreprocessor(),
+                                    applyResponsePreprocessor(),
+                                    requestHeaders(
+                                            headerWithName(AUTHORIZATION).description("Access Token")
+                                    ),
+                                    pathParameters(
+                                            parameterWithName("boardId").description("댓글을 등록할 게시글 ID(PK)"),
+                                            parameterWithName("parentId").description("댓글을 등록할 부모 댓글 ID(PK)")
+                                    ),
+                                    requestFields(
+                                            fieldWithPath("content").description("등록할 내용")
                                     )
                             )
                     );

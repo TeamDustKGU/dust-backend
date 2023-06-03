@@ -59,7 +59,7 @@ public class User extends BaseTimeEntity {
         return new User(email, password);
     }
 
-    public static User createAdmin(Email email, String password) {
+    public static User createAdmin(Email email, Password password) {
         User user = createUser(email, password);
         user.role = Role.ADMIN;
         return user;
@@ -94,10 +94,10 @@ public class User extends BaseTimeEntity {
     }
 
     public void activate() {
-        this.status = 0;
+        this.status = 1;
     }
 
     public void deactivate() {
-        this.status = 1;
+        this.status = 0;
     }
 }

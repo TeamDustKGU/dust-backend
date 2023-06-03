@@ -41,15 +41,15 @@ public class Board extends BaseTimeEntity {
     private List<Comment> commentList = new ArrayList<>();
 
     @Builder
-    public Board(String title, String content, User writer){
+    public Board(User writer, String title, String content){
+        this.writer = writer;
         this.title = title;
         this.content = content;
         this.view = 0;
-        this.writer = writer;
     }
 
-    public static Board createBoard(String title, String content, User writer){
-        return new Board(title, content, writer);
+    public static Board createBoard(User writer, String title, String content){
+        return new Board(writer, title, content);
     }
 
     public void updateTitle(String updateTitle){
@@ -60,7 +60,7 @@ public class Board extends BaseTimeEntity {
         this.content = updateContent;
     }
 
-    public void addComment(String content, User writer){ // 부모 댓글 추가
-        commentList.add(Comment.createComment(content, null, writer, this));
+    public void addComment(User writer, String content){ // 부모 댓글 추가
+        commentList.add(Comment.createComment(writer, this, null, content));
     }
 }

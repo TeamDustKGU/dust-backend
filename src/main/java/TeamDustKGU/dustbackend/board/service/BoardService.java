@@ -21,7 +21,7 @@ public class BoardService {
     @Transactional
     public Long create(Long writerId, String title, String content){
         User writer = userFindService.findById(writerId);
-        Board board = Board.createBoard(title, content, writer);
+        Board board = Board.createBoard(writer, title, content);
 
         return boardRepository.save(board).getId();
     }

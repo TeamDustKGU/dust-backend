@@ -30,9 +30,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("Board [Controller Layer] -> BoardApiController 테스트")
 public class BoardApiControllerTest extends ControllerTest {
     @Nested
-    @DisplayName("게시글 등록 API [POST /api/board]")
+    @DisplayName("게시글 등록 API [POST /api/boards]")
     class createBoard {
-        private static final String BASE_URL = "/api/board";
+        private static final String BASE_URL = "/api/boards";
         private static final Long WRITER_ID = 1L;
 
         @Test
@@ -115,9 +115,9 @@ public class BoardApiControllerTest extends ControllerTest {
     }
 
     @Nested
-    @DisplayName("게시글 수정 API [PATCH /api/board/{boardId}]")
+    @DisplayName("게시글 수정 API [PATCH /api/boards/{boardId}]")
     class updateBoard {
-        private static final String BASE_URL = "/api/board/{boardId}";
+        private static final String BASE_URL = "/api/boards/{boardId}";
         private static final Long WRITER_ID = 1L;
         private static final Long BOARD_ID = 2L;
 
@@ -261,9 +261,9 @@ public class BoardApiControllerTest extends ControllerTest {
     }
 
     @Nested
-    @DisplayName("게시글 삭제 API [DELETE /api/board/{boardId}]")
+    @DisplayName("게시글 삭제 API [DELETE /api/boards/{boardId}]")
     class deleteBoard {
-        private static final String BASE_URL = "/api/board/{boardId}";
+        private static final String BASE_URL = "/api/boards/{boardId}";
         private static final Long WRITER_ID = 1L;
         private static final Long BOARD_ID = 2L;
 

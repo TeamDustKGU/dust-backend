@@ -109,13 +109,12 @@ public class BoardServiceTest extends ServiceTest {
         void successDeleteAllComment() {
             // given
             for(int i=1; i<=5; i++) {
-                commentService.create(writer.getId(), board.getId(), "댓글"+i);
+                commentService.create(writer.getId(), board.getId(), "댓글" + i);
             }
             flushAndClear();
 
             // when
-            Board findBoard = boardFindService.findById(board.getId());
-            boardService.delete(writer.getId(), findBoard.getId());
+            boardService.delete(writer.getId(), board.getId());
 
             // then
             assertThat(commentRepository.count()).isEqualTo(0);

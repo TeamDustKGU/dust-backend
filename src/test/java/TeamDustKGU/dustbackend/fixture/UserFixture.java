@@ -25,6 +25,6 @@ public enum UserFixture {
     }
 
     public User toAdmin() {
-        return User.createAdmin(Email.from(email), password);
+        return User.createAdmin(Email.from(email), Password.encrypt(password, ENCODER));
     }
 }

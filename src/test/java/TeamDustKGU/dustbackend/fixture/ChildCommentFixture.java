@@ -8,18 +8,16 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum CommentFixture {
-    COMMENT_0("댓글0", null),
-    COMMENT_1("댓글1", null),
-    COMMENT_2("댓글2", null),
-    COMMENT_3("댓글3", null),
-    COMMENT_4("댓글4", null)
+public enum ChildCommentFixture {
+    CHILD_COMMENT_0("대댓글0"),
+    CHILD_COMMENT_1("대댓글1"),
+    CHILD_COMMENT_2("대댓글2"),
+    CHILD_COMMENT_3("대댓글3")
     ;
 
     private final String content;
-    private final Comment parent;
 
-    public Comment toComment(User writer, Board board) {
+    public Comment toChildComment(User writer, Board board, Comment parent) {
         return Comment.createComment(writer, board, parent, content);
     }
 }
