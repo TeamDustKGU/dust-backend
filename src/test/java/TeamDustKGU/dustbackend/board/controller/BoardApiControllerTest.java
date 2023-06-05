@@ -1,7 +1,7 @@
 package TeamDustKGU.dustbackend.board.controller;
 
 import TeamDustKGU.dustbackend.auth.exception.AuthErrorCode;
-import TeamDustKGU.dustbackend.board.controller.dto.BoardRequest;
+import TeamDustKGU.dustbackend.board.controller.dto.request.BoardRequest;
 import TeamDustKGU.dustbackend.board.exception.BoardErrorCode;
 import TeamDustKGU.dustbackend.common.ControllerTest;
 import TeamDustKGU.dustbackend.global.exception.DustException;
