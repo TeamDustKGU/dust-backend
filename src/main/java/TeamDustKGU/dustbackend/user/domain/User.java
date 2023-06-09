@@ -75,6 +75,13 @@ public class User extends BaseTimeEntity {
         }
     }
 
+    public void updatePassword(String updatePassword) {
+        this.password = updatePassword;
+    }
+    public String getPasswordValue() {
+        return this.password;
+    }
+
     public boolean isSameUser(User user){
         return this.email.isSameEmail(user.getEmail());
     }
