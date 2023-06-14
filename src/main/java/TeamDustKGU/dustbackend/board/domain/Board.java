@@ -48,7 +48,7 @@ public class Board extends BaseTimeEntity {
         this.view = 0;
     }
 
-    public static Board createBoard(User writer, String title, String content){
+    public static Board createBoard(User writer, String title, String content) {
         return new Board(writer, title, content);
     }
 
@@ -60,7 +60,7 @@ public class Board extends BaseTimeEntity {
         this.content = updateContent;
     }
 
-    public void addComment(User writer, String content){ // 부모 댓글 추가
+    public void addComment(User writer, String content) { // 부모 댓글 추가
         commentList.add(Comment.createComment(writer, this, null, content));
     }
 }
