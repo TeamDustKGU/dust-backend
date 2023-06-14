@@ -3,6 +3,7 @@ package TeamDustKGU.dustbackend.common;
 import TeamDustKGU.dustbackend.auth.domain.EmailAuthRepository;
 import TeamDustKGU.dustbackend.auth.domain.TokenRepository;
 import TeamDustKGU.dustbackend.board.domain.BoardRepository;
+import TeamDustKGU.dustbackend.board.domain.like.BoardLikeRepository;
 import TeamDustKGU.dustbackend.comment.domain.CommentRepository;
 import TeamDustKGU.dustbackend.user.domain.UserRepository;
 import TeamDustKGU.dustbackend.user.domain.follow.FollowRepository;
@@ -38,6 +39,9 @@ public class ServiceTest {
     
     @Autowired  
     protected EmailAuthRepository emailAuthRepository;
+
+    @Autowired
+    protected BoardLikeRepository boardLikeRepository;
 
     @AfterEach
     void clearDatabase() {
