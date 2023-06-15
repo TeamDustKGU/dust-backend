@@ -12,6 +12,7 @@ import TeamDustKGU.dustbackend.board.service.BoardFindService;
 import TeamDustKGU.dustbackend.board.service.BoardService;
 import TeamDustKGU.dustbackend.comment.controller.CommentApiController;
 import TeamDustKGU.dustbackend.comment.service.CommentService;
+import TeamDustKGU.dustbackend.global.config.WebSecurityConfig;
 import TeamDustKGU.dustbackend.user.controller.UserUpdateApiController;
 import TeamDustKGU.dustbackend.user.controller.follow.FollowApiController;
 import TeamDustKGU.dustbackend.user.controller.suspension.SuspensionApiController;
@@ -22,6 +23,7 @@ import TeamDustKGU.dustbackend.user.service.suspension.SuspensionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -31,6 +33,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 
+@ImportAutoConfiguration(WebSecurityConfig.class)
 @WebMvcTest({
         TokenReissueApiController.class,
         FollowApiController.class,
