@@ -24,7 +24,7 @@ public class NicknameTest {
     @ParameterizedTest(name = "{index}: {0}")
     @ValueSource(strings = {"user123", "이름_1", "nickname123", "한글닉네임"})
     @DisplayName("닉네임 생성에 성공한다")
-    void validateNickname(String value) {
+    void createNickname(String value) {
         Nickname nickname = Nickname.from(value);
 
         assertThat(nickname.getValue()).isEqualTo(value);
