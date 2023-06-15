@@ -44,7 +44,7 @@ class AuthServiceTest extends ServiceTest {
             authService.signup(SUNKYOUNG.toUser());
 
             // when - then
-            User newUser = User.createUser(Email.from(SUNKYOUNG.getEmail()), Password.encrypt("!Password123", PasswordEncoderUtils.ENCODER));
+            User newUser = User.createUser(Email.from(SUNKYOUNG.getEmail()), Password.encrypt("chaerin258!!", PasswordEncoderUtils.ENCODER));
             assertThatThrownBy(() -> authService.signup(newUser))
                     .isInstanceOf(DustException.class)
                     .hasMessage(UserErrorCode.DUPLICATE_EMAIL.getMessage());

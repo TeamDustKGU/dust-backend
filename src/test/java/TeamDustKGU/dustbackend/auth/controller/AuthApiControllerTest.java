@@ -13,6 +13,7 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import static TeamDustKGU.dustbackend.auth.utils.TokenUtils.*;
+import static TeamDustKGU.dustbackend.fixture.UserFixture.CHAERIN;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -125,6 +126,52 @@ class AuthApiControllerTest extends ControllerTest {
                             )
                     );
         }
+
+        @Test
+        @DisplayName("비밀번호 형식이 맞지 않으면 회원가입에 실패한다")
+        void throwExceptionByInvalidPasswordPattern() throws Exception {
+            // given
+            doThrow(DustException.type(UserErrorCode.INVALID_PASSWORD_PATTERN))
+                    .when(authService)
+                    .signup(any());
+
+            // when
+            final AuthRequest request = createAuthRequest();
+            MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
+                    .post(BASE_URL)
+                    .contentType(APPLICATION_JSON)
+                    .content(convertObjectToJson(request));
+
+            // then
+            final UserErrorCode expectedError = UserErrorCode.INVALID_PASSWORD_PATTERN;
+            mockMvc.perform(requestBuilder)
+                    .andExpectAll(
+                            status().isBadRequest(),
+                            jsonPath("$.status").exists(),
+                            jsonPath("$.status").value(expectedError.getStatus().value()),
+                            jsonPath("$.errorCode").exists(),
+                            jsonPath("$.errorCode").value(expectedError.getErrorCode()),
+                            jsonPath("$.message").exists(),
+                            jsonPath("$.message").value(expectedError.getMessage())
+                    )
+                    .andDo(
+                            document(
+                                    "AuthApi/Signup/Failure/Case3",
+                                    applyRequestPreprocessor(),
+                                    applyResponsePreprocessor(),
+                                    requestFields(
+                                            fieldWithPath("email").description("이메일"),
+                                            fieldWithPath("password").description("비밀번호")
+                                    ),
+                                    responseFields(
+                                            fieldWithPath("status").description("HTTP 상태 코드"),
+                                            fieldWithPath("errorCode").description("커스텀 예외 코드"),
+                                            fieldWithPath("message").description("예외 메시지")
+                                    )
+                            )
+                    );
+        }
+
 
         @Test
         @DisplayName("회원가입에 성공한다")
@@ -531,6 +578,6 @@ class AuthApiControllerTest extends ControllerTest {
     }
 
     private AuthRequest createAuthRequest() {
-        return new AuthRequest("abc@gmail.com", "Abcdefg123!");
+        return new AuthRequest(CHAERIN.getEmail(), CHAERIN.getPassword());
     }
 }

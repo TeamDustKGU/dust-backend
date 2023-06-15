@@ -11,10 +11,10 @@ import static TeamDustKGU.dustbackend.global.utils.PasswordEncoderUtils.ENCODER;
 @Getter
 @RequiredArgsConstructor
 public enum UserFixture {
-    SUNKYOUNG("abc@naver.com", "Abcdefg123!"),
-    CHAERIN("def@gmail.com", "P@ssw0rd"),
-    SEOKHO("ghi123@kakao.com", "1qaz@WSX"),
-    NAHYUN("jklmnop@kyonggi.ac.kr", "!Password123")
+    SUNKYOUNG("abc@naver.com", "NewPass-2023"),
+    CHAERIN("def@gmail.com", "P@ssW0rd9"),
+    SEOKHO("ghi123@kakao.com", "5!Password"),
+    NAHYUN("jklmnop@kyonggi.ac.kr", "secure0147!")
     ;
 
     private final String email;

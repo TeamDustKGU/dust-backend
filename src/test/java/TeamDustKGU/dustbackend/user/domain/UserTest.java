@@ -49,7 +49,7 @@ public class UserTest{
     void isSameUser(){
         // given
         User user1 = CHAERIN.toUser();
-        User user2 = User.createUser(Email.from("diff" + CHAERIN.getEmail()), Password.encrypt("!Password123", ENCODER));
+        User user2 = User.createUser(Email.from("diff" + CHAERIN.getEmail()), Password.encrypt(CHAERIN.getPassword(), ENCODER));
 
         // then
         assertThat(user1.isSameUser(user2)).isFalse();

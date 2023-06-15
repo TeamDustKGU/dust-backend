@@ -21,6 +21,7 @@ public class UserUpdateService {
 
         if (user.getNickname() != null) {
             validateIfDateAfter30Days(user.getNickname().getModifiedDate());
+            validateSameNickname(user.getNicknameValue(), value);
         }
 
         user.updateNickname(value);
@@ -29,6 +30,12 @@ public class UserUpdateService {
     public void validateIfDateAfter30Days(LocalDateTime target) {
         if (LocalDateTime.now().isBefore(target.plusDays(30))) {
             throw DustException.type(UserErrorCode.UPDATE_NICKNAME_AFTER_30_DAYS);
+        }
+    }
+
+    private void validateSameNickname(String oldValue, String newValue) {
+        if (oldValue.equals(newValue)) {
+            throw DustException.type(UserErrorCode.CANNOT_UPDATE_SAME_NICKNAME);
         }
     }
 }
