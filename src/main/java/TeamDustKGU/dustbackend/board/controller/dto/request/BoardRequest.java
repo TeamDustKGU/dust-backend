@@ -1,4 +1,4 @@
-package TeamDustKGU.dustbackend.board.controller.dto;
+package TeamDustKGU.dustbackend.board.controller.dto.request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
