@@ -51,7 +51,7 @@ public class Nickname {
     }
 
     private static void validateProhibitedWord(String value) {
-        if (Arrays.stream(PasswordProhibited.WORDS).anyMatch(element -> value.contains(element))) {
+        if (Arrays.stream(NicknameProhibited.WORDS).anyMatch(element -> value.contains(element))) {
             throw new DustException(UserErrorCode.INVALID_NICKNAME_PATTERN);
         }
     }
