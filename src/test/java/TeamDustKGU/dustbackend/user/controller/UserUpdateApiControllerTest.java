@@ -124,6 +124,106 @@ class UserUpdateApiControllerTest extends ControllerTest {
         }
 
         @Test
+        @DisplayName("닉네임 패턴에 맞지 않으면 닉네임을 변경할 수 없다")
+        void throwExceptionByInvalidNicknamePattern() throws Exception {
+            // given
+            given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
+            given(jwtTokenProvider.getId(anyString())).willReturn(USER_ID);
+            doThrow(DustException.type(UserErrorCode.INVALID_NICKNAME_PATTERN))
+                    .when(userUpdateService)
+                    .updateNickname(anyLong(), any());
+
+            // when
+            final NicknameUpdateRequest request = createNicknameUpdateRequest();
+            MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
+                    .patch(BASE_URL)
+                    .header(AUTHORIZATION, BEARER_TOKEN + REFRESH_TOKEN)
+                    .contentType(APPLICATION_JSON)
+                    .content(convertObjectToJson(request));
+
+            // then
+            final UserErrorCode expectedError = UserErrorCode.INVALID_NICKNAME_PATTERN;
+            mockMvc.perform(requestBuilder)
+                    .andExpectAll(
+                            status().isBadRequest(),
+                            jsonPath("$.status").exists(),
+                            jsonPath("$.status").value(expectedError.getStatus().value()),
+                            jsonPath("$.errorCode").exists(),
+                            jsonPath("$.errorCode").value(expectedError.getErrorCode()),
+                            jsonPath("$.message").exists(),
+                            jsonPath("$.message").value(expectedError.getMessage())
+                    )
+                    .andDo(
+                            document(
+                                    "UserApi/Update/Nickname/Failure/Case3",
+                                    applyRequestPreprocessor(),
+                                    applyResponsePreprocessor(),
+                                    requestHeaders(
+                                            headerWithName(AUTHORIZATION).description("Access Token")
+                                    ),
+                                    requestFields(
+                                            fieldWithPath("value").description("수정할 닉네임")
+                                    ),
+                                    responseFields(
+                                            fieldWithPath("status").description("HTTP 상태 코드"),
+                                            fieldWithPath("errorCode").description("커스텀 예외 코드"),
+                                            fieldWithPath("message").description("예외 메시지")
+                                    )
+                            )
+                    );
+        }
+
+        @Test
+        @DisplayName("이전의 닉네임과 같은 닉네임으로 변경할 수 없다")
+        void throwExceptionByCannotUpdateSameNickname() throws Exception {
+            // given
+            given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
+            given(jwtTokenProvider.getId(anyString())).willReturn(USER_ID);
+            doThrow(DustException.type(UserErrorCode.CANNOT_UPDATE_SAME_NICKNAME))
+                    .when(userUpdateService)
+                    .updateNickname(anyLong(), any());
+
+            // when
+            final NicknameUpdateRequest request = createNicknameUpdateRequest();
+            MockHttpServletRequestBuilder requestBuilder = RestDocumentationRequestBuilders
+                    .patch(BASE_URL)
+                    .header(AUTHORIZATION, BEARER_TOKEN + REFRESH_TOKEN)
+                    .contentType(APPLICATION_JSON)
+                    .content(convertObjectToJson(request));
+
+            // then
+            final UserErrorCode expectedError = UserErrorCode.CANNOT_UPDATE_SAME_NICKNAME;
+            mockMvc.perform(requestBuilder)
+                    .andExpectAll(
+                            status().isBadRequest(),
+                            jsonPath("$.status").exists(),
+                            jsonPath("$.status").value(expectedError.getStatus().value()),
+                            jsonPath("$.errorCode").exists(),
+                            jsonPath("$.errorCode").value(expectedError.getErrorCode()),
+                            jsonPath("$.message").exists(),
+                            jsonPath("$.message").value(expectedError.getMessage())
+                    )
+                    .andDo(
+                            document(
+                                    "UserApi/Update/Nickname/Failure/Case4",
+                                    applyRequestPreprocessor(),
+                                    applyResponsePreprocessor(),
+                                    requestHeaders(
+                                            headerWithName(AUTHORIZATION).description("Access Token")
+                                    ),
+                                    requestFields(
+                                            fieldWithPath("value").description("수정할 닉네임")
+                                    ),
+                                    responseFields(
+                                            fieldWithPath("status").description("HTTP 상태 코드"),
+                                            fieldWithPath("errorCode").description("커스텀 예외 코드"),
+                                            fieldWithPath("message").description("예외 메시지")
+                                    )
+                            )
+                    );
+        }
+
+        @Test
         @DisplayName("닉네임 수정에 성공한다")
         void success() throws Exception {
             // given

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static TeamDustKGU.dustbackend.fixture.BoardFixture.BOARD_1;
 import static TeamDustKGU.dustbackend.fixture.ChildCommentFixture.*;
-import static TeamDustKGU.dustbackend.fixture.ChildCommentFixture.CHILD_COMMENT_3;
 import static TeamDustKGU.dustbackend.fixture.CommentFixture.*;
 import static TeamDustKGU.dustbackend.fixture.UserFixture.SUNKYOUNG;
 import static org.assertj.core.api.Assertions.assertThat;

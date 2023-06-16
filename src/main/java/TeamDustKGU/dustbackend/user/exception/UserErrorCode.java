@@ -19,6 +19,8 @@ public enum UserErrorCode implements ErrorCode {
     ALREADY_SUSPENDED(HttpStatus.CONFLICT, "USER_009", "이미 비활성화 상태인 유저입니다."),
     INVALID_PASSWORD_PATTERN(HttpStatus.BAD_REQUEST, "USER_010", "비밀번호 형식에 맞지 않습니다."),
     DUPLICATE_EMAIL(HttpStatus.CONFLICT, "USER_011", "이미 존재하는 이메일입니다."),
+    INVALID_NICKNAME_PATTERN(HttpStatus.BAD_REQUEST, "USER_012", "닉네임 형식에 맞지 않습니다."),
+    CANNOT_UPDATE_SAME_NICKNAME(HttpStatus.BAD_REQUEST, "USER_013", "기존의 닉네임과 같은 닉네임으로 변경할 수 없습니다."),
     ;
 
     private final HttpStatus status;

@@ -38,6 +38,32 @@ class UserUpdateServiceTest extends ServiceTest {
     @DisplayName("닉네임 수정")
     class updateNickname {
         @Test
+        @DisplayName("이전 닉네임과 같은 닉네임이면 닉네임 변경에 실패한다")
+        void throwExceptionByCannotUpdateSameNickname() {
+            // given
+            userUpdateService.updateNickname(user.getId(), "닉네임");
+            flushAndClear();
+
+            // when
+            User findUser = userFindService.findById(user.getId());
+            findUser.getNickname().changeModified(findUser.getModifiedDate().minusDays(31));
+
+            // when - then
+            assertThatThrownBy(() -> userUpdateService.updateNickname(findUser.getId(), "닉네임"))
+                    .isInstanceOf(DustException.class)
+                    .hasMessage(UserErrorCode.CANNOT_UPDATE_SAME_NICKNAME.getMessage());
+        }
+
+        @Test
+        @DisplayName("닉네임 형식에 맞지 않으면 닉네임 변경에 실패한다")
+        void throwExceptionByInvalidNicknamePattern() {
+            // when - then
+            assertThatThrownBy(() -> userUpdateService.updateNickname(user.getId(), "닉네임@@"))
+                    .isInstanceOf(DustException.class)
+                    .hasMessage(UserErrorCode.INVALID_NICKNAME_PATTERN.getMessage());
+        }
+
+        @Test
         @DisplayName("마지막 수정시간으로부터 30일 후에 닉네임을 변경할 수 있다")
         void throwExceptionByUpdateNicknameAfter30Days() {
             // given
@@ -77,12 +103,11 @@ class UserUpdateServiceTest extends ServiceTest {
 
             // when
             User findUser = userFindService.findById(user.getId());
-            userUpdateService.validateIfDateAfter30Days(findUser.getModifiedDate().minusDays(31));
-            findUser.updateNickname("새로운 닉네임");
+            findUser.getNickname().changeModified(findUser.getModifiedDate().minusDays(31));
+            userUpdateService.updateNickname(user.getId(), "새로운 닉네임");
 
             // then
             assertThat(findUser.getNicknameValue()).isEqualTo("새로운 닉네임");
-            assertThat(findUser.getNickname().getModifiedDate().format(formatter)).isEqualTo(LocalDateTime.now().format(formatter));
         }
     }
 
