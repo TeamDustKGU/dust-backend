@@ -12,9 +12,11 @@ import TeamDustKGU.dustbackend.board.service.BoardFindService;
 import TeamDustKGU.dustbackend.board.service.BoardService;
 import TeamDustKGU.dustbackend.comment.controller.CommentApiController;
 import TeamDustKGU.dustbackend.comment.service.CommentService;
+import TeamDustKGU.dustbackend.user.controller.UserDeleteApiController;
 import TeamDustKGU.dustbackend.user.controller.UserUpdateApiController;
 import TeamDustKGU.dustbackend.user.controller.follow.FollowApiController;
 import TeamDustKGU.dustbackend.user.controller.suspension.SuspensionApiController;
+import TeamDustKGU.dustbackend.user.service.UserDeleteService;
 import TeamDustKGU.dustbackend.user.service.UserFindService;
 import TeamDustKGU.dustbackend.user.service.UserUpdateService;
 import TeamDustKGU.dustbackend.user.service.follow.FollowService;
@@ -39,7 +41,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
         CommentApiController.class,
         SuspensionApiController.class,
         BoardApiController.class,
-        AuthApiController.class
+        AuthApiController.class,
+        UserDeleteApiController.class
 })
 @AutoConfigureRestDocs
 public abstract class ControllerTest {
@@ -84,6 +87,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected EmailAuthService emailAuthService;
+
+    @MockBean
+    protected UserDeleteService userDeleteService;
 
     protected OperationRequestPreprocessor applyRequestPreprocessor() {
         return preprocessRequest(prettyPrint());
