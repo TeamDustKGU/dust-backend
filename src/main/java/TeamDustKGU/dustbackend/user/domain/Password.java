@@ -6,10 +6,12 @@ import TeamDustKGU.dustbackend.user.exception.UserErrorCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
 @Getter
@@ -25,6 +27,9 @@ public class Password {
     @Column(name = "password", nullable = false, length = 200)
     private String value;
 
+    @LastModifiedDate
+    private LocalDateTime modifiedDate;
+
     private Password(String value) {
         this.value = value;
     }
@@ -32,6 +37,11 @@ public class Password {
     public static Password encrypt(String value, PasswordEncoder encoder) {
         validatePassword(value);
         return new Password(encoder.encode(value));
+    }
+
+    public void update(String value, PasswordEncoder encoder) {
+        validatePassword(value);
+        this.value = encoder.encode(value);
     }
 
     private static void validatePassword(String value) {

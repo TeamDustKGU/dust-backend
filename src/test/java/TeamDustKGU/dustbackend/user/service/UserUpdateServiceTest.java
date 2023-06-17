@@ -76,7 +76,7 @@ class UserUpdateServiceTest extends ServiceTest {
             // then
             assertThatThrownBy(() -> userUpdateService.updateNickname(findUser.getId(), "닉네임2"))
                     .isInstanceOf(DustException.class)
-                    .hasMessage(UserErrorCode.UPDATE_NICKNAME_AFTER_30_DAYS.getMessage());
+                    .hasMessage(UserErrorCode.UPDATE_AFTER_30_DAYS.getMessage());
         }
 
         @Test
@@ -121,7 +121,7 @@ class UserUpdateServiceTest extends ServiceTest {
         // when - then
         assertThatThrownBy(() -> userUpdateService.validateIfDateAfter30Days(target1))
                 .isInstanceOf(DustException.class)
-                .hasMessage(UserErrorCode.UPDATE_NICKNAME_AFTER_30_DAYS.getMessage());
+                .hasMessage(UserErrorCode.UPDATE_AFTER_30_DAYS.getMessage());
         assertDoesNotThrow(() -> userUpdateService.validateIfDateAfter30Days(target2));
     }
 }

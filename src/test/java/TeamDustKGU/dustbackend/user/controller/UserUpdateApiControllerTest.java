@@ -79,7 +79,7 @@ class UserUpdateApiControllerTest extends ControllerTest {
             // given
             given(jwtTokenProvider.isTokenValid(anyString())).willReturn(true);
             given(jwtTokenProvider.getId(anyString())).willReturn(USER_ID);
-            doThrow(DustException.type(UserErrorCode.UPDATE_NICKNAME_AFTER_30_DAYS))
+            doThrow(DustException.type(UserErrorCode.UPDATE_AFTER_30_DAYS))
                     .when(userUpdateService)
                     .updateNickname(anyLong(), any());
 
@@ -92,7 +92,7 @@ class UserUpdateApiControllerTest extends ControllerTest {
                     .content(convertObjectToJson(request));
 
             // then
-            final UserErrorCode expectedError = UserErrorCode.UPDATE_NICKNAME_AFTER_30_DAYS;
+            final UserErrorCode expectedError = UserErrorCode.UPDATE_AFTER_30_DAYS;
             mockMvc.perform(requestBuilder)
                     .andExpectAll(
                             status().isConflict(),

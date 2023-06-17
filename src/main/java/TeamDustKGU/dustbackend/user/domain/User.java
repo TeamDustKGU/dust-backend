@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static TeamDustKGU.dustbackend.global.utils.PasswordEncoderUtils.ENCODER;
 import static javax.persistence.CascadeType.PERSIST;
 
 @Getter
@@ -32,10 +33,11 @@ public class User extends BaseTimeEntity {
     private int auth;
 
     @Column(name = "password", nullable = false)
+    @AttributeOverride(name = "modifiedDate", column = @Column(name = "password_modified_date"))
     private Password password;
 
     @Embedded
-    @AttributeOverride(name = "modifiedDate", column = @Column(name = "nickname_modifiedDate"))
+    @AttributeOverride(name = "modifiedDate", column = @Column(name = "nickname_modified_date"))
     private Nickname nickname;
 
     @Column(name = "status", nullable = false) // 비활성화 0, 활성화 1
@@ -99,5 +101,16 @@ public class User extends BaseTimeEntity {
 
     public void deactivate() {
         this.status = 0;
+    }
+
+    public Password getPassword() {
+        return this.password;
+    }
+    public String getPasswordValue() {
+        return this.password.getValue();
+    }
+
+    public void updatePassword(String updatePassword) {
+        this.password.update(updatePassword, ENCODER);
     }
 }
